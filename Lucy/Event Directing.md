@@ -19,6 +19,8 @@ https://www.figma.com/board/29jlslHkGSIgFVegMzH6Ol/Lucy-Code?node-id=85-1432&nod
 
 
 ## 2. 퍼즐방
+![Uploading image.png…]()
+
   ### 2-1. 복도
   몬스터 : T자형 복도를 벽을 따라 순찰하는 느낌으로 이동함. 플레이어가 근처에 있으면 쫒아옴.
   
