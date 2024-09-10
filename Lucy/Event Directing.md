@@ -39,6 +39,8 @@ https://www.figma.com/board/29jlslHkGSIgFVegMzH6Ol/Lucy-Code?node-id=85-1432&nod
 
     
 ## 3. 미로방
+![image](https://github.com/user-attachments/assets/28e5685b-9e12-4371-b287-f568394ac584)
+
 미로 재배치 : 일정 시간이 지나면 미로가 재배치 되면서 길이 바뀜(주인공의 증상이 심해지면서 환각을 보는 등과 같은 효과를 주면 개연성이 생길듯)
 
 몬스터, 아이템 : 미로 곳곳에 몬스터 및 아이템이 존재.
