@@ -1,23 +1,49 @@
-### 게임 제목
+<details>
+  <summary>### 게임 제목</summary>
+</details>
   
-### 기획 의도
+<details>
+  <summary>### 기획 의도</summary>
+</details>
 
-### 콘셉트
+<details>
+  <summary>### 콘셉트</summary>
+</details>
 
-### 소재 및 장르
+<details>
+  <summary>### 소재 및 장르</summary>
+</details>
 
-### 주요 플랫폼 (시스템 사양)
+<details>
+  <summary>### 주요 플랫폼(시스템 사양)</summary>
+</details>
 
-### 이용대상자 (주요 소비층)
+<details>
+  <summary>### 이용대상장(주요 소비층)</summary>
+</details>
 
-### 게임의 특징 (차별점, 주요 재미요소)
+<details>
+  <summary>### 게임의 특징 (차별점, 주요 재미요소)</summary>
+</details>
 
-### 세계관 및 줄거리 설정
+<details>
+  <summary>### 세계관 및 줄거리 설정</summary>
+</details>
 
-### 주요 캐릭터 및 배경 설정
+<details>
+  <summary>### 주요 캐릭터 및 배경 설정</summary>
+</details>
 
-### 게임 기본 구성
 
-### 콘텐츠 구성 (콘텐츠 순환구조도, 콘텐츠의 종류)
+<details>
+  <summary>### 게임 기본 구성</summary>
+</details>
 
-### BM (비즈니스 모델)
+<details>
+  <summary>### 콘텐츠 구성 (콘텐츠 순환구조도, 콘텐츠의 종류)</summary>
+</details>
+
+<details>
+  <summary>### BM (비즈니스 모델)</summary>
+</details>
+
