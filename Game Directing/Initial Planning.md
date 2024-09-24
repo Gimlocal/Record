@@ -1,5 +1,5 @@
 <details>
-  <summary>**게임 제목**</summary>
+  <summary><b>게임 제목</b></summary>
 </details>
   
 <details>
