@@ -4,10 +4,12 @@
   
 <details>
   <summary><b>기획 의도</b></summary>
+  보스 몬스터와의 전투를 선호하는 사람들을 위해 오로지 보스전만 존재하는 게임을 기획. 단 탐험요소를 완전히 배제하지는 않음. 보스:탐험 = 8:2 정도.
 </details>
 
 <details>
   <summary><b>콘셉트</b></summary>
+  사계절의 각 특징을 가지고 있는 지역들로 나뉘어진 판타지 대륙.
 </details>
 
 <details>
