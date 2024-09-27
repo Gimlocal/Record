@@ -23,7 +23,7 @@
 </details>
 
 <details>
-  <summary><b>이용대상장(주요 소비층)</b></summary>
+  <summary><b>이용대상자(주요 소비층)</b></summary>
 </details>
 
 <details>
@@ -49,3 +49,33 @@
 <details>
   <summary><b>BM (비즈니스 모델)</b></summary>
 </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
