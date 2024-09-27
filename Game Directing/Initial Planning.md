@@ -1,6 +1,6 @@
 <details>
   <summary><b>게임 제목</b></summary>
-  <P>계몽</P>
+  <blockquote>계몽</blockquote>
 </details>
   
 <details>
