@@ -1,21 +1,30 @@
 <details>
   <summary><b>게임 제목</b></summary>
-  <blockquote>계몽</blockquote>
+  <blockquote>
+    계몽
+  </blockquote>
 </details>
   
 <details>
   <summary><b>기획 의도</b></summary>
-  <blockquote>보스 몬스터와의 전투를 선호하는 사람들을 위해 오로지 보스전만 존재하는 게임을 기획. 단 탐험요소를 완전히 배제하지는 않음. 보스:탐험 = 7:3 정도.</blockquote>
+  <blockquote>
+    보스 몬스터와의 전투를 선호하는 사람들을 위해 오로지 보스전만 존재하는 게임을 기획. <br>
+    단 탐험요소를 완전히 배제하지는 않음. 보스:탐험 = 7:3 정도.
+  </blockquote>
 </details>
 
 <details>
   <summary><b>콘셉트</b></summary>
-  <blockquote>사계절의 각 특징을 가지고 있는 지역들로 나뉘어진 판타지 대륙.</blockquote>
+  <blockquote>
+    사계절의 각 특징을 가지고 있는 지역들로 나뉘어진 판타지 대륙.
+  </blockquote>
 </details>
 
 <details>
   <summary><b>소재 및 장르</b></summary>
-  <blockquote>어드벤처 + RPG</blockquote>
+  <blockquote>
+    어드벤처 + RPG
+  </blockquote>
 </details>
 
 <details>
@@ -28,7 +37,9 @@
 
 <details>
   <summary><b>게임의 특징 (차별점, 주요 재미요소)</b></summary>
-  <blockquote>보스를 잡고 그 보스의 특징이 담긴 능력을 얻는 방법을 통해 성장을 하는 요소가 존재.</blockquote>
+  <blockquote>
+    보스를 잡고 그 보스의 특징이 담긴 능력을 얻는 방법을 통해 성장을 하는 요소가 존재.
+  </blockquote>
 </details>
 
 <details>
