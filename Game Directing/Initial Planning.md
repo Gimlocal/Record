@@ -1,6 +1,6 @@
 <details>
   <summary><b>게임 제목</b></summary>
-    계몽
+  -계몽
 </details>
   
 <details>
