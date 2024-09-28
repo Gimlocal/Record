@@ -38,6 +38,8 @@
 
 <summary><b>주요 캐릭터 및 배경 설정</b></summary>
 
+
+
 <summary><b>게임 기본 구성</b></summary>
 
 <summary><b>콘텐츠 구성</b>(콘텐츠 순환구조도, 콘텐츠의 종류)</summary>
