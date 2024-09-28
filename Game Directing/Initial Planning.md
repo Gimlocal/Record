@@ -9,14 +9,17 @@
   <summary><b>기획 의도</b></summary>
   <blockquote>
     보스 몬스터와의 전투를 선호하는 사람들을 위해 오로지 보스전만 존재하는 게임을 기획. <br>
-    단 탐험요소를 완전히 배제하지는 않음. 보스:탐험 = 7:3 정도.
+    ![image](https://github.com/user-attachments/assets/4fd31710-77a6-4361-afbb-5e0d46c34d6c)
+    (보스전을 위주로 플레이하는 Steam의 Titan Soul)
+    단 탐험요소를 완전히 배제하지는 않음. 보스 : 탐험 = 7 : 3 정도.
   </blockquote>
 </details>
 
 <details>
   <summary><b>콘셉트</b></summary>
   <blockquote>
-    사계절의 각 특징을 가지고 있는 지역들로 나뉘어진 판타지 대륙.
+    사계절의 각 특징을 가지고 있는 지역들로 나뉘어진 판타지 대륙. <br>
+    각 대륙은 계절에 맞는 특징을 가지고 있음.
   </blockquote>
 </details>
 
@@ -44,6 +47,8 @@
 
 <details>
   <summary><b>세계관 및 줄거리 설정</b></summary>
+  네 개의 계절로 나뉜 판타지 대륙에서 각 계절의 수호자들이 불균형에 빠져 폭주. <br> 
+  플레이어는 계절마다 해당 지역을 여행하며 문제를 해결하고, 최종적으로 이 모든 것을 조작하는 ...와 싸움.  <br> 
 </details>
 
 <details>
