@@ -4,7 +4,9 @@
     계몽
   </blockquote>
 </details>
-  
+
+![Titan Soul](./images/Titan_Soul.png)
+
 <details>
   <summary><b>기획 의도</b></summary>
   <blockquote>
