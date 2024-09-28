@@ -5,19 +5,12 @@
   </blockquote>
 </details>
 
-![Titan Soul](./images/Titan_Soul.png)
-
 <details>
   <summary><b>기획 의도</b></summary>
-  <blockquote>
-    보스 몬스터와의 전투를 선호하는 사람들을 위해 오로지 보스전만 존재하는 게임을 기획.
-
-    ![Titan Soul](./images/Titan_Soul.png)
-    
-    (보스전을 위주로 플레이하는 Steam의 Titan Soul)
-    
+    보스 몬스터와의 전투를 선호하는 사람들을 위해 오로지 보스전만 존재하는 게임을 기획. <br>
+    ![Titan Soul](./images/Titan_Soul.png) <br>
+    (보스전을 위주로 플레이하는 Steam의 Titan Soul) <br>
     단 탐험요소를 완전히 배제하지는 않음. 보스 : 탐험 = 7 : 3 정도.
-  </blockquote>
 </details>
 
 <details>
