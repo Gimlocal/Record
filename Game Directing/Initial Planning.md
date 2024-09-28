@@ -1,15 +1,15 @@
-<summary>###게임 제목</summary>
+<summary>**게임 제목**</summary>
 
 계몽
 
-<summary>###기획 의도</summary>
+<summary>**기획 의도**</summary>
 
 보스 몬스터와의 전투를 선호하는 사람들을 위해 오로지 보스전만 존재하는 게임을 기획. <br>
 ![Titan Soul](./images/Titan_Soul.png)<br>
 (보스전을 위주로 플레이하는 Steam의 Titan Soul)<br>
 단 탐험요소를 완전히 배제하지는 않음. 보스 : 탐험 = 7 : 3 정도.
 
-<summary>###콘셉트</summary>
+<summary>**콘셉트**</summary>
 
 사계절의 각 특징을 가지고 있는 지역들로 나뉘어진 판타지 대륙.<br>
 각 대륙은 계절에 맞는 특징을 가지고 있음.<br>
@@ -18,27 +18,27 @@
 가을의 대륙은 평지를 배경으로 하는 무사 집단 <br>
 겨울의 대륙은 얼음계곡을 배경으로 하는 마법사 집단
 
-<summary>###소재 및 장르</summary>
+<summary>**소재 및 장르**</summary>
 
 어드벤처 + RPG
 
-<summary>###주요 플랫폼(시스템 사양)</summary>
+<summary>**주요 플랫폼**(시스템 사양)</summary>
 
 이용대상자(주요 소비층)
 
-<summary>###게임의 특징 (차별점, 주요 재미요소)</summary>
+<summary>**게임의 특징**(차별점, 주요 재미요소)</summary>
 
 보스를 잡고 그 보스의 특징이 담긴 능력을 얻는 방법을 통해 성장을 하는 요소가 존재.
 
-<summary>###세계관 및 줄거리 설정</summary>
+<summary>**세계관 및 줄거리 설정**</summary>
 
 네 개의 계절로 나뉜 판타지 대륙에서 각 계절의 수호자들이 불균형에 빠져 폭주.<br>
 플레이어는 계절마다 해당 지역을 여행하며 문제를 해결하고, 최종적으로 이 모든 것을 조작하는 ...와 싸움.
 
-<summary>###주요 캐릭터 및 배경 설정</summary>
+<summary>**주요 캐릭터 및 배경 설정**</summary>
 
-<summary>###게임 기본 구성</summary>
+<summary>**게임 기본 구성**</summary>
 
-<summary>###콘텐츠 구성 (콘텐츠 순환구조도, 콘텐츠의 종류)</summary>
+<summary>**콘텐츠 구성**(콘텐츠 순환구조도, 콘텐츠의 종류)</summary>
 
-<summary>###BM (비즈니스 모델)</summary>
+<summary>**BM**(비즈니스 모델)</summary>
