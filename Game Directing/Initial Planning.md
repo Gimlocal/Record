@@ -24,7 +24,7 @@
 
 <summary><b>주요 플랫폼</b>(시스템 사양)</summary>
 
-이용대상자(주요 소비층)
+<summary><b>이용대상자</b>(주요 소비층)</summary>
 
 <summary><b>게임의 특징</b>(차별점, 주요 재미요소)</summary>
 
