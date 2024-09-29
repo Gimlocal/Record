@@ -18,7 +18,7 @@
 
 <summary><b>소재 및 장르</b></summary>
 
-어드벤처 + RPG
+어드벤처 + RPG + 탑다운
 
 <summary><b>주요 플랫폼</b>(시스템 사양)</summary>
 
