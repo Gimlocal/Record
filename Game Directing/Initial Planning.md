@@ -60,6 +60,7 @@
 <summary><b>주요 캐릭터 및 배경 설정</b></summary>
 
 * 플레이어 : 남성, 후드를 눌러써 얼굴과 나이를 가늠할 수 없음.
+    ![Player](./images/Player.png)
   
 
 <summary><b>게임 기본 구성</b></summary>
