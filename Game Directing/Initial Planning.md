@@ -59,8 +59,19 @@
 
 <summary><b>주요 캐릭터 및 배경 설정</b></summary>
 
-* 플레이어 : 남성, 후드를 눌러써 얼굴과 나이를 가늠할 수 없음.<br>
+* 플레이어 : 남성, 후드를 눌러써 얼굴과 나이를 가늠할 수 없음. 외지인<br>
     ![Player](./images/Player.png)
+
+* 각 대륙 집단 :
+  * 봄 : 엘프를 모티브로 사냥꾼 집단을 구상. 숲을 잘타게 생김.
+    ![Hunter](./images/Hunter.png)
+  * 여름 : 사막의 모험가들을 모티브로 집단을 구상. 사막에 적응하기 위해 햇빛을 가리는 후드를 두름.
+    ![Explorer](./images/Explorer.png)
+  * 가을 : 갈대밭의 사무라이를 모티브로 구상.
+    ![Samurai](./images/Samurai.png)
+  * 겨울 : 흰 옷을 입은 마법사를 모티브로 구상.
+    ![Magician](./images/Magician.png)
+    
   
 
 <summary><b>게임 기본 구성</b></summary>
