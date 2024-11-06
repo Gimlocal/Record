@@ -2,7 +2,7 @@
 미로를 만들때 사용되는 알고리즘은 DFS(Depth First Search)입니다.
 
 
-<pre><code>```csharp
+<pre><code>```cs
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
