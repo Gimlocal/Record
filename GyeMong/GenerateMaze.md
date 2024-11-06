@@ -1,6 +1,7 @@
 게임 계몽에서 사용되는 절차적 생성을 통한 미로를 만드는 코드입니다.
 미로를 만들때 사용되는 알고리즘은 DFS(Depth First Search)입니다.
 
+<pre><code>
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -107,4 +108,5 @@ public class GenerateMaze : MonoBehaviour
         }
     }
 }
+</code></pre>
 
