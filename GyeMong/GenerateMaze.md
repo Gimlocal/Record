@@ -2,7 +2,8 @@
 미로를 만들때 사용되는 알고리즘은 DFS(Depth First Search)입니다.
 
 
-<pre><code>using System.Collections;
+<pre><code>```csharp
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -106,6 +107,7 @@ public class GenerateMaze : MonoBehaviour
         }
     }
 }
+```
 </code></pre>
 
 원리는 다음과 같습니다.<br>
