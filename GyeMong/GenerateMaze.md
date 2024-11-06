@@ -106,7 +106,6 @@ public class GenerateMaze : MonoBehaviour
         }
     }
 }
-
 </code></pre>
 
 원리는 다음과 같습니다.<br>
