@@ -1,12 +1,12 @@
 게임 계몽에서 사용되는 절차적 생성을 통한 미로를 만드는 코드입니다.<br>
 미로를 만들때 사용되는 알고리즘은 DFS(Depth First Search)입니다.
 
-
-<pre><code>using System.Collections;
+```cs
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-```cs
+
 public class GenerateMaze : MonoBehaviour
 {
     [SerializeField] Tilemap wallTilemap;
@@ -107,7 +107,7 @@ public class GenerateMaze : MonoBehaviour
     }
 }
 ```
-</code></pre>
+
 
 원리는 다음과 같습니다.<br>
 1. 코드가 실행되면, 제일먼저 모든 미로를 벽으로 채웁니다.<br>
