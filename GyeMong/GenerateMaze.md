@@ -110,3 +110,8 @@ public class GenerateMaze : MonoBehaviour
 }
 </code></pre>
 
+원리는 다음과 같습니다.<br>
+1. 코드가 실행되면, 제일먼저 모든 미로를 벽으로 채웁니다.<br>
+2. 모든 가장자리는 벽으로 만들기 위해 시작 지점을 (1, height - 2)으로 잡습니다. (끝지점이라 해도 무방)<br>
+2.5 GetUnvisitedNeighbors함수는 현재 위치에서 상하좌우로 2칸씩 이동한 칸에서의 bool값(벽,바닥) 상태를 확인하고 벽 상태인 위치만 반환합니다 (Unvisited)<br>
+3. 이후 GenerateMap함수가 실행되는데, 
