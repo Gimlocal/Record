@@ -126,7 +126,7 @@ public class GenerateMaze : MonoBehaviour
 ![image](https://github.com/user-attachments/assets/cfce1567-2739-46bd-8bc8-6127cf01e4d4)<br>
 (2,0)에서는 더이상 진행할 이웃이 없기때문에 stack.pop()을 이용해 경로를 되짚어옵니다(백트래킹). 연결가능한 이웃이 나올때까지.<br>
 즉 점 (1,2)까지 되돌아옵니다. 그리고 이 점에서 다시 Unvisited인 이웃과 연결하기 시작합니다.<br>
-그렇게 최종적으로 완성된 미로는 아래와 같습니다.
+그렇게 최종적으로 완성된 미로는 아래와 같습니다.<br>
 ![image](https://github.com/user-attachments/assets/a0ec4755-f466-46d3-9d7e-3c298a0cf238)<br>
 
 정리하자면 시작점으로부터 이웃이 나오지 않을때까지 경로를 설정합니다. (Depth-First)<br>
