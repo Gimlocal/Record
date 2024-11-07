@@ -116,3 +116,8 @@ public class GenerateMaze : MonoBehaviour
 3. 이후 GenerateMap함수 실행. 이 함수는 시작점을 변수로 받아서 **시작점부터 Unvisited인 이웃중 랜덤으로 하나를 선택해 벽을 뚫는** 함수입니다. 여기에 스택을 사용한 백트래킹 기법을 이용합니다. 이를통해 미로내의 어떠한 두 점을 가져와도 두 점을 이어주는 경로는 유일하게 하나로 보장됩니다.<br>
 4. 최종적으로 결정된 2차원 bool배열에서 false를 벽으로 true를 바닥으로 타일맵을 이용해서 배치합니다.<br>
 4.5 벽 타일맵은 collider(Tilemap Collider, Composite Collider)를 이용해 벽으로 설정합니다.<br>
+
+DFS가 어떻게 사용되었나?<br>
+![image](https://github.com/user-attachments/assets/4833ad42-020c-49e5-826e-5471556cdb97)<br>
+그림과 같이 9개의 점으로 구성된 미로가 있다고 가정해보자.
+
