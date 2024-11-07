@@ -118,6 +118,6 @@ public class GenerateMaze : MonoBehaviour
 4.5 벽 타일맵은 collider(Tilemap Collider, Composite Collider)를 이용해 벽으로 설정합니다.<br>
 
 ### DFS가 어떻게 사용되었나?<br>
-![image](https://github.com/user-attachments/assets/4833ad42-020c-49e5-826e-5471556cdb97)<br>
+![image](https://github.com/user-attachments/assets/97fa78bf-6e0c-419c-af8e-960e24eaae7f)<br>
 그림과 같이 9개의 점으로 구성된 미로가 있다고 가정해보자.
 
