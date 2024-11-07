@@ -120,7 +120,7 @@ public class GenerateMaze : MonoBehaviour
 ### DFS가 어떻게 사용되었나?<br>
 ![image](https://github.com/user-attachments/assets/97fa78bf-6e0c-419c-af8e-960e24eaae7f)<br>
 그림과 같이 9개의 점으로 구성된 미로가 있다고 가정해봅시다.<br>
-시작점인 (0,0)은 Unvisited인 이웃이 2개 존재하고,(0,1) or (1,0), 랜덤으로 (1,0)을 골랐다고 생각해봅시다.<br>
+시작점인 (0,0)은 Unvisited인 이웃이 2개 존재하고((0,1) or (1,0)), 랜덤으로 (1,0)을 골랐다고 생각해봅시다.<br>
 ![image](https://github.com/user-attachments/assets/6918631e-5d92-4dad-96f2-70a205b16322)<br>
 이후에도 계속 랜덤으로 연결시켜서 아래와 같이 (0, 0) 부터 (2, 0)까지의 경로가 생겼습니다.<br>
 ![image](https://github.com/user-attachments/assets/cfce1567-2739-46bd-8bc8-6127cf01e4d4)<br>
