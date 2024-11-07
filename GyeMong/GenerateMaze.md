@@ -1,4 +1,4 @@
-###게임 계몽에서 사용되는 절차적 생성을 통한 미로를 만드는 코드입니다.<br>
+### 게임 계몽에서 사용되는 절차적 생성을 통한 미로를 만드는 코드입니다.<br>
 미로를 만들때 사용되는 알고리즘은 DFS(Depth First Search)입니다.
 
 ```cs
@@ -109,7 +109,7 @@ public class GenerateMaze : MonoBehaviour
 ```
 
 
-###원리는 다음과 같습니다.<br>
+### 원리는 다음과 같습니다.<br>
 1. 코드가 실행되면, 제일먼저 **모든 미로를 벽으로 채웁니다**.<br>
 2. 모든 가장자리는 벽으로 만들기 위해 시작 지점을 (1, height - 2)으로 잡습니다. (끝지점이라 해도 무방)<br>
 2.5 GetUnvisitedNeighbors함수는 현재 위치에서 상하좌우로 2칸씩 이동한 칸에서의 bool값(벽,바닥) 상태를 확인하고 벽 상태인 위치만 반환합니다. **즉 Unvisited인 이웃을 반환합니다**.<br>
@@ -117,7 +117,7 @@ public class GenerateMaze : MonoBehaviour
 4. 최종적으로 결정된 2차원 bool배열에서 false를 벽으로 true를 바닥으로 타일맵을 이용해서 배치합니다.<br>
 4.5 벽 타일맵은 collider(Tilemap Collider, Composite Collider)를 이용해 벽으로 설정합니다.<br>
 
-###DFS가 어떻게 사용되었나?<br>
+### DFS가 어떻게 사용되었나?<br>
 ![image](https://github.com/user-attachments/assets/4833ad42-020c-49e5-826e-5471556cdb97)<br>
 그림과 같이 9개의 점으로 구성된 미로가 있다고 가정해보자.
 
