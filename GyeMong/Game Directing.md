@@ -22,16 +22,16 @@
    그리고 이 공격 보조 마법을 룬과 연계시켜서 적용해보면 좋을듯. 
    
    기본 공격 보조 마법 : 검기를 날리는 공격   
-   ![image](https://github.com/user-attachments/assets/919d8a39-944c-483a-9c59-4c7d862d8dcc)
+   ![image](https://github.com/user-attachments/assets/919d8a39-944c-483a-9c59-4c7d862d8dcc)   
 
    
 3. 룬:   
-   <img src="https://github.com/user-attachments/assets/1ae4c23a-f6f5-42e8-b851-d31a2b8a7ac3" width="50%" height="50%"> 
+   <img src="https://github.com/user-attachments/assets/1ae4c23a-f6f5-42e8-b851-d31a2b8a7ac3" width="50%" height="50%">    
    위 이미지처럼 유틸형과 공격형 룬들을 스킬트리처럼 뻗는 느낌으로 설계하고,  
    공격형 룬을 커스터마이징해서 보조 마법에 접목해서 사용하면 좋을 것 같음    
    ex) 봄 대륙의 공격룬 :    
-   <img src="https://github.com/user-attachments/assets/24a52991-be93-466d-a0d0-9c0dd5ee1f9b" width="30%">   
-   이런느낌
+   <img src="https://github.com/user-attachments/assets/24a52991-be93-466d-a0d0-9c0dd5ee1f9b" width="30%">    
+   이런느낌   
 
 
 4. 
