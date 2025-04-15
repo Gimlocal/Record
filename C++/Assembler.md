@@ -29,8 +29,7 @@
 하위 비트에서 값 적용 시 상위 비트에는 적용이 안됨
 즉 mov eax, 0x1234를 하면 eax 레지스터에 1234가 들어가고 mov al, 0x00을 실행하면 하위 al에서 00이 들어가서 0x1200으로 바뀜    
 
-#### 메모리 <-> 레지스터    
-asm파일첨부
+#### 메모리와 레지스터    
 ```asm
 %include "io64.inc"
 section .text
@@ -80,6 +79,41 @@ section .data
     c dd 0x33333333
     d dq 0x4444444444444444
     
+    
+    ; 초기화 되지 않은 데이터 쓸 때 bss 섹션 사용
+    ; [변수이름] [크기] [개수]
+    ; [크기] resb(1) resw(2) resd(4) resq(8)
+section .bss
+    e resb 10
+```
+
+#### 문자와 앤디안    
+```asm
+%include "io64.inc"
+section .text
+global main
+main:
+    mov rbp, rsp; for correct debugging
+
+    PRINT_STRING msg
+
+    xor rax, rax
+    ret
+
+    
+    ; 초기화 된 데이터를 쓸 때 data 섹션 사용
+    ; [변수이름] [크기] [초기값]
+    ; [크기] db(1) dw(2) dd(4) dq(8) : 바이트 크
+section .data
+    msg db 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x0    ; 아스키 코드를 통해 저장
+    a db 0x11, 0x11, 0x11, 0x11   ; [0x11]로 저장됨
+    
+    b dd 0x12345678 ; 리틀 앤디안 vs 빅 앤디안. 리틀 앤디안이 적용(대부분이 이럼)
+    ; 두 방법에는 장단점이 존재.
+    ;  리틀 앤디안 : 캐스팅에 유리하다. (데이터 사이즈 변환)
+    ;  빅 앤디안 : 숫자 비교에 유리하다. (앞 부분만 보면 되니까)
+    
+    ; 같은 데이터를 어떻게 분석하냐에 따라 달라짐
     
     ; 초기화 되지 않은 데이터 쓸 때 bss 섹션 사용
     ; [변수이름] [크기] [개수]
