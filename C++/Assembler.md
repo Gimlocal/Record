@@ -346,4 +346,60 @@ EVEN:
     ret
 ```
 
+#### 반복문
+```asm
+%include "io64.inc" 
+section .text
+global main
+main:
+    mov rbp, rsp; for correct debugging
+
+    ; 반복문
+    ; 특정 조건을 만족할때까지 반복실행
+    
+    ; ex) Hello World를 10번 출력
+    mov ecx, 10 ; 통상적으로 ecx에 카운팅을 씀
+    
+LABEL_LOOP:
+    PRINT_STRING msg
+    NEWLINE
+    
+    dec ecx ; sub ecx, 1과 동일
+    cmp ecx, 0
+    jne LABEL_LOOP
+    
+    ; 연습문제. 1에서 100까지의 합을 구하는 프로그램
+    
+    mov ecx, 1
+    mov eax, 0
+    
+ADD_LOOP:
+    ADD eax, ecx
+    inc ecx
+    cmp ecx, 101
+    jne ADD_LOOP
+    
+    PRINT_DEC 4, eax
+    NEWLINE
+    
+    ; loop [라벨]
+    ; - ecx에 반복 횟수
+    ; - loop를 할 때마다 ecx 1감소. 0이면 빠져나감. 아니면 라벨로 다시
+    
+    mov ecx, 100    
+    xor ebx, ebx
+LABEL_LOOP_SUM:
+    add ebx, ecx
+    loop LABEL_LOOP_SUM
+    
+    PRINT_DEC 4, ebx
+    
+
+    xor rax, rax
+    ret
+    
+section .data
+    msg db 'Hello World', 0x00
+```
+
 
