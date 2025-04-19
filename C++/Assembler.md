@@ -215,6 +215,76 @@ section .bss
     num resb 1
 ```
 
+#### 쉬프트 연산 & 논리 연산
+```asm
+%include "io64.inc"
+section .text
+global main
+main:
+    mov rbp, rsp; for correct debugging
+    
+    ; 쉬프트 연산
+    mov eax, 0x12345678
+    PRINT_HEX 4, eax
+    NEWLINE
+    shl eax, 8
+    PRINT_HEX 4, eax
+    NEWLINE    
+    shr eax, 8      ; 8칸 왼쪽, 8칸 오른쪽 쉬프트 한다고 원본 복구가 안됨. 날라감
+    PRINT_HEX 4, eax
+    NEWLINE         ; 왼쪽 쉬프트는 2배 오른쪽 쉬프트는 1/2배
+    
+    ; 곱셈/나눗셈
+    ; 게임서버에서 ObjectID를 만들어줄 때 쓰일 수 있음 
+    
+    
+    ; 논리 연산
+    ; not and or xor
+    ; 조건 A, 조건 B
+    ; not A : 0이면 1, 1이면 0
+    ; A and B : 둘다 1이면 1, 아니면 0
+    ; A or B : 둘 중 하나라도 1이면 1, 아니면 0
+    ; A xor B : 둘이 같으면 0, 다르면 1
+    ; A = 01100110
+    ; B = 10111011
+    ; A and B = 00100010
+    ; A or B = 11111111
+    ; A xor B = 11011101
+    
+    mov al, 0b10010101
+    mov bl, 0b01111100
+    
+    and al, bl  ; al = al and bl
+    ; al = 0b00010100 = 0x14
+    PRINT_HEX 1, al
+    NEWLINE
+    
+    not al
+    ; al = 0b11101011 = 0xeb
+    PRINT_HEX 1, al
+    NEWLINE
+    
+    ; 응용 사례 : bitflag(한 비트의 값이 필요할 때)
+    
+    mov al, 0b10010101
+    mov bl, 0b01111100
+    
+    NEWLINE
+    PRINT_HEX 1, al
+    NEWLINE
+    xor al, bl
+    PRINT_HEX 1, al
+    NEWLINE
+    xor al, bl
+    PRINT_HEX 1, al     ; 두 번 xor을 사용하면 원래 값으로 돌아옴 
+    NEWLINE             ; 암호학에서 유용함.(key를 이용해 암호화. 이후 다시 복호화)
+    
+    ; 자기 자신에 xor을 이용하면 항상 0
+    
+    xor rax, rax
+    ret
+```
+
 
 
 
