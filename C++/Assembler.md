@@ -285,6 +285,65 @@ main:
     ret
 ```
 
+#### 분기문    
+```asm
+%include "io64.inc"
+section .text
+global main
+main:
+    mov rbp, rsp; for correct debugging
+    
+    ; 분기문 (if)
+    ; 특정 조건에 따라서 코드 흐름을 제어하는 것
+    
+    ; 조건 -> 흐름
+    ; CMP (Compare) dst, src (dst가 기준)
+    ; 비교를 한 결과물은 Flag Register에 저장 
+    
+    ; JMP [label] 시리즈
+    ; JMP : 무조건 jump
+    ; JE : JumpEquals 같으면 jump
+    ; JNE : JumpNotEquals 다르면 jump
+    ; JG : JumpGreater 크면 jump
+    ; JGE : JumpGreaterEquals 크거나 같으면 jump
+    ; JL, JLE ...
+    
+    ; 두 숫자가 같으면 1, 아니면 0을 출력하는 프로그램 
+    
+    mov rax, 10
+    mov rbx, 10
+    
+    cmp rax, rbx
+    je LABEL_EQUAL
+    ; 점프를 안하면 밑으로 내려옴
+    mov rcx, 0  ;코드는 순차적으로 다 실행되기 때문에 밑의 LABEL- 도 실행됨
+    jmp LABEL_EQUAL_END
+    
+LABEL_EQUAL:
+    mov rcx, 1
+LABEL_EQUAL_END:
+    PRINT_HEX 1, rcx
+    NEWLINE
+    
+    NEWLINE
+    ; 연습 문제 : 어떤 숫자(1~100)가 짝수면 1, 홀수면 0을 출력
+    GET_DEC 2, ax
+    mov bl, 2
+    div bl
+    mov al, ah
+    cmp al, 1
+    je ODD
+    mov rcx, 1
+    jmp EVEN
+    
+ODD:
+    mov rcx, 0
+EVEN:
+    PRINT_DEC 1, rcx
+    NEWLINE
 
+    xor rax, rax
+    ret
+```
 
 
