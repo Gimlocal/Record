@@ -402,4 +402,67 @@ section .data
     msg db 'Hello World', 0x00
 ```
 
+#### 배열과 주소
+```asm
+%include "io64.inc"
+section .text
+global main
+main:
+    mov rbp, rsp; for correct debugging
+    ;write your code here
+    
+    ; 배열과 주소
+    ; 배열 : 동일한 타입의 데이터 묶음 
+    
+    ; 주소
+    ; [시작 주소 + 인덱스 * 데이터 크기]로 접근함.
+    
+    mov rax, a  ; 주소값이 들어감.
+    
+    ;PRINT_HEX 1, [a]  ; 인덱스를 넣어서 배열 a의 값들에 접근 가능.
+    ;NEWLINE
+    ;PRINT_HEX 1, [a+1]
+    ;NEWLINE
+    ;PRINT_HEX 1, [a+2]
+    ;NEWLINE
+    
+    ; 연습문제 : a배열의 모든 데이터 출력해보기
+    ; 주소를 넣을 때는 + 연산 사용가능. 즉 [a+eax]와 같이 해도됨.
+    mov rbx, 0
+ARRAY_A_LOOP:
+    mov rax, a        
+    add rax, rbx      
+    ;PRINT_HEX 1, [rax]
+    ;NEWLINE
+    inc rbx
+    cmp rbx, 5
+    jne ARRAY_A_LOOP
+    
+    xor ecx, ecx
+ARRAY_B_LOOP:
+    PRINT_HEX 2, [b+ecx*2]
+    NEWLINE
+    inc ecx
+    cmp ecx, 5
+    jne ARRAY_B_LOOP
+    
+    ; 1씩 증가시키면 리틀 엔디안이므로 0x100으로  나옴.
+    ; 데이터의 크기에 맞춰서 주소를 증가시켜줘야함. 지금은 2바이트만큼.
+    
+    xor rax, rax
+    ret
+    
+section .data
+    a db 0x01, 0x02, 0x03, 0x04, 0x05   ; 5 * 1 = 5Byte
+    b times 5 dw 1  ; 초기값이 1인 2바이트짜리 데이터를 5개 만든다. 10Byte
+    
+    map1 db '#########', 0x00
+    map2 db '#   #   #', 0x00
+    map3 db '#       #', 0x00
+    map4 db '#########', 0x00   ; 이렇게 2차 배열로도 가능.
+    
+section .bss
+    num resb 10 ; Byte가 10개짜리가 있다.
+```
+
 
