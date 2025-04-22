@@ -523,4 +523,60 @@ section .data
     msg db 'Hello World', 0x00
 ```
 
-
+#### 스택 메모리
+```asm
+%include "io64.inc"
+section .text
+global main
+main:
+    mov rbp, rsp; for correct debugging
+    ;write your code here
+    
+    ; 스택 메모리, 스택 프레임. 중요함.
+    
+    ; 레지스터는 다양한 용도로 사용
+    ; - a b c d 범용 레지스터 말고도 특별한 레지스터도 존재.
+    ; - 포인터 레지스터 (위치를 가리키는 레지스터)
+    ; -- ip (Instruction Pointer) : 다음 수행 명령어의 위치
+    ; -- sp (Stack Pointer) : 현재 스택 top 위치 (일종의 cursor)
+    ; -- bp (Base Pointer) : 스택 상대주소 계산용
+    
+    push rax
+    push rbx
+    push 8
+    push 2
+    call MAX
+    PRINT_DEC 8, rax
+    NEWLINE
+    add rsp, 16 ; 푸쉬해준 메모리의 주소를 늘려주든 pop을 해주든 해야 크래쉬 안남.
+    pop rbx
+    pop rax     ; 만약 함수에서 사용한 rax에 원래 필요한 값이 있었다면 이렇게 스택에 넣어놓고 함수를 실행 후, 다시 꺼내면 됨.
+    
+    ;push 3  ; 스택 메모리에 넣는 법
+    ;pop rax
+    ;pop rbx
+    ;pop rcx ; 스택 메모리에서 빼는 법
+    
+    ; 두 값을 비교한다고 할 때, Stack메모리에 두 데이터를 넣어줌
+    ; 이후 MAX를 호출해서 return할 주소를 저장함
+    ; bp를 계산해서 넣어줌(sp가 움직이더라도 주소 고정가능)
+    
+    xor rax, rax
+    ret
+    
+MAX:
+    push rbp
+    mov rbp, rsp    ; 스택 포인터 레지스터의 값을 고정시켜서 위치 알려주는 역할.
+    
+    mov rax, [rbp+16]
+    mov rbx, [rbp+24]   ; bp값 위에 return주소, 위에 1값 2값
+    cmp rax, rbx
+    jg L1
+    mov rax, rbx
+L1:
+    pop rbp
+    ret
+    
+section .data
+    msg db 'Hello World', 0x00
+```
