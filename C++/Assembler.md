@@ -1,4 +1,4 @@
-### 어셈블러 관련
+### 어셈블러
 
 #### 어셈블러 : 일종의 통역기 -> 사람의 말을 컴퓨터의 말로 통역해 작동할 수 있게 해줌.    
 <img src="https://github.com/user-attachments/assets/595746a6-900f-4f96-880c-bfae03531050" width="400"/>
