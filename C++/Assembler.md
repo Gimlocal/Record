@@ -465,4 +465,62 @@ section .bss
     num resb 10 ; Byte가 10개짜리가 있다.
 ```
 
+#### 함수
+```asm
+%include "io64.inc"
+section .text
+global main
+main:
+    mov rbp, rsp; for correct debugging
+    ;write your code here
+    
+    ; 함수 (보통 프로시저, 서브루틴으로 부름)
+    
+    ;call PRINT_MSG
+    mov eax, 10
+    mov ebx, 20
+    call MAX
+    PRINT_DEC 4, ecx
+    NEWLINE
+    
+    xor rax, rax
+    ret
+    
+    ; 메세지를 출력하는 함수 
+PRINT_MSG:
+    PRINT_STRING msg
+    NEWLINE
+    ret
+    
+    ; ex) 두 값중 더 큰 값을 반환하는 max 함수.
+MAX:
+    cmp eax, ebx
+    jg L1
+    mov ecx, ebx
+    jmp L2
+L1:
+    mov ecx, eax
+L2:
+    ret
+    
+    ; 그런데 인자가 10개, 그 이상이면 어떻게 할까.
+    ; 또 레지스터에 이미 중요한 값이 있으면 어떻게 할까.
+    ; 그러면 .data .bss에 만들어서 사용? -> 결국 똑같음.
+    ; 다른 메모리 구조가 필요하다.
+    ; - 어떤 함수가 유효한 동안에는 그 함수를 유지시켜야 함 (유효 범위의 개념)
+    ; - 어떤 함수가 끝나면 그 함수를 없애버려도 됨. (정리의 개념)
+    ; - 함수에서도 함수를 실행할 수 있는걸 고려 해야함 (유동적인 확장)
+    
+    ; 그래서 스택(stack)이라는 메모리 영역을 사용함.
+    ; 함수가 사용하는 일종의 메모장 역할을 함.
+    ; - 매개 변수 전달
+    ; - 돌아갈 주소 관리 등을 관장함
+    
+        
+    
+    
+section .data
+    msg db 'Hello World', 0x00
+```
+
 
