@@ -79,3 +79,75 @@ int main()
 }
 ```
 
+#### 문자와 문자열
+```cpp
+#include <iostream>
+
+using namespace std;
+
+// 문자와 문자열
+// bool은 그냥 정수지만, 참/거짓을 나타내기 위해 사용되었음
+// 사실 char도 마찬가지. 그냥 정수지만 '문자' 의미를 나타내기 위해 사용
+
+// char : 알파벳 / 숫자 문자를 나타낸다
+// wchar_t : 유니코드 문자를 나타낸다.
+
+// ASCII (American Standart Code for Information Interchange)
+
+// a b c d e 1 2 3 4 -> 사람의 문자
+
+// '문자'의 의미로 작은 따옴표 '' 사용
+char ch = 'a';
+char ch2 = '1';
+char ch3 = 'a' + 1;
+
+// 영어만으로 서비스 할 수는 없음
+// 전 세계 모든 문자에 대해 유일한 코드를 부여한 것이 유니코드 (unicode)
+// 유니코드에서 가장 많은 번호를 차지하는게 한국어/중국어
+
+// 유티코드는 표기 방식이 여러가지가 있는데 대표적으로 UTF8 UTF16
+// UTF8
+// - 알파벳, 숫자 1바이트(ASCII 동일한 번호)
+// - 유럽 지역의 문자는 2바이트
+// - 한글, 한자 등 3바이트
+// UTF16
+// - 거의 대부분 문자 2바이트
+// - 아주 예외적인 고대 문자만 4바이트(사실상 무시해도됨)
+
+wchar_t wch = L'안';
+
+// Escape Sequence
+// 표기하기 애매한 문자들을 표현
+// \0 = NULL
+// \t = Tab
+// \n = LineFeed
+// \r = Carriage (커서를 처음으로)
+//	엔터키는 \n + \r
+// \' = 작은 따옴표
+
+
+// 문자열
+// 문자들이 열을 지어서 모여 있는 것
+
+// 끝은 NULL (0)
+
+char str[] = { 'h', 'e', 'l', 'l', 'o' , '\0' };
+char str2[] = "Hello World";	// 자동으로 마지막에 NULL을 추가해줌
+wchar_t str3[] = L"Hello World";
+
+int main()
+{
+	//cout << ch << " " << ch2;
+	//cout << "\n" << ch3 << "\n";
+	//// cout은 char 전용
+
+	//wcout.imbue(locale("kor"));	// 한글은 이렇게 해야 출력가능
+	//wcout << wch << "\n";
+
+	//char str[] = { 'h', 'e', 'l', 'l', 'o' , '\0' };	// 스택에서 사용하면 C스타일로 마지막에 NULL을 붙여줘야함
+	cout << str << "\n";
+	cout << str2 << "\n";
+	wcout << str3 << "\n";
+}
+```
+
