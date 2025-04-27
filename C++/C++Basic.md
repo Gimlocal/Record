@@ -321,3 +321,63 @@ int main()
 }
 ```
 
+#### Const와 메모리 구조
+```cpp
+#include <iostream>
+using namespace std;
+
+// const와 메모리 구조
+// 한번 정해지면 절대 바뀌지 않을 값들
+// constant의 약자인 const를 붙임 (변수를 상수화)
+// const를 붙이면 초기값을 지정해줘야함
+
+unsigned char flag;
+
+//int AIR = 0;
+//int STUN = 1;
+//int POLYMORPH = 2;
+//int INVINCIBLE = 3;
+// 이렇게하면 안전하지 않음
+
+
+// 그러면 const도 바뀌지 않는 읽기 전용? .rodata?
+// 컴파일러 마음. 표준에서 그렇게 하라는 말은 없음
+const int AIR = 0;
+const int STUN = 1;
+const int POLYMORPH = 2;
+const int INVINCIBLE = 3;
+
+
+// 전역 변수 (main밖에서 변수 지정)
+
+// [데이터 영역] (함수 외부)
+// .data (초기값 존재)
+int a = 2;
+// .bss (초기값 존재x)
+int b;
+// .rodata (읽기 전용 데이터)
+const char* msg = "Hello World";
+
+int main()
+{
+	// [스택 영역] : [데이터 영역]도 사용가능 (함수 내부)
+	int c = 3;
+
+#pragma region 비트 연산
+	// 무적 상태로 만든다
+	flag = (1 << INVINCIBLE);
+
+	// 변이 상태를 추가한다 (무적 + 변이)
+	flag |= (1 << POLYMORPH);
+
+	// 무적인지 확인하고 싶다? (다른 상태는 관심 x)
+	// bitmask
+	bool invincible = (flag & (1 << INVINCIBLE)) != 0;
+
+	// 무적이거나 스턴 상태인지 확인하고 싶다면?
+	bool mask = (1 << INVINCIBLE) | (1 << POLYMORPH);
+	bool stunOrInvincible = ((flag & mask) != 0);
+#pragma endregion
+}
+```
+
