@@ -68,4 +68,53 @@ int main()
 }
 ```
 
+#### 반복문
+```cpp
+#include <iostream>
+
+using namespace std;
+
+// 반복문
+
+
+int main()
+{
+	// while
+	// if - else도 유용하지만
+	// 한 번만 실행하는게 아니라 특정 조건까지 계속 반복하는 경우
+	// ex) 게임을 끌 때까지 계속 게임 실행
+	// ex) 목적지에 도달할 때까지~ 이동
+
+	// while (조건식)
+	//{
+	//	명령문
+	//}
+
+	int count = 0;
+
+	while (count < 5)
+	{
+		cout << "Hello Wolrd\n";
+		count++;
+	}
+
+	do	// 무조건 한번은 실행됨
+	{
+		cout << "Hello Wolrd\n";
+		count++;
+	} while (count < 5);
+
+	// for (초기식1 ; 조건식2; 제어식4) 명령3 (번호순대로 실행. 1은 처음 한번만)
+	// while문 보다 실수를 줄일 수 있음. 제어식이 필수니까.
+
+	for (int count = 0; count < 5; count++)
+	{
+		cout << "Hello World\n";
+	}
+
+	// for문 내에서 특정 조건을 만족할 때 for문을 벗어나거나
+	// 다음 분기로 이동하고싶을 때, break, continue를 사용
+}
+```
+
 
