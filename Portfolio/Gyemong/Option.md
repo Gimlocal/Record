@@ -39,8 +39,8 @@ public class OptionExitButton : MonoBehaviour
     }
 }
 ```
-OpenOrCloseOption() 함수는 범용적으로 상속받아서 쓰이는 UI를 끄는 함수입니다.    
-추가적으로로 게임 종료 버튼은 타이틀에서 안보이고, OptionUIToggler.Instance.ToggleOption()을 통해 OpenOrCloseOption()을 불러옵니다.
+OpenOrCloseOption 함수는 범용적으로 상속받아서 쓰이는 UI를 키고 끄는 함수입니다.    
+추가적으로 게임 종료 버튼은 타이틀에서 안보이고, OptionUIToggler.Instance.ToggleOption을 통해 OpenOrCloseOption을 불러옵니다.
 
 
 #### 2. 사운드 조절 기능    
@@ -100,7 +100,8 @@ public class SoundController : SingletonObject<SoundController>
     
 }
 ```
-UI에서 자식으로 들어있는 각각의 사운드 바(게임 오브젝트)를 불러와서 Listener를 이용해 값 변동을 감지해 소리를 조절해줍니다.
+UI에서 자식으로 들어있는 각각의 사운드 바(게임 오브젝트)를 불러와서 Listener를 이용해 값 변동을 감지해 소리를 조절해줍니다.    
+UI의 Scrolbar를 이용해서 구현했습니다.
 ```csharp
 public void SetVolume(SoundType type, float volume)
 {
