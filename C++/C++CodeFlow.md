@@ -117,7 +117,7 @@ int main()
 }
 ```
 
-#### 연습문제
+#### 연습문제1
 ```cpp
 #include <iostream>
 using namespace std;
@@ -163,6 +163,80 @@ int main()
 		for (int j = 1; j < 10; j++)
 		{
 			cout << i << " x " << j << " = " << i * j << "\n";
+		}
+	}
+}
+```
+
+#### 연습문제2
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	srand(time(0)); // 시드설정 (안 하면 항상 같은 값으로 나옴)
+	// 랜덤 값 
+	int val = rand();	// 0 ~ 32767사이의 값
+	int ran = 1 + rand() % 3;	// 1 ~ 3사이의 값
+
+	int wins = 0;
+	int total = 0;
+
+	while (true)
+	{
+		if (total != 0)
+			cout << "현재 승률 : " << (float)wins / (float)total * 100 << "%" << "\n";
+
+		cout << "\n가위(1) 바위(2) 보(3) 골라\n";
+		int input;
+		cin >> input;
+
+		if (input < 1 || input > 3) break;
+
+		
+
+		int ranVal = 1 + rand() % 3;
+		switch (ranVal)
+		{
+		case 1:
+			if (input == 1)
+				cout << "가위(너) vs 가위(컴퓨터) 비겼습니다.\n";
+			else if (input == 2)
+			{
+				cout << "바위(너) vs 가위(컴퓨터) 이겼습니다.\n";
+				wins++;
+			}
+			else
+				cout << "보(너) vs 가위(컴퓨터) 졌습니다.\n";
+			total++;
+			break;
+		case 2:
+			if (input == 2)
+				cout << "바위(너) vs 바위(컴퓨터) 비겼습니다.\n";
+			else if (input == 3)
+			{
+				cout << "보(너) vs 바위(컴퓨터) 이겼습니다.\n";
+				wins++;
+			}
+			else
+				cout << "가위(너) vs 바위(컴퓨터) 졌습니다.\n";
+			total++;
+			break;
+		case 3:
+			if (input == 3)
+				cout << "보(너) vs 보(컴퓨터) 비겼습니다.\n";
+			else if (input == 1)
+			{
+				cout << "가위(너) vs 보(컴퓨터) 이겼습니다.\n";
+				wins++;
+			}
+			else
+				cout << "바위(너) vs 보(컴퓨터) 졌습니다.\n";
+			total++;
+			break;
+		default:
+			cout << "제대로 내자\n";
 		}
 	}
 }
