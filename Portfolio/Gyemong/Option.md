@@ -9,15 +9,15 @@
 순서대로 게임 재개, 사운드 조절, 키 바인딩, 게임 종료 버튼으로    
 게임 재개는 옵션창을 끄는 기능, 게임 종료는 타이틀로 나가는 기능을 담당합니다.    
 ```cpp
-        protected void OpenOrCloseOption()
-        {
-            _isOptionOpened = !_isOptionOpened;
-            _window.SetActive(_isOptionOpened);
-            if (SceneManager.GetActiveScene().name != "TitleScene")
-            {
-                PlayerCharacter.Instance.SetPlayerMove(!_isOptionOpened);
-            }
-        }
+protected void OpenOrCloseOption()
+{
+    _isOptionOpened = !_isOptionOpened;
+    _window.SetActive(_isOptionOpened);
+    if (SceneManager.GetActiveScene().name != "TitleScene")
+    {
+        PlayerCharacter.Instance.SetPlayerMove(!_isOptionOpened);
+    }
+}
 ```
 ```cpp
 public class OptionExitButton : MonoBehaviour
