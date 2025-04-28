@@ -173,7 +173,7 @@ public class KeyMapping : MonoBehaviour
     }
 }
 ```
-각 텍스트의 옆에 버튼을 누를 시 입력을 받아서 입력받은 키를 바인딩 해주는 코드입니다(OnClickButton 함수로 시작).    
+각 텍스트의 옆에 버튼을 누를 시 입력을 받아서 입력받은 키를 바인딩 해주는 코드입니다(OnClickButton 함수로 시작). 모든 입력을 받기 때문에 마우스 클릭도 받을 수 있습니다.
 중복방지를 위한 기능과 실시간으로 입력받은 키를 적어주는 기능또한 구현했습니다.    
 InputManager에서 초기에 Dictionary를 이용해 KeyCode와 ActionCode(enum)를 짝 지어놓고 KeyMapping 코드에서 이를 변경해주는 구조입니다.
 Back 버튼은 사운드 조절창과 마찬가지로 옵션창으로 돌아가는 기능을 합니다.
