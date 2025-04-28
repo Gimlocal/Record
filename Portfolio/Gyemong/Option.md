@@ -115,5 +115,64 @@ public void SetVolume(SoundType type, float volume)
     }
 }
 ```
-SetVolume은 각각의 SoundSource의 value(소리)를 조절해주는 식으로 작동합니다. (master도 마찬가지)
+SetVolume은 각각의 SoundSource의 value(소리)를 조절해주는 식으로 작동합니다. (master도 마찬가지)    
+Back 버튼을 누르면 OpenOrCloseOption()함수를 이용해 사운드 조절 창을 끄고 옵션창을 다시 키는 식으로 옵션창으로 돌아갑니다.    
 
+
+#### 3. 키 바인딩 기능    
+옵션창의 키 바인딩 버튼을 눌렀을 때 나오는 창 입니다.
+![image](https://github.com/user-attachments/assets/1834432d-71fd-4adb-975e-9216de94f3ae)    
+게임 진행시 사용되는 이동, 공격, 돌진, 옵션, 메뉴 등의 키를 바인딩 할 수 있는 창입니다.    
+```csharp
+public class KeyMapping : MonoBehaviour
+{
+    [SerializeField] private ActionCode actionCode;
+
+    private void BindKey(KeyCode newKey)
+    {
+        CheckDuplication(newKey);
+        InputManager.Instance.SetKey(actionCode, newKey);
+    }
+    
+    public void OnClickButton()
+    {
+        StartCoroutine(WaitForKeyInput());
+    }
+    
+    private IEnumerator WaitForKeyInput()
+    {
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        
+        KeyCode pressedKey = GetPressedKey();
+        BindKey(pressedKey);
+        KeyButtonTexts.Instance.UpdateKeyText();
+    }
+
+    private KeyCode GetPressedKey()
+    {
+        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKeyDown(key)) return key;
+        }
+        return KeyCode.None;
+    }
+    
+    private void CheckDuplication(KeyCode keyCode)
+    {
+        Dictionary<ActionCode, KeyCode> keyMappings = InputManager.Instance.GetKeyActions();
+        List<ActionCode> keysToCheck = new(keyMappings.Keys);
+
+        foreach (ActionCode actionCode in keysToCheck)
+        {
+            if (keyMappings[actionCode] == keyCode)
+            {
+                InputManager.Instance.SetKey(actionCode, KeyCode.None);
+            }
+        }
+    }
+}
+```
+각 단어의 옆에 버튼을 누를 시 입력을 받아서 입력받은 키를 바인딩 해주는 코드입니다(BindKey 함수).    
+중복방지를 위한 기능과 실시간으로 입력받은 키를 적어주는 기능또한 구현했습니다.    
+InputManager에서 초기에 Dictionary를 이용해 KeyCode와 ActionCode(enum)를 짝 지어놓고 KeyMapping 코드에서 이를 변경해주는 구조입니다.
+Back 버튼은 사운드 조절창과 마찬가지로 옵션창으로 돌아가는 기능을 합니다.
