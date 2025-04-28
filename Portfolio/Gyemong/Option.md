@@ -117,7 +117,7 @@ public void SetVolume(SoundType type, float volume)
 }
 ```
 SetVolume은 각각의 SoundSource의 value(소리)를 조절해주는 식으로 작동합니다. (master도 마찬가지)    
-Back 버튼을 누르면 OpenOrCloseOption()함수를 이용해 사운드 조절 창을 끄고 옵션창을 다시 키는 식으로 옵션창으로 돌아갑니다.    
+Back 버튼을 누르면 OpenOrCloseOption함수를 이용해 사운드 조절 창을 끄고 옵션창을 다시 키는 식으로 옵션창으로 돌아갑니다.    
 
 
 #### 3. 키 바인딩 기능    
@@ -173,7 +173,7 @@ public class KeyMapping : MonoBehaviour
     }
 }
 ```
-각 단어의 옆에 버튼을 누를 시 입력을 받아서 입력받은 키를 바인딩 해주는 코드입니다(BindKey 함수).    
+각 텍스트의 옆에 버튼을 누를 시 입력을 받아서 입력받은 키를 바인딩 해주는 코드입니다(BindKey 함수).    
 중복방지를 위한 기능과 실시간으로 입력받은 키를 적어주는 기능또한 구현했습니다.    
 InputManager에서 초기에 Dictionary를 이용해 KeyCode와 ActionCode(enum)를 짝 지어놓고 KeyMapping 코드에서 이를 변경해주는 구조입니다.
 Back 버튼은 사운드 조절창과 마찬가지로 옵션창으로 돌아가는 기능을 합니다.
