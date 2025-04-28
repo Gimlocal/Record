@@ -121,7 +121,7 @@ Back 버튼을 누르면 OpenOrCloseOption함수를 이용해 사운드 조절 �
 
 
 #### 3. 키 바인딩 기능    
-옵션창의 키 바인딩 버튼을 눌렀을 때 나오는 창 입니다.
+옵션창의 키 바인딩 버튼을 눌렀을 때 나오는 창 입니다.    
 ![image](https://github.com/user-attachments/assets/1834432d-71fd-4adb-975e-9216de94f3ae)    
 게임 진행시 사용되는 이동, 공격, 돌진, 옵션, 메뉴 등의 키를 바인딩 할 수 있는 창입니다.    
 ```csharp
