@@ -242,4 +242,44 @@ int main()
 }
 ```
 
+#### 열거형
+```cpp
+#include <iostream>
+using namespace std;
+
+const int SCISSORS = 1;
+const int ROCK = 2;
+const int PAPER = 3;
+// 이렇게 하면 상수로 되긴하는데, 너무 따로 노는 느낌
+// 대신에 enum이라는 열거형 변수를 만듬
+
+enum ENUM_SRP	// 초기값 설정을 안해줘도됨. 자동으로 0부터 지정됨 (지정안할경우)
+{
+	ENUM_SCISSORS = 1,
+	ENUM_ROCK = 2,
+	ENUM_PAPER = 3,
+};
+
+#define DEFINE_SCISSORS 1;	
+// 이렇게 정의할 수도 있음. # -> 전처리 지시문
+// 빌드는 전처리 - 컴파일 - 링크 순서로 이루어짐.
+// #include <iostream>이라는 파일을 찾아서 해당 내용을 그냥 복붙
+
+int main()
+{
+	int a;
+	cin >> a;
+	switch (a)
+	{
+	case ENUM_SCISSORS:
+		break;
+	case ENUM_ROCK:
+		break;
+	case ENUM_PAPER:
+		break;
+	default:
+		break;
+	}
+}
+```
 
