@@ -1,4 +1,4 @@
-#### 함수 기초
+### 함수 기초
 ```cpp
 #include <iostream>
 using namespace std;
