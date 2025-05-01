@@ -1,4 +1,4 @@
-#### 정수
+### 정수
 ```cpp
 #include <iostream>
 using namespace std;
@@ -28,7 +28,7 @@ int main()
 }
 ```
 
-#### 불리안과 실수
+### 불리안과 실수
 ```cpp
 #include <iostream>
 using namespace std;
@@ -79,7 +79,7 @@ int main()
 }
 ```
 
-#### 문자와 문자열
+### 문자와 문자열
 ```cpp
 #include <iostream>
 
@@ -151,7 +151,7 @@ int main()
 }
 ```
 
-#### 데이터 연산
+### 데이터 연산
 ```cpp
 #include <iostream>
 using namespace std;
@@ -193,7 +193,7 @@ int main()
 }
 ```
 
-#### 비교 연산 & 논리 연산
+### 비교 연산 & 논리 연산
 ```cpp
 #include <iostream>
 using namespace std;
@@ -259,7 +259,7 @@ int main()
 }
 ```
 
-#### 비트 연산
+### 비트 연산
 ```cpp
 #include <iostream>
 using namespace std;
@@ -321,7 +321,7 @@ int main()
 }
 ```
 
-#### Const와 메모리 구조
+### Const와 메모리 구조
 ```cpp
 #include <iostream>
 using namespace std;
@@ -381,7 +381,7 @@ int main()
 }
 ```
 
-#### 유의사항
+### 유의사항
 ```cpp
 #include <iostream>
 using namespace std;
