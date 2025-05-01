@@ -1,4 +1,4 @@
-#### 분기문
+### 분기문
 ```cpp
 #include <iostream>
 using namespace std;
@@ -68,7 +68,7 @@ int main()
 }
 ```
 
-#### 반복문
+### 반복문
 ```cpp
 #include <iostream>
 
@@ -117,7 +117,7 @@ int main()
 }
 ```
 
-#### 연습문제1
+### 연습문제1
 ```cpp
 #include <iostream>
 using namespace std;
@@ -168,7 +168,7 @@ int main()
 }
 ```
 
-#### 연습문제2
+### 연습문제2
 ```cpp
 #include <iostream>
 using namespace std;
@@ -242,7 +242,7 @@ int main()
 }
 ```
 
-#### 열거형
+### 열거형
 ```cpp
 #include <iostream>
 using namespace std;
