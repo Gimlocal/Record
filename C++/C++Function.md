@@ -51,4 +51,41 @@ int main()
 }
 ```
 
+### 지역 변수와 값 전달
+```cpp
+#include <iostream>
+using namespace std;
+
+// 지역 변수와 값 전달
+
+// 전역 변수 (메모리에서 데이터 영역)
+// 함수 내부든 외부든 어디서든 사용가능
+int globalValue = 0;
+
+void IncreaseHp(int hp)
+{
+	hp = hp + 1;
+}
+
+int main()
+{
+	// 지역 변수 (메모리에서 스택 영역)
+	// 그 함수 내에서만 사용가능
+	int localValue = 1;
+
+	int hp = 1;
+	cout << hp << "\n";
+	IncreaseHp(hp);	// 2가 안됨. 1이 나옴.
+	cout << hp << "\n";
+
+	// 스택 프레임 구조
+	// [매개변수][RET][지역변수][매개변수][RET][지역변수][매개변수][RET][지역변수]
+	// 메인에서의 hp는 지역변수에 저장되는데, IncreaseHp의 hp는 매개변수 부분에 저장돼서 같은 hp가 아니게 됨.
+	// 사실상 IncreaseHp(1)과 같은 작용을 함.
+
+
+	return 0;
+}
+```
+
 
