@@ -88,4 +88,45 @@ int main()
 }
 ```
 
+### 호출 스택
+```cpp
+#include <iostream>
+using namespace std;
+
+// 호출 스택
+// 디버깅 시 어떤 경로로 이 함수가 실행되었는지 볼 수 있음.
+// 스택 메모리의 반환 주소값을 하나하나 다 적어준것과 비슷
+
+// 함수 선언을 먼저 해준다.
+void Func1();
+void Func2(int, int);
+void Func3(float);
+
+void Func1()
+{
+	cout << "Func1\n";
+
+	Func2(1, 2);
+}
+// Func1을 훑을 때, Func2는 정의되지 않았으므로 오류 발생.
+
+void Func2(int a, int b)
+{
+	cout << "Func2\n";
+
+	Func3(10);
+}
+
+void Func3(float a)
+{
+	cout << "Func3\n";
+}
+
+int main()
+{
+	cout << "main\n";
+	Func1();
+}
+```
+
 
