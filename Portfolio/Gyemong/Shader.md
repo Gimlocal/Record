@@ -24,7 +24,7 @@ https://rusalgames.tistory.com/34
 - #### 텍스쳐 가져오기
 ![image](https://github.com/user-attachments/assets/1013170c-ddbc-421d-8e08-2c4f21405176)    
 먼저 Sample Texture 2D 노드를 만든 후, 적용시킬 Texture를 Texture(T2)에 넣어줍니다. 그러면 위의 이미지와 같이 Texture그림이 보이게 될겁니다.    
-다만 버그로 인해서 Texture가 뭉개져서 보이는데, 이 부분은 뒤에 부분에서 더 설명하겠습니다.    
+다만 버그로 인해서 Texture가 뭉개져서 보이는데, 이 해결법은 뒤에 부분에서 더 설명하겠습니다.    
 Sample Texture 2D옆에 있는 Tiling And Offset이라는 노드는 말 그대로 길이를 늘리거나 위치를 이동시키는 노드입니다.    
 
 - #### 이미지 이동시키고 합치기
