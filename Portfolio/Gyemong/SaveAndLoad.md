@@ -1,4 +1,6 @@
-### 세이브 및 로드 구현하기    
+### 세이브 및 로드 구현하기   
+
+- #### 구현
 #### 기본적인 로직은 직렬화 가능한 형태로 데이터를 만든 후, JSON 파일로 변환해서 특정 경로에 저장하는 방식입니다.    
 
 ```csharp
@@ -14,45 +16,85 @@ public class PlayerData
 예시로 로드될 때 사용되는 플레이어의 몇몇 정보를 담은 데이터를 직렬화 가능한 형태로 만든 코드입니다.    
 
 ```csharp
-    public void SaveSection<T>(T sectionData, string fileName) where T : class
+public void SaveSection<T>(T sectionData, string fileName) where T : class
+{
+    string json = JsonUtility.ToJson(sectionData, true); // JSON으로 직렬화
+    string filePath = Path.Combine(savePath, fileName + ".json");
+
+    // 파일 저장
+    File.WriteAllText(filePath, json);
+
+    Debug.Log($"{fileName} saved at {savePath}");
+}
+
+public T LoadSection<T>(string fileName) where T : class, new()
+{
+    string filePath = Path.Combine(savePath, fileName + ".json");
+    if (File.Exists(filePath))
     {
-        string json = JsonUtility.ToJson(sectionData, true); // JSON으로 직렬화
-        string encryptedData = Encrypt(json); // JSON 데이터를 암호화
-        string filePath = Path.Combine(savePath, fileName + ".json");
-
-        // 파일의 읽기 전용 속성을 해제 (파일이 이미 존재할 경우)
-        if (File.Exists(filePath))
-        {
-            FileAttributes attributes = File.GetAttributes(filePath);
-            if (attributes.HasFlag(FileAttributes.ReadOnly))
-            {
-                File.SetAttributes(filePath, attributes & ~FileAttributes.ReadOnly);
-            }
-        }
-
-        // 파일 저장
-        File.WriteAllText(filePath, encryptedData);
-
-        // 파일을 다시 읽기 전용으로 설정
-        File.SetAttributes(filePath, FileAttributes.ReadOnly);
-
-        Debug.Log($"{fileName} saved at {savePath} as ReadOnly and encrypted.");
+        string json = File.ReadAllText(filePath); // JSON 파일 읽기
+        return JsonUtility.FromJson<T>(json); // JSON에서 객체로 역직렬화
     }
-
-    // AES 암호화
-    private string Encrypt(string plainText)
+    else
     {
-        using Aes aes = Aes.Create();
-        aes.Key = Encoding.UTF8.GetBytes(encryptionKey);
-        aes.IV = new byte[16]; // 16-byte 초기화 벡터 (0으로 초기화)
-        using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-        using var ms = new MemoryStream();
-        using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-        using (var writer = new StreamWriter(cs))
-        {
-            writer.Write(plainText);
-        }
-        return Convert.ToBase64String(ms.ToArray()); // 암호화된 데이터를 Base64로 인코딩
+        Debug.LogWarning($"{fileName} not found, returning new instance.");
+        return new T(); // 파일이 없으면 새 인스턴스 반환
     }
+}
 ```
-데이터를 저장하는 코드입니다. 여기서 데이터를 암호화 한 후, 읽기 전용으로 설정합니다.
+데이터를 저장하는 SaveSection과 LoadSection 함수입니다.    
+Section T에는 위의 데이터들의 클래스를 사용합니다. 또, Load시 저장된 파일이 없으면 초기값을 Load해주는 부분도 존재합니다.
+
+```csharp
+public class SaveDataEvent : Event
+{
+    private PlayerData playerData = new();
+    public override IEnumerator execute(EventObject eventObject = null)
+    {
+        playerData.isFirst = false;
+        playerData.sceneName = SceneManager.GetActiveScene().name;
+        playerData.playerPosition = PlayerCharacter.Instance.GetPlayerPosition();
+        playerData.playerDirection = PlayerCharacter.Instance.GetPlayerDirection();
+
+        DataManager.Instance.SaveSection(playerData, "PlayerData");
+
+        yield return null;
+    }
+}
+```
+예시로 플레이어의 데이터를 저장하는 이벤트 코드입니다. PlayerData를 만들어서 현재의 정보를 넣어주고 그걸 SaveSection하는 방식으로 이용합니다.    
+아래는 실제 사용예시 입니다.
+
+https://github.com/user-attachments/assets/179d3c09-7601-4c6f-98db-2bc29c1b6bf9    
+
+
+----
+
+
+- #### 문제점 및 개선
+처음 코드를 짤 때 오류가 발생하지 않아서 오래동안 인지하지 못한 오류가 있었습니다.    
+작업 후 에디터에서만 확인했기 때문에 발생한 문제인데, 빌드 후 프로그램으로 돌려보니 오류가 발생했습니다.
+```csharp
+private readonly string savePath = Application.dataPath + "/Database";
+```
+바로 이 부분 savePath를 정의해주는 부분이 문제였습니다.    
+에디터에서는 Application.dataPath를 이용하면 잘 작동했지만, 빌드 시에는 실제 컴퓨터 파일 경로 내부에 지정을 해줘야해서 오류가 발생합니다.    
+
+```csharp
+#if UNITY_EDITOR
+    private readonly string savePath = Application.dataPath + "/Database";
+#else
+    private string savePath;
+#endif
+
+private void Awake()
+{
+#if UNITY_EDITOR
+#else
+    savePath = Path.Combine(Application.persistentDataPath, "Database");
+#endif
+}
+```
+그래서 위와 같이 에디터일 때와 아닐때를 구분해서 에디터가 아닐 때, dataPath가 아닌 persistentDataPath를 이용해서 정의해 줬습니다.    
+또 변수를 초기화하는 부분도 함수내부(여기선 이벤트 함수 Awake)에서 해줘야합니다.    
+이후 빌드 시에도 잘 작동하게 되었습니다.
