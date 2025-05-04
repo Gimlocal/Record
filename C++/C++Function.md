@@ -129,4 +129,57 @@ int main()
 }
 ```
 
+### 함수 마무리
+```cpp
+#include <iostream>
+using namespace std;
+
+// 함수 마무리
+
+// 오버로딩 (중복 정의 : 함수 이름의 재사용)
+// 매개변수 개수가 다르거나
+// 매개변수 타임이 다르거나.. 등의 차이가 있어야됨
+// 반환 형식으로만 구분되는 오버로딩은 안됨.
+
+int Add(int a, int b)
+{
+	return a + b;
+}
+
+float Add(float a, float b)
+{
+	return a + b;
+}
+// 형식별로 다 만들어야하나? x
+// 그래서 중복 정의를 이용
+
+
+// 기본 인자값
+// 기본 인수는 항상 매개변수 끝에 있어야함.
+void SetPlayerInfo(int hp, int mp, int attack, int guildID = 0)
+{
+
+}
+
+
+// 스택 오버플로우
+// 팩토리얼 함수
+// n이 너무크면 스택 프레임 공간이 부족해서 오류가 발생함.
+int Factorial(int n)
+{
+	if (n == 1) return 1;
+	return n * Factorial(n - 1);
+}
+
+int main()
+{
+	float result = Add(1.5f, 2.1f);
+	cout << result << "\n";
+
+	SetPlayerInfo(100, 40, 10);
+
+	cout << Factorial(50000000) << "\n"; // 빌드 터짐
+}
+```
+
 
