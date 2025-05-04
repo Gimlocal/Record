@@ -5,8 +5,6 @@ using namespace std;
 
 // 포인터
 
-
-
 int main()
 {
 	int number = 1;
