@@ -49,4 +49,3 @@ Add노드는 한번에 두개씩만 합칠 수 있기 때문에 두번 사용했
 이후 외곽선과 원본 이미지를 합쳐줍니다.    
 ![image](https://github.com/user-attachments/assets/186a3f98-b332-4bfb-9e0a-71e9887eba57)    
 여기서 조건에 따라 외곽선을 켰다 껐다 하고싶으면 Branch노드를 통해서 조정해주면 됩니다.    
-![image](https://github.com/user-attachments/assets/37ca55bc-2fe9-4247-b6af-985d31b13973)
