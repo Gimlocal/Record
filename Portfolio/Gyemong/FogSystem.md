@@ -35,7 +35,7 @@ Collide with Sphere을 체크해주고, 아래 설정들을 바꿔주시면 됩�
 입맛대로 설정해주시면 될거 같네요.    
 
 ![image](https://github.com/user-attachments/assets/25880434-6625-4cf0-bf76-f94fe73e1218)    
-마지막인 Output Particle Quad로 이펙트(파티클)의 모양이나 일생동안 크기변화, 색변화 등을 설정하는 부분입니다.    
+마지막인 Output Particle Quad로 이펙트(파티클)의 모양이나 크기변화, 색변화 등을 설정하는 부분입니다.    
 저는 여기서 MainTexture을 default-particle로 설정해서 크기 변화를 줘 안개처럼 만들었습니다.    
 
 
