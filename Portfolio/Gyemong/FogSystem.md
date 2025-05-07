@@ -53,13 +53,13 @@ public class FogController : MonoBehaviour
 {
     [SerializeField] private VisualEffect vfxRenderer;
 
-    private void Start()
+    private void Update()
     {
         vfxRenderer.SetVector3("ColliderPos", PlayerCharacter.Instance.transform.position);
     }
 }
 ```
 
-이렇게 하면 간단하게 안개 시스템을 만들 수 있습니다.    
+이렇게 하면 간단하게 안개 시스템을 만들 수 있습니다. (인스펙터에서 Visual Effect 컴포넌트를 vfxRenderer에 넣어줘야 합니다.)    
 Visual Effect Graph를 이용하면 안개 말고도 눈보라, 사막의 모래폭풍, 비 등의 다양한 효과를 만들 수 있을겁니다.    
 마지막으로 실제 사용 예시입니다.    
