@@ -4,7 +4,7 @@
 먼저 Visual Effect Graph를 만듭니다.    
 ![image](https://github.com/user-attachments/assets/913f0987-a35b-448a-b014-1b0e7d02cb5a)    
 사진과 같이 Visual Effect칸이 없으면, PackageManager에서 Visual Effect Graph를 설치하면 됩니다.    
-생성 후 탭을 더블클릭해 탭을 열어보면 아래와 같은 이미지가 나오게 됩니다.    
+생성 후 탭을 더블클릭해 열어보면 아래와 같은 이미지가 나오게 됩니다.    
 ![image](https://github.com/user-attachments/assets/256d8354-2a8f-4d4b-ae9d-4fd479183c83)    
 하나씩 살펴보죠.    
 
