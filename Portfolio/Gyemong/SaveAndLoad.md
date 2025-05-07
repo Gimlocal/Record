@@ -80,8 +80,8 @@ private readonly string savePath = Application.dataPath + "/Database";
 바로 이 부분 savePath를 정의해주는 부분이 문제였습니다.    
 에디터에서는 Application.dataPath를 이용하면 잘 작동했지만, 빌드 시에는 실제 컴퓨터 파일 경로 내부에 지정을 해줘야해서 오류가 발생합니다.    
 둘의 차이점은 저장경로의 위치입니다.    
-DataPath는 읽기 전용이며, 런타임 중에 파일 수정, 작성을 할 수 없습니다. 또한 저장경로가 프로젝트 폴더 내부입니다.    
-PersistantDataPath는 특정 운영체제에서 앱이 사용할 수 있도록 허용한 경로입니다.    
+**DataPath**는 읽기 전용이며, 런타임 중에 파일 수정, 작성을 할 수 없습니다. 또한 저장경로가 프로젝트 폴더 내부입니다.    
+**PersistantDataPath**는 특정 운영체제에서 앱이 사용할 수 있도록 허용한 경로입니다.    
 즉 저장경로가 다음과 같이 C:\Users\[user name]\AppData\LocalLow\[company name]\[product name] 실제 컴퓨터에서 사용하는 경로로 지정됩니다.    
 이러한 차이 때문에 에디터에서가 아닐 때 주의가 필요합니다.    
 
