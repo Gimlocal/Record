@@ -18,6 +18,7 @@ float 노드를 만들어서 안개의 양을 나타내는 FogAmount노드를 �
 말 그대로 이펙트(파티클)의 각종 설정을 할 수 있습니다. 이펙트 개수, 속도, 주기, 위치, 크기등을 설정할 수 있습니다.    
 원하는대로 노드를 안쪽에서도 만들어서 설정하면 됩니다.    
 보통 Set Position (Shape : AABox)를 추가해서 이펙트가 생성되는 공간을 추가합니다.    
+이 공간이 추가되면 Scene에서 이 공간의 크기를 조절할 수 있습니다.    
 ![image](https://github.com/user-attachments/assets/c7d66180-cdbd-4536-81e8-cdea3b5c2de2)
 ![image](https://github.com/user-attachments/assets/8fab5e5d-9815-4f0e-ac63-3082fc8da53e)
 
