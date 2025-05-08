@@ -1,5 +1,4 @@
 ### 안개 시스템    
-![image](https://github.com/user-attachments/assets/baf69096-beee-47af-9437-78b391321277)
 
 먼저 Visual Effect Graph를 만듭니다.    
 ![image](https://github.com/user-attachments/assets/913f0987-a35b-448a-b014-1b0e7d02cb5a)    
@@ -63,3 +62,6 @@ public class FogController : MonoBehaviour
 이렇게 하면 간단하게 안개 시스템을 만들 수 있습니다. (인스펙터에서 Visual Effect 컴포넌트를 vfxRenderer에 넣어줘야 합니다.)    
 Visual Effect Graph를 이용하면 안개 말고도 눈보라, 사막의 모래폭풍, 비 등의 다양한 효과를 만들 수 있을겁니다.    
 마지막으로 실제 사용 예시입니다.    
+
+![image](https://github.com/user-attachments/assets/baf69096-beee-47af-9437-78b391321277)    
+사진처럼 어두운 느낌을 주고싶으면 Global Light를 적용시켜서 맵을 어둡게 만들어주면 안개 느낌이 더 살아납니다.
