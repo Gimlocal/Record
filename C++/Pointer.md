@@ -71,4 +71,61 @@ int main()
 }
 ```
 
+### 포인터 연산
+```cpp
+#include <iostream>
+using namespace std;
 
+// 포인터 연산
+
+// 1 주소 연산자 (&)
+// 2 산술 연산자 (+, -)
+// 3 간접 연산자 (*)
+// 4 간접 멤버 연산자 (->)
+
+struct Player
+{
+	int hp = 100;
+	int damage = 10;
+};
+
+int main()
+{
+	int number = 1;
+	// 1 주소 연산자 (&)
+	// - 해당 변수의 주소를 알려줘
+	// - 정확히는 해당 변수 타입에 따라서 TYPE*을 반환
+	int* pointer = &number;
+
+	// 2 산술 연산자 (+, -)
+	
+	number += 1;
+	/*number = number + 1;
+	number++;
+	number += number;*/ // 등과같은 연산을 포인터에도 사용가능
+
+	pointer += 1;	// 실제로는 4가 증가함 ?
+	// 분석해보면 8바이트 주소를 담는 바구니이다.
+	// int : 주소를 따라가면 4바이트 정수형 바구니가 있다.
+
+	// 즉 1을 더하는것의 의미는 단순히 1을 더하는게 아니라
+	// 바구니 크기만큼 이동을 한다는거다. 즉 4바이트를 증가시켜서
+	// 다음 바구니로 이동한다는 말임.
+	// 그래서 선언 TYPE에 따라 다르게 움직임
+
+	// 3 간접 연산자 (*)
+	number = 3;
+	*pointer = 3;		// 두 연산이 동일함
+
+	// 4 간접 멤버 연산자 (->)
+	Player player;
+	Player* playerPtr = &player;
+
+	(*playerPtr).hp = 200;
+	(*playerPtr).damage = 20;	// 방식이 귀찮음
+
+	playerPtr->hp = 200;
+	playerPtr->damage = 20;		// 간접 연산자가 좀 더 간편함.
+	// 원리는 동일함.
+}
+```
