@@ -5,7 +5,11 @@
 
 <img src="https://github.com/user-attachments/assets/f781c6e2-10ef-4d2c-9c3a-864122af6abf" width="500">    
 
-먼저 코드부터 살펴보겠습니다.    
+단계별로 하나씩 설명해보겠습니다.    
+영상 앞부분에 잠깐 지나가긴 했는데, 슬라임이 합쳐지고 분열하는 큰 슬라임이 나오는 그런 연출을 만들어봤습니다.    
+먼저 **슬라임이 합쳐지는 부분**부터 보겠습니다.    
+
+아래는 코드입니다.     
 ```cpp
 public class SlimeEvents : EventScene
 {
@@ -59,3 +63,156 @@ public class SlimeEvents : EventScene
     }
 }
 ```
+사실 이 합쳐지는 연출은 아주 간단합니다.    
+slime 배열에 합쳐질 때 사용되는 작은 슬라임들을 원하는 개수만큼 넣어주고, 중심과 모체가 되는 작은 분열 슬라임 targetSlime을 배치해놓습니다.    
+이후 targetSlime을 중심으로 크기가 반지름이 4인 원안의 무작위 위치에 하나씩 작은 슬라임을 보이게 합니다.    
+현재는 SetActive로 존재하는 작은 슬라임을 껐다 켰다 하는 방식으로 했는데, 슬라임의 수가 적어서 Instantiate를 이용해서 소환하는 형식으로 해도 좋을거 같네요.    
+이후 targetSlime과의 방향을 계산해서 각각의 작은 슬라임들에게 MoveSlimeToTarget 코루틴을 적용시켜주면 영상에서 보이는 것처럼 합쳐지는 느낌을 줄 수 있습니다.    
+
+다음은 **분열 슬라임**의 코드입니다.    
+```cpp
+public class DivisionSlime : SlimeBase
+{
+    private const float DIVIDE_RATIO = 0.6f;
+    private int _divisionLevel = 0;
+    private int _maxDivisionLevel = 2;
+    
+    protected override void Start()
+    {
+        Initialize();
+        DivisionSlimeManager.Instance.RegisterSlime(this);
+    }
+
+    protected override void Initialize()
+    {
+        maxHp = 10f;
+        currentHp = maxHp;
+        speed = 2f;
+        
+        _detector = SimplePlayerDetector.Create(this);
+        _pathFinder = new SimplePathFinder();
+        _slimeAnimator = SlimeAnimator.Create(gameObject, sprites);
+        
+        MeleeAttackRange = 3f;
+        RangedAttackRange = 10f;
+        detectionRange = 20f;
+
+        damage = 10f;
+    }
+
+    public override void StartMob()
+    {
+        StartCoroutine(FaceToPlayer());
+        ChangeState();
+    }
+
+    public override void OnAttacked(float damage)
+    {
+        base.OnAttacked(damage);
+        if (currentState is not SlimeDieState)
+        {
+            StopCoroutine(_currentStateCoroutine);
+            StartCoroutine(GetComponent<AirborneController>().AirborneTo(transform.position - DirectionToPlayer * MeleeAttackRange));
+            ChangeState();
+        }
+    }
+
+    public class SlimeRangedAttackState : RangedAttackState { }
+    public class SlimeMeleeAttackState : MeleeAttackState { }
+    
+    public class DashAttackState : SlimeState
+    {
+        private DivisionSlime DivisionSlime => mob as DivisionSlime;
+        public override int GetWeight()
+        {
+            return (DivisionSlime.DistanceToPlayer > DivisionSlime.MeleeAttackRange &&
+                    DivisionSlime.DistanceToPlayer < DivisionSlime.RangedAttackRange) ? 5 : 0;
+        }
+
+        public override IEnumerator StateCoroutine()
+        {
+            DivisionSlime._slimeAnimator.AsyncPlay(SlimeAnimator.AnimationType.MeleeAttack, true);
+            float dashDistance = 1.5f;
+            Vector3 dashTargetPosition = PlayerCharacter.Instance.transform.position + DivisionSlime.DirectionToPlayer * dashDistance;
+            yield return new WaitForSeconds(2 * SlimeAnimator.AnimationDeltaTime);
+            DivisionSlime.transform.DOMove(dashTargetPosition, 0.3f).SetEase(Ease.OutQuad);
+            yield return new WaitForSeconds(SlimeAnimator.AnimationDeltaTime);
+            DivisionSlime._slimeAnimator.AsyncPlay(SlimeAnimator.AnimationType.Idle, true);
+            yield return new WaitForSeconds(1);
+            DivisionSlime.ChangeState();
+        }
+    }
+
+    public class DieState : SlimeDieState
+    {
+        private DivisionSlime DivisionSlime => mob as DivisionSlime;
+        public DieState() { }
+        public DieState(StateMachineMob mob)
+        {
+            this.mob = mob;
+        }
+        public override int GetWeight()
+        {
+            return 0;
+        }
+        public override IEnumerator StateCoroutine()
+        {
+            if (DivisionSlime._divisionLevel < DivisionSlime._maxDivisionLevel)
+            {
+                DivisionSlime.Divide();
+            }
+            else
+            {
+                DivisionSlime._slimeAnimator.AsyncPlay(SlimeAnimator.AnimationType.Die);
+                yield return new WaitForSeconds(SlimeAnimator.AnimationDeltaTime);
+            }
+            Destroy(DivisionSlime.gameObject);
+        }
+    }
+
+    protected override void OnDead()
+    {
+        ChangeState(new DieState(this));
+        DivisionSlimeManager.Instance.UnregisterSlime(this);
+    }
+
+    public class MoveState : SlimeMoveState { }
+
+    private void Divide()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Vector3 spawnPosition = transform.position;
+            int attempts = 10;
+            do
+            {
+                Vector3 candidatePosition = transform.position + Random.insideUnitSphere;
+                candidatePosition.z = 0f;
+                var hit = Physics2D.Raycast(transform.position, candidatePosition - transform.position, Vector3.Distance(transform.position, candidatePosition), LayerMask.GetMask("Wall"));
+                if (hit.collider == null)
+                {
+                    spawnPosition = candidatePosition;
+                    break;
+                }
+            } while (attempts-- > 0);
+            
+            GameObject newSlime = Instantiate(gameObject, transform.position, Quaternion.identity);
+            newSlime.transform.localScale = transform.localScale * DIVIDE_RATIO;
+            
+            newSlime.transform.DOJump(spawnPosition, 1f, 1, 0.5f).SetEase(Ease.OutQuad);
+
+            DivisionSlime slimeComponent = newSlime.GetComponent<DivisionSlime>();
+            
+            slimeComponent._slimeAnimator = SlimeAnimator.Create(slimeComponent.gameObject, sprites);
+            slimeComponent.damage *= DIVIDE_RATIO;
+            slimeComponent.MeleeAttackRange *= DIVIDE_RATIO;
+            slimeComponent.RangedAttackRange *= DIVIDE_RATIO;
+            slimeComponent._divisionLevel = _divisionLevel + 1;
+            slimeComponent.ChangeState(new SlimeMoveState(slimeComponent));
+            
+            DivisionSlimeManager.Instance.RegisterSlime(slimeComponent);
+        }
+    }
+}
+```
+
