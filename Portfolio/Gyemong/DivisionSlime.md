@@ -227,6 +227,43 @@ public class DivisionSlime : SlimeBase
 이름에서도 알 수 있듯이 이 슬라임은 분열하는 슬라임이고, 죽을 때 분열을 해야하기 때문이죠.    
 그럼 Die상태에서 실행되는 Divide 함수를 살펴봅시다.    
 
+```cpp
+private void Divide()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Vector3 spawnPosition = transform.position;
+            int attempts = 10;
+            do
+            {
+                Vector3 candidatePosition = transform.position + Random.insideUnitSphere;
+                candidatePosition.z = 0f;
+                var hit = Physics2D.Raycast(transform.position, candidatePosition - transform.position, Vector3.Distance(transform.position, candidatePosition), LayerMask.GetMask("Wall"));
+                if (hit.collider == null)
+                {
+                    spawnPosition = candidatePosition;
+                    break;
+                }
+            } while (attempts-- > 0);
+            
+            GameObject newSlime = Instantiate(gameObject, transform.position, Quaternion.identity);
+            newSlime.transform.localScale = transform.localScale * DIVIDE_RATIO;
+            
+            newSlime.transform.DOJump(spawnPosition, 1f, 1, 0.5f).SetEase(Ease.OutQuad);
+
+            DivisionSlime slimeComponent = newSlime.GetComponent<DivisionSlime>();
+            
+            slimeComponent._slimeAnimator = SlimeAnimator.Create(slimeComponent.gameObject, sprites);
+            slimeComponent.damage *= DIVIDE_RATIO;
+            slimeComponent.MeleeAttackRange *= DIVIDE_RATIO;
+            slimeComponent.RangedAttackRange *= DIVIDE_RATIO;
+            slimeComponent._divisionLevel = _divisionLevel + 1;
+            slimeComponent.ChangeState(new SlimeMoveState(slimeComponent));
+            
+            DivisionSlimeManager.Instance.RegisterSlime(slimeComponent);
+        }
+```
+
 가장 먼저 for문을 돌리는데, 분열하고 싶은 마릿수만큼 for문을 돌려줬습니다.    
 여기서 살짝 아쉬웠던 점은 매직넘버 위반 입니다. 3이 아니라 DivideAmount와 같은 상수를 이용해서 했어야 했는데, 처음 코드를 짤 때 이 부분을 생각을 안 했던거 같네요. 지금은 수정돼있습니다 하하.    
 for문 안쪽에서는 제일 먼저 소환되는 분열된 슬라임의 위치를 정하는 코드입니다.    
