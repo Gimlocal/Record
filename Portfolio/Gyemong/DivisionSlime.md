@@ -229,39 +229,40 @@ public class DivisionSlime : SlimeBase
 
 ```cpp
 private void Divide()
+{
+    for (int i = 0; i < 3; i++)
     {
-        for (int i = 0; i < 3; i++)
+        Vector3 spawnPosition = transform.position;
+        int attempts = 10;
+        do
         {
-            Vector3 spawnPosition = transform.position;
-            int attempts = 10;
-            do
+            Vector3 candidatePosition = transform.position + Random.insideUnitSphere;
+            candidatePosition.z = 0f;
+            var hit = Physics2D.Raycast(transform.position, candidatePosition - transform.position, Vector3.Distance(transform.position, candidatePosition), LayerMask.GetMask("Wall"));
+            if (hit.collider == null)
             {
-                Vector3 candidatePosition = transform.position + Random.insideUnitSphere;
-                candidatePosition.z = 0f;
-                var hit = Physics2D.Raycast(transform.position, candidatePosition - transform.position, Vector3.Distance(transform.position, candidatePosition), LayerMask.GetMask("Wall"));
-                if (hit.collider == null)
-                {
-                    spawnPosition = candidatePosition;
-                    break;
-                }
-            } while (attempts-- > 0);
-            
-            GameObject newSlime = Instantiate(gameObject, transform.position, Quaternion.identity);
-            newSlime.transform.localScale = transform.localScale * DIVIDE_RATIO;
-            
-            newSlime.transform.DOJump(spawnPosition, 1f, 1, 0.5f).SetEase(Ease.OutQuad);
+                spawnPosition = candidatePosition;
+                break;
+            }
+        } while (attempts-- > 0);
+        
+        GameObject newSlime = Instantiate(gameObject, transform.position, Quaternion.identity);
+        newSlime.transform.localScale = transform.localScale * DIVIDE_RATIO;
+        
+        newSlime.transform.DOJump(spawnPosition, 1f, 1, 0.5f).SetEase(Ease.OutQuad);
 
-            DivisionSlime slimeComponent = newSlime.GetComponent<DivisionSlime>();
-            
-            slimeComponent._slimeAnimator = SlimeAnimator.Create(slimeComponent.gameObject, sprites);
-            slimeComponent.damage *= DIVIDE_RATIO;
-            slimeComponent.MeleeAttackRange *= DIVIDE_RATIO;
-            slimeComponent.RangedAttackRange *= DIVIDE_RATIO;
-            slimeComponent._divisionLevel = _divisionLevel + 1;
-            slimeComponent.ChangeState(new SlimeMoveState(slimeComponent));
-            
-            DivisionSlimeManager.Instance.RegisterSlime(slimeComponent);
-        }
+        DivisionSlime slimeComponent = newSlime.GetComponent<DivisionSlime>();
+        
+        slimeComponent._slimeAnimator = SlimeAnimator.Create(slimeComponent.gameObject, sprites);
+        slimeComponent.damage *= DIVIDE_RATIO;
+        slimeComponent.MeleeAttackRange *= DIVIDE_RATIO;
+        slimeComponent.RangedAttackRange *= DIVIDE_RATIO;
+        slimeComponent._divisionLevel = _divisionLevel + 1;
+        slimeComponent.ChangeState(new SlimeMoveState(slimeComponent));
+        
+        DivisionSlimeManager.Instance.RegisterSlime(slimeComponent);
+    }
+}
 ```
 
 가장 먼저 for문을 돌리는데, 분열하고 싶은 마릿수만큼 for문을 돌려줬습니다.    
