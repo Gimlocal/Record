@@ -36,8 +36,29 @@ Virtual Camera를 조작하려는데 왜 Main Camera도 설정을 해줘야하�
 위에서 말했듯이 하이라키에서 가상 카메라 한개를 만들어봅시다.    
 카메라를 생성하면 아래와 같은 이미지처럼 나올겁니다.    
 
-![image](https://github.com/user-attachments/assets/b3174e1f-ae67-4448-9c9f-28a7a29821fb)    
-<img src='https://github.com/user-attachments/assets/b3174e1f-ae67-4448-9c9f-28a7a29821fb', width="500">    
+<img src="https://github.com/user-attachments/assets/b3174e1f-ae67-4448-9c9f-28a7a29821fb" width="800">    
+
+Main Camera옆에 빨간 카메라 표시가 보이는데, 가상 카메라와 잘 연결됐다는 표시입니다.    
+그렇기 때문에 이제 가상 카메라에서 카메라 설정을 바꾸면 그게 Main Camera에서도 적용이 된다는 뜻입니다.    
+예를들어 가상 카메라의 Lens Ortho size를 조절하면 Main Camera의 Projection 컴포넌트의 Size를 조절하는 것과 같은 효과를 보입니다.    
+그리고 이제 카메라의 설정들은 가상 카메라를 따라가기 때문에, Main Camera의 몇몇 설정들은 변경되지 않을겁니다.    
+
+이제 가상 카메라의 다양한 기능에 대해서 알아보겠습니다.    
+
+----
+
+알아볼 기능은 아래와 같습니다.    
+
+1. 특정 오브젝트 추적
+    - 소프트 존, 데드 존 설정
+2. 카메라의 움직임 제한
+3. 여러 카메라의 시점 변경
+ 
+물론 위의 기능들이 가상 카메라의 모든 기능은 아니며, 게임에 사용된 기능들입니다.    
+하나씩 살펴보겠습니다.    
+
+
+#### 1. 특정 오브젝트 추적    
 
 
 
