@@ -45,17 +45,19 @@ Main Camera옆에 빨간 카메라 표시가 보이는데, 가상 카메라와 �
 이제 가상 카메라의 다양한 기능에 대해서 알아보겠습니다.    
 알아볼 기능은 아래와 같습니다.    
 
-1. 특정 오브젝트 추적
-     - 소프트 존, 데드 존
+1. 오브젝트 추적
 2. 카메라의 움직임 제한
 3. 카메라 전환
-4. 카메라 흔들
+4. 카메라 흔들림림
  
 물론 위의 기능들이 가상 카메라의 모든 기능은 아니며, 게임에 사용된 기능들입니다.    
 하나씩 살펴보겠습니다.    
 
 
 #### 1. 특정 오브젝트 추적    
+
+![오브젝트-추적](https://github.com/user-attachments/assets/92fd5755-ced8-4563-99eb-9cd1be88ec49)
+
 가장 기본적인 기능입니다.    
 보통 플레이어를 기준으로 카메라가 움직이니까 플레이어 기준으로 설명을 드리겠습니다.    
 위의 가상 카메라 오브제트의 CinemachineVirtualCamera 컴포넌트를 보면 Follow라는 항목이 있습니다.    
@@ -73,10 +75,124 @@ Framing Trasposer은 대상이 화면에서 일정한 위치를 유지하도록 
 
 여기서 저희가 사용할 내용은 Dead Zone, Soft Zone 입니다.    
 
+![image](https://github.com/user-attachments/assets/2a7735d3-7639-4ea0-9b2f-666073381914)     
 
+플레이어를 자세히 보시면 노란색 점이 보이실 텐데 이 점이 영역들과 위치에 따라 상호작용합니다. (점은 Follow 오브젝트에 생김. 이하 플레이어)    
+여기서 Dead Zone은 점이 존재하는 색이 없는 공간입니다.    
+이 공간에서는 플레이어가 움직여도 카메라가 따라오지 않게 됩니다.    
+Dead Zone 너머에 있는 푸른 공간이 Soft Zone입니다.    
+이 공간에서는 플레이어의 움직임에 따라 카메라가 플레이어를 따라갑니다.    
+마지막으로 Soft Zone 너머에 있는 보라색 영역이 있습니다.    
+이 영역에는 공식 명칭이 없고 Hard zone, out of zone 등과 같은 명칭으로 불립니다.    
+이 영역은 플레이어가 절대로 존재할 수 없는 영역입니다.    
+울타리로 막아서 못 나가게 하는 것과 비슷하죠.    
 
+이러한 설정들을 Body영역에서 자유롭게 설정하면 됩니다.    
 
+----
 
+#### 2. 카메라의 움직임 제한    
 
+![카메라-움직임-제한](https://github.com/user-attachments/assets/fbd397d6-26a7-4a07-a1b7-0c13e2307912)
 
+플레이어에게는 보통 맵을 벗어나지 못하도록 벽으로 막아둡니다.    
+카메라도 마찬가지죠. 플레이어가 벗어나지 못하는 곳에서는 카메라도 못 넘어가게 막아서 조금 더 현실성을 추가하곤 하죠.    
+사용법은 그리 어렵진 않습니다.    
 
+![image](https://github.com/user-attachments/assets/efb990e5-8a7e-443d-9ce5-36c28eb14312)    
+
+위의 이미지처럼 CinemachineVirtualCamera 컴포넌트의 맨 아래쪽을 보면 Add Extension이 존재합니다.    
+이 항목은 Cinemachine에 존재하는 다양한 기능을 추가할 수 있는 기능입니다.    
+저희는 2D게임이기에 CinemachineConfiner2D를 추가합니다.    
+이 기능을 추가하면 컴포넌트가 새로 생기고, 여기에 Collider를 넣을 수 있게됩니다.    
+이 부분에는 Polygon Collider나 Edge Collider밖에 안 들어가기 때문에 둘 중 하나를 골라서 넣어주시면 됩니다.    
+Collider를 넣어주기만 하면 이제 카메라는 플레이어를 따라가면서 이 Collider에 막히게 됩니다.    
+즉 카메라에게만 적용되는 벽을 넣어주는거죠.    
+
+----
+
+#### 3. 카메라 전환    
+
+![카메라-전환](https://github.com/user-attachments/assets/f562bb57-a3f8-4db0-992e-a32b187b91e8)
+
+특정 영역을 벗어나면 막혀있던 카메라가 다음 영역으로 넘어가는 듯한 느낌을 주는 효과입니다.    
+사실 카메라가 넘어가는 것은 아니고, 여러대의 카메라를 각 영역에 배치해놓고 플레이어가 경계를 넘어가면 넘어간 영역에 있는 카메라가 플레이어를 비춰주는 원리입니다.    
+그렇기 때문에 각 영역마다 카메라를 넣어주고, 각 카메라마다 Collider를 달아주고(이때 Collider끼리 겹치면 안됨), 경계가 넘어가면 카메라가 전환 가능하게 해주는 등 해야할 일이 좀 많습니다.    
+
+그러면 여기서 궁금증이 생기죠. 카메라가 여러대고 이 카메라가 전부 플레이어를 Follow하고 있을텐데, Main Camera에서 하나의 카메라를 지정해서 보여주지?    
+답은 간단합니다. 카메라마다 우선순위를 설정해주면 됩니다.    
+
+![image](https://github.com/user-attachments/assets/bc981e7d-b4aa-44e7-b8c9-5c9d1db7cbd7)    
+
+컴포넌트에 존재하듯이 Priority를 설정해주면, 이 우선순위가 제일 높은 카메라를 Main Camera가 잡아줍니다.    
+그리고 저희는 코드를 통해서 플레이어가 경계를 넘어가면 해당 영역의 카메라의 우선순위를 높여주는 형식으로 진핼할 예정입니다.    
+
+```csharp
+public class CameraSetter : MonoBehaviour
+{
+   private void OnTriggerEnter2D(Collider2D other)
+   {
+       if (other.CompareTag("Player"))
+       {
+           CameraManager.Instance.ChangeCamera(transform.GetComponentInChildren<CinemachineVirtualCamera>());
+       }
+   }
+}
+
+public class CameraManager : SingletonObject<CameraManager>
+{
+     private CinemachineVirtualCamera currentCam;
+     
+     public void ChangeCamera(CinemachineVirtualCamera newCam)
+     {
+       if (currentCam != null)
+       {
+           currentCam.Priority = 0;
+       }
+       newCam.Priority = 10;
+       currentCam = newCam;
+     }
+}
+```
+
+코드에서 알 수 있듯이 Collider을 가지고있는 오브젝트에 플레이어가 닿으면 currentCam의 Priority를 조정해주는 식으로 구현했습니다.    
+
+----
+
+#### 4. 카메라 흔들림    
+
+![카메라-흔들림](https://github.com/user-attachments/assets/468cd996-bcaa-46b4-a31e-c151a426a216)    
+
+이 기능도 게임에서 빈번히 사용되죠. 플레이어 피격, 강력한 공격, 환경요소 등과 같은 많은 부분에서 카메라 흔들림이 사용되죠.    
+어떻게 사용되는지 알아보겠습니다.    
+
+![image](https://github.com/user-attachments/assets/3135420d-3642-4d27-bcb5-2d06eec8f928)    
+
+이미지처럼 두 개의 컴포넌트가 필요합니다.    
+컴포넌트 앞에 모양을 보면 아시겠지만, Impulse Listener은 Add Extension에서 Impulse Source는 Add Component에서 추가해줍니다.    
+이름에서 어느정도 유추할 수 있듯이 Impulse Source에서 실제로 충격(impulse)를 만들고 Listener에서 이것을 감지해 카메라에 넘겨줍니다.    
+그리고 흔들림은 스크립트를 통해서 생성할 수 있습니다.    
+
+```csharp
+public void CameraShake(float force)
+{
+  CinemachineImpulseSource impulseSource = currentCam.GetComponent<CinemachineImpulseSource>();
+
+  for (int i = 0; i < 5; i++)
+  {
+      Vector3 randomShake = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
+      impulseSource.GenerateImpulse(randomShake * force);
+  }
+}
+```
+
+현재 우선순위가 높은 카메라 currentCam의 Impulse Source 컴포넌트에 접근해서 GenerateImpulse 함수를 실행해주면 됩니다.    
+이 함수는 Vector3를 매개변수로 받고 이 방향으로 카메라를 흔듭니다.    
+흔들림에 대한 설정은 컴포넌트의 Impulse Shape에서 정할 수 있습니다.    
+저는 순간적인 강력한 흔들림을 원해서 Explode로 설정했습니다.    
+또한 GenerateImpulse는 변수로 받은 방향으로만 카메라를 한번 흔들기 때문에, 랜덤 방향으로 여러번 카메라를 흔들어주기 위해서 for문을 돌렸습니다.    
+
+----
+
+이렇게 Cinemachine을 이용한 카메라 설정을 알아봤습니다.    
+물론 여기에 나온 기능 말고도 다양한 기능들이 있어서 추후 더 많은 기능을 사용해볼 예정입니다.    
