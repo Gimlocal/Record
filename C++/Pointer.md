@@ -129,3 +129,124 @@ int main()
 	// 원리는 동일함.
 }
 ```
+
+### 포인터 실습
+```cpp
+#include <iostream>
+using namespace std;
+
+// 포인터 실습
+
+struct StatInfo
+{
+	int hp;			// +0
+	int attack;		// +4
+	int defence;	// +8
+};
+
+void EnterLobby();
+StatInfo CreatePlayer();
+void CreateMonster(StatInfo* info);
+bool StartBattle(StatInfo* player, StatInfo* monster); // 승리 여부
+
+int main()
+{
+	EnterLobby();
+
+	return 0;
+}
+
+void EnterLobby()
+{
+	cout << "로비에 입장 ㅎㅇ\n";
+
+	StatInfo player;
+	player.hp = 0xbbbbbbbb;
+	player.attack = 0xbbbbbbbb;
+	player.defence = 0xbbbbbbbb;
+
+	// [매개변수][RET][지역변수(temp(100, 10, 2), player(100, 10, 2))][매개변수(&temp)][RET][지역변수(ret(100, 10, 2))]
+	// 과정이 조금 있음. temp라는 임시 변수(struct)를 만들어서 그 변수를 매개변수로 넘겨주고,
+	//  그곳에 100, 10, 2를 넣고(ret) 다시 돌아와서 그 변수를 player로 복사함.
+	player = CreatePlayer();
+
+
+	StatInfo monster;
+	monster.hp = 0xbbbbbbbb;
+	monster.attack = 0xbbbbbbbb;
+	monster.defence = 0xbbbbbbbb;
+
+	// temp없음. 복잡한 복사 과정이 줄어듬
+	// [매개변수][RET][지역변수(monster(b, b, b))][매개변수(&monster)][RET][지역변수(ret(100, 10, 2))]
+	// 매개변수로 받은 주소값에 바로 변수값들을 넣어줌
+	CreateMonster(&monster);
+	
+	// 구조체끼리 복사할 때 무슨일이 벌어지나.
+	// player = monster;
+	// 바로 그냥 복사가 되는게 아닌 각각의 변수들을 한번씩 넣어주는 것.
+	// player.hp = monster.hp ......
+
+	bool victory = StartBattle(&player, &monster);
+
+	if (victory) cout << "승리!\n";
+	else cout << "패배!\n";
+}
+
+StatInfo CreatePlayer()
+{
+	StatInfo ret;
+	
+	cout << "플레어이 생성\n";
+	
+	ret.hp = 100;
+	ret.attack = 10;
+	ret.defence = 2;
+
+	return ret;
+}
+
+void CreateMonster(StatInfo* info)
+{
+	cout << "몬스터 생성\n";
+
+	info->hp = 40;
+	info->attack = 8;
+	info->defence = 1;
+}
+
+bool StartBattle(StatInfo* player, StatInfo* monster)
+{
+	while (true)
+	{
+		// 플레이어 공격
+		int damage = player->attack - monster->defence;
+		if (damage < 0)
+			damage = 0;
+
+		monster->hp -= damage;
+		if (monster->hp < 0)
+			monster->hp = 0;
+
+		cout << "몬스터 HP : " << monster->hp << "\n";
+
+		if (monster->hp == 0)
+			return true;
+
+		// 몬스터 공격
+		damage = monster->attack - player->defence;
+		if (damage < 0)
+			damage = 0;
+
+		player->hp -= damage;
+		if (player->hp < 0)
+			player->hp = 0;
+
+		cout << "플레이어 HP : " << player->hp << "\n";
+
+		if (player->hp == 0)
+			return false;
+	}
+}
+```
+
+
