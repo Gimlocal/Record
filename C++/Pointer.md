@@ -249,4 +249,103 @@ bool StartBattle(StatInfo* player, StatInfo* monster)
 }
 ```
 
+## 참조 기초
+```cpp
+#include <iostream>
+using namespace std;
+
+// 참조
+
+struct StatInfo
+{
+	int hp;
+	int attack;
+	int defence;
+};
+
+// [매개변수][RET][지역변수(info)] [매개변수(&info)][RET][지역변수]
+void CreateMonster(StatInfo* info)
+{
+	info->hp = 100;
+	info->attack = 8;
+	info->defence = 5;
+}
+
+// [매개변수][RET][지역변수(info)] [매개변수(info)][RET][지역변수]
+void CreateMonster(StatInfo info)
+{
+	info.hp = 100;
+	info.attack = 8;
+	info.defence = 5;
+}
+
+// 값을 수정하지 않는다면, 양쪽 다 문제 없음
+
+// 1. 값 전달 방식
+// [매개변수][RET][지역변수(info)] [매개변수(info)][RET][지역변수]
+// info 복사가 일어나서 그 복사된 info를 사용함
+void PrintInfoByCopy(StatInfo info)
+{
+	cout << "-------------------------" << "\n";
+	cout << "HP : " << info.hp << "\n";
+	cout << "Attack : " << info.attack << "\n";
+	cout << "Defence : " << info.defence << "\n";
+	cout << "-------------------------" << "\n";
+}
+
+// 2. 주소 전달 방식
+// [매개변수][RET][지역변수(info)] [매개변수(&info)][RET][지역변수]
+// 복사가 아니라 원본의 주소를 통해 접근해 원본을 사용
+void PrintInfoByPtr(StatInfo* info)
+{
+	cout << "-------------------------" << "\n";
+	cout << "HP : " << info->hp << "\n";
+	cout << "Attack : " << info->attack << "\n";
+	cout << "Defence : " << info->defence << "\n";
+	cout << "-------------------------" << "\n";
+}
+
+// 현재는 Struct가 크기가 작아서 크게 상관없어 보이지만, 
+// 만약에 엄청 커진다면 복사가 일어날때마다 메모리 차이가 많이 날 수 있음.
+// 한 가지 방법이 더 있음
+
+// 3. 참조 전달 방식
+// 값 전달처럼 편리하고 주소 전달처럼 진짜를 건들일 수 있다.
+void PrintInfoByRef(StatInfo& info)
+{
+	cout << "-------------------------" << "\n";
+	cout << "HP : " << info.hp << "\n";
+	cout << "Attack : " << info.attack << "\n";
+	cout << "Defence : " << info.defence << "\n";
+	cout << "-------------------------" << "\n";
+}
+
+int main()
+{
+	// 4바이트 정수형 바구니와 그 주소를 담는 바구니와 연산
+	int number = 1;
+	int* pointer = &number;
+	*pointer = 2;
+
+	// 로우레벨(어셈블리) 관점에서 실제 작동 방식은 int*와 동일
+	int& reference = number;
+	// C++ 관점에서는 number라는 바구니에 또 다른 이름을 부여한 것.
+	// number라는 바구니에 reference라는 다른 이름을 지어줌.
+	reference = 3; // 이렇게 하면 number에 3이 넣어짐
+
+	// 그런데 또 다른 이름을 짓는 이유는? 포인터를 쓰면 되지않나?
+	// 참조 전달 때문.
+
+
+	StatInfo info;
+	CreateMonster(&info);
+
+	PrintInfoByCopy(info);
+	PrintInfoByPtr(&info);
+	PrintInfoByRef(info);
+
+	return 0;
+}
+```
+
 
