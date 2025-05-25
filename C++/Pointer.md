@@ -249,7 +249,7 @@ bool StartBattle(StatInfo* player, StatInfo* monster)
 }
 ```
 
-## 참조 기초
+### 참조 기초
 ```cpp
 #include <iostream>
 using namespace std;
@@ -348,7 +348,7 @@ int main()
 }
 ```
 
-## 포인터 vs 참조
+### 포인터 vs 참조
 ```cpp
 #include <iostream>
 using namespace std;
