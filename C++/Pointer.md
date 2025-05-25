@@ -348,4 +348,115 @@ int main()
 }
 ```
 
+## 포인터 vs 참조
+```cpp
+#include <iostream>
+using namespace std;
+
+// 포인터 vs 참조
+// 성능 : 똑같음
+// 편의성 : 참조가 조금 더 편함
+
+// 1. 편의성 관련
+// 편의성이 좋다는게 꼭 장점은 아님.
+// 포인터는 주소를 넘기니 확실하게 원본을 넘긴다는 것을 알 수 있음.
+// 참조는 자연스럽게 모르고 넘길 수 있음.
+// 마음대로 고친다면? -> const를 이용해서 막을 수 있음.
+
+// 포인터에서도 const 사용가능 * 기준으로 앞, 뒤가 다름.
+// 포인터 [주소값] 주소값[데이터]
+// * 앞에 붙이면 : 데이터를 고치지 못함
+// * 뒤에 붙이면 : 주소값을 고치지 못함.
+// 즉 고치지 못하는 바구니의 내용물이 바뀜
+// 물론 둘 다 붙일 수 있음.
+
+
+
+// 2. 초기화 여부
+// 참조 타임은 바구니의 2번째 이름(별칭)
+// -> 참조하는 대상이 없으면 안됨.
+// 즉 정의할 때 StatInfo& reference; 와 같이 정의 불가능(초기값 필수)
+
+// 포인터는 초기값 없이 정의 가능(그냥 주소라는 의미이기 때문)
+// 실존하지 않을 수도 있긴 때문에 Null(0)으로 해도 가능(nullptr)
+// 어떠한 주소도 가르키지 않는 상태 : nullptr
+// 그렇기 때문에 어떤 오브젝트를 찾는 상황에서 nullptr 반환이 가능한 포인터도 장점이 있다.
+// 이때는 찾는 함수안에 예외처리(if nullptr~)를 해줘야함.
+
+
+// 그래서 결론은?
+// 상황에 따라 다름.
+// 구글에서의 오픈소스를 보면 거의 무조건 포인터.
+// 언리얼 엔진에선 reference도 애용
+
+// 예외처리를 위해 포인터 사용에 이점.
+// 바뀌지 않고 읽는 용도(readonly)는 참조에 이점.
+
+// 일반적으로는? ref (바뀔 수 있으면 명시적으로 OUT붙이기)
+// 보통 섞어 사용하지는 않음.
+
+
+struct StatInfo
+{
+	int hp;
+	int attack;
+	int defence;
+};
+
+// [매개변수][RET][지역변수(info)] [매개변수(&info)][RET][지역변수]
+void CreateMonster(StatInfo* info)
+{
+	info->hp = 100;
+	info->attack = 8;
+	info->defence = 5;
+}
+
+void PrintInfoByPtr(StatInfo* info)
+{
+	cout << "-------------------------" << "\n";
+	cout << "HP : " << info->hp << "\n";
+	cout << "Attack : " << info->attack << "\n";
+	cout << "Defence : " << info->defence << "\n";
+	cout << "-------------------------" << "\n";
+}
+
+void PrintInfoByRef(const StatInfo& info)
+{
+	cout << "-------------------------" << "\n";
+	cout << "HP : " << info.hp << "\n";
+	cout << "Attack : " << info.attack << "\n";
+	cout << "Defence : " << info.defence << "\n";
+	cout << "-------------------------" << "\n";
+}
+
+#define OUT
+void ChangeInfo(OUT StatInfo& info)
+{
+	info.hp = 1000;
+}
+
+int main()
+{
+	StatInfo info;
+	CreateMonster(&info);
+
+	StatInfo* pointer = nullptr;
+	pointer = &info;
+	PrintInfoByPtr(&info);
+
+	// StatInfo& reference; 안됨
+	StatInfo& reference = info;
+	PrintInfoByRef(reference);
+
+	ChangeInfo(OUT info);
+	// 주의해서 볼 수 있음. 가독성 측에서
+
+	// Bonus 포인터 -> 참조 or 참조 -> 포인터로 넘겨주려면?
+	PrintInfoByRef(*pointer);
+	PrintInfoByPtr(&reference);
+
+	return 0;
+}
+```
+
 
