@@ -310,7 +310,7 @@ void PrintInfoByPtr(StatInfo* info)
 // 한 가지 방법이 더 있음
 
 // 3. 참조 전달 방식
-// 값 전달처럼 편리하고 주소 전달처럼 진짜를 건들일 수 있다.
+// 값 전달처럼 편리하고 주소 전달처럼 진짜를 건드릴 수 있다.
 void PrintInfoByRef(StatInfo& info)
 {
 	cout << "-------------------------" << "\n";
