@@ -459,4 +459,87 @@ int main()
 }
 ```
 
+### 배열 기초
+```cpp
+#include <iostream>
+using namespace std;
+
+// 배열
+
+struct StatInfo
+{
+	int hp = 0xAAAAAAAA;
+	int attack = 0xBBBBBBBB;
+	int defence = 0xDDDDDDDD;
+};
+
+int main()
+{
+	// TYPE 이름[개수]
+	StatInfo monsters[10];
+
+	// 배열의 크기는 상수여야 함
+	const int monsterCount = 10;
+	StatInfo monsterss[monsterCount];
+
+	// 여태껏 변수들의 이름은 바구니의 이름이었음
+	int a = 10;
+	int b = a;
+
+	// 그런데 배열은 이름이 다르게 동작함
+	// monsters = monsterss 불가능
+
+	// 그럼 배열의 이름은 뭐지?
+	// 배열의 이름은 곧 배열의 시작 주소이다.
+	// 정확히는 시작 위치를 가리키는 TYPE* 포인터
+	// 그래서 monsters 자체로 주소임.
+	auto WhoAmI = monsters;
+
+	StatInfo* monster_0 = monsters;
+	monster_0->hp = 100;
+	monster_0->attack = 10;
+	monster_0->defence = 1;
+
+	StatInfo* monster_1 = monsters + 1;
+	monster_1->hp = 200;
+	monster_1->attack = 20;
+	monster_1->defence = 2;
+
+	StatInfo& monster_2 = *(monsters + 2); // 참조로도 가능
+	monster_2.hp = 300;
+	monster_2.attack = 30;
+	monster_2.defence = 3;
+
+	// 이거는 완전 다른 의미
+	StatInfo temp = *(monsters + 2); // 그냥 복사본
+	temp.hp = 400;
+	temp.attack = 40;
+	temp.defence = 4;
+
+	// 조금 더 자동화 가능
+	for (int i = 0; i < 10; i++)
+	{
+		StatInfo* monster = monsters + i;
+		monster->hp = 100 * (i + 1);
+		monster->attack = 10 * (i + 1);
+		monster->defence = (i + 1);
+	}
+
+	// 하지만 포인터를 이용해서 하니까 가독성이 좀 떨어짐
+	// 그래서 index를 이용해서 배열에 접근 가능
+	// *(monsters + i) = monsters[i]
+
+	monsters[0].hp = 100;
+	monsters[0].attack = 10;
+	monsters[0].defence = 1;
+
+	// 배열 초기화 문법 몇가지
+	int numbers[5] = { }; // 0으로 초기화
+	int numbers1[10] = { 1,2,3,4,5 }; // 5개는 숫자가 들어가고 나머지는 0
+	int numbers2[] = { 1,2,3,5,1245,163 }; // 데이터 개수만큼 크기 만들어줌
+
+	return 0;
+}
+```
+
 
