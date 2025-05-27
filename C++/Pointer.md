@@ -659,3 +659,48 @@ int main()
 }
 ```
 
+### 다중 포인터
+```cpp
+#include <iostream>
+using namespace std;
+
+// 다중 포인터
+
+void SetMessage(const char* a)
+{
+	a = "Bye";
+}
+
+void SetMessage(const char** a) // 다중 포인터
+{
+	*a = "Bye";
+}
+
+void SetMessage2(const char*& a) // 참조도 동일하게 가능
+{
+	a = "Bye2";
+}
+
+int main()
+{
+	// .rdata 주소[H][e][l][l][o][\0]
+	// msg[ 주소 ] << 8바이트
+	const char* msg = "Hello";
+
+	// [매개변수][RET][지역변수(msg(Hello주소))][매개변수(a(Hello주소))][RET][지역변수]
+	// .rdata Bye주소[B][y][e][\0]으로 새로 만듬
+	SetMessage(msg); // 안 바뀜
+	//cout << msg << "\n";
+
+	// pp[ msg주소 ] << 8바이트 (포인터)
+	// msg주소[ 주소 ] << 8바이트
+	// 주소 [ ] << 1바이트(char)
+	const char** pp = &msg;
+	// [매개변수][RET][지역변수(msg(Hello주소))][매개변수(a(msg주소))][RET][지역변수]
+	SetMessage(&msg);
+	cout << msg << "\n";
+	SetMessage2(msg);
+	cout << msg << "\n";
+}
+```
+
