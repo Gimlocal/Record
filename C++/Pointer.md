@@ -542,4 +542,39 @@ int main()
 }
 ```
 
+### 포인터 vs 배열
+```cpp
+#include <iostream>
+using namespace std;
+
+// 포인터 vs 배열
+
+
+// 배열은 함수 인자로 넘기면, 컴파일러가 포인터로 치환한다.(char[] -> char*)
+void Test(char a[])
+{
+	a[0] = 'x';
+}
+
+int main()
+{
+	// .rdata 주소[H][e][l][l][o][][W][o][r][l][d][\0] 
+	// test1 [ 주소 ] << 8바이트 
+	const char* test1 = "Hello World";
+
+	// 4바이트씩 복사해서 3번의 과정을 거쳐 넣어줌
+	// 별도의 바구니가 만들어진것이 아님
+	char test2[] = "Hello World";
+
+	// 포인터는 주소를 담는 바구니
+	// 배열은 같은 데이터끼리 붙어있는 바구니 모음
+	// 다만 [배열 이름]은 바구니 모음의 시작 주소
+
+	Test(test2);
+	cout << test2;	// 결과가 바뀜(포인터로 들어가서)
+
+	return 0;
+}
+```
+
 
