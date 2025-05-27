@@ -577,4 +577,85 @@ int main()
 }
 ```
 
+### 연습문제
+```cpp
+#include <iostream>
+using namespace std;
+
+// 연습문제
+
+void Swap(int& a, int& b)
+{
+	int temp = a;
+	a = b;
+	b = temp;
+}
+
+void Sort(int numbers[], int count)
+{
+	for (int i = 0; i < count - 1; i++)
+	{
+		int best = i;
+
+		for (int j = i + 1; j < count; j++)
+		{
+			if (numbers[j] < numbers[best]) best = j;
+		}
+
+		Swap(numbers[i], numbers[best]);
+	}
+}
+
+void ChooseLotto(int numbers[], int count)
+{
+	srand((unsigned)time(0));
+	for (int i = 0; i < count; i++)
+	{
+		while (true)
+		{
+			int num = rand() % 45 + 1;
+			bool flag = true;
+			for (int j = 0; j < i; j++)
+			{
+				if (numbers[j] == num) flag = false;
+			}
+			if (flag)
+			{
+				numbers[i] = num;
+				break;
+			}
+		}
+	}
+	Sort(numbers, count);
+}
+
+int main()
+{
+	// 1. Swap 함수 만들기
+	int a = 1;
+	int b = 2;
+	Swap(a, b); // a = 2, b = 1
+
+	cout << a << " " << b << "\n";
+
+	// 2. 정렬 함수 만들기
+	int numbers[6] = { 1, 421, 13, 235, 16, 9 };
+	// 6이 바뀌면? -> 배열의 크기를 넣어줘야함
+	// sizeof(numbers) / sizeof(int) 하면 됨.
+	Sort(numbers, sizeof(numbers) / sizeof(int)); // 오름차순으로 정렬하기
+	for (int i = 0; i < sizeof(numbers) / sizeof(int); i++)
+	{
+		cout << numbers[i] << " ";
+	}
+	cout << "\n";
+
+	// 3. 로또 번호 생성기
+	int numbers2[6];
+	ChooseLotto(numbers2, sizeof(numbers2) / sizeof(int));
+	for (int i = 0; i < sizeof(numbers2) / sizeof(int); i++)
+	{
+		cout << numbers2[i] << " ";
+	}
+}
+```
 
