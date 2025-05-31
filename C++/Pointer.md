@@ -704,3 +704,47 @@ int main()
 }
 ```
 
+### 다차원 배열
+```cpp
+#include <iostream>
+using namespace std;
+
+// 다차원 배열
+
+int main()
+{
+	int a[10] = { 1, 2, 3 };
+
+	int first[5] = { 4, 2, 3, 4, 1 };
+	int second[5] = { 1, 5, 2, 3, 1 };
+	// ... 이렇게 계속 만들수는 없음
+	// 2차원 배열 이용
+
+	int apartment2D[2][5] = { { 4, 2, 3, 4, 1 }, { 1, 5, 2, 3, 1 } };
+	// 메모리에는 일렬로 쭉 나열됨
+
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			int num = apartment2D[i][j];
+			cout << num << " ";
+		}
+		cout << "\n";
+	}
+
+	// 1차원 배열을 보기좋게 늘린거임
+	int apartment1D[10] = { 4, 2, 3, 4, 1, 1, 5, 2, 3, 1 };
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			int index = (i * 5) + j;
+			int num = apartment1D[index];
+			cout << num << " ";
+		}
+		cout << "\n";
+	}
+}
+```
+
