@@ -748,3 +748,70 @@ int main()
 }
 ```
 
+### 포인터 마무리
+```cpp
+#include <iostream>
+using namespace std;
+
+// 포인터 마무리
+// 포인터 vs 배열 2
+// 주의사항
+
+int& TestRef()
+{
+	int a = 1;
+	return a;
+}
+
+int* TestPointer() // 안에서 유효한 주소를 밖으로 넘겨주면 안됨
+{
+	int a = 1;
+	return &a;
+}
+
+void TestWrong(int* ptr)
+{
+	int a[100] = {};
+	a[99] = 0xAAAAAAAA;
+	*ptr = 0x12345678;
+}
+
+int main()
+{
+	int* p;	// 주소를 담는 바구니. 일종의 워프포탈
+	
+	int arr[10] = { 1, 2, 3, 4, 5 };	// 진짜 데이터
+
+	// 이렇게 차이가 나지만 헷갈림
+	// 배열의 이름이 포인터로 변환이 가능해서
+	p = arr;
+
+	// TYPE형 1차원 배열과 TYPE* 형 포인터는 완전 호환
+	cout << p[1];
+	cout << *p; // p[0]
+	cout << *arr; // arr[0]
+	cout << "\n";
+	// 2차원 배열 vs 다중 포인터
+
+	// [1][2][3][4]
+	int arr2[2][2] = { {1, 2}, {3, 4} };
+
+	// pp[ 주소1 ] - 주소1[ 주소2 ] - 주소2[ ] << 4바이트
+	// 2차원 배열도 결국은 일차원으로 나열해둔 배열이라 한번만 타고 가야함
+	//int** pp = arr2;
+
+	// [ 주소 ] - [ ][ ]
+	int(*p2)[2] = arr2;	// 이와같이 초기화
+	cout << (**p2) << " ";
+	cout << (*p2)[0] << " ";
+	cout << (*p2)[1] << " ";
+	cout << (*(p2 + 1))[0] << " ";
+	cout << (*(p2 + 1))[1] << " ";
+	cout << p2[0][0] << " ";
+
+
+
+	int* pointer = TestPointer();
+	*pointer = 123;
+}
+```
