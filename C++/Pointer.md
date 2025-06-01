@@ -815,3 +815,103 @@ int main()
 	*pointer = 123;
 }
 ```
+
+### 연습문제
+```cpp
+#include <iostream>
+using namespace std;
+
+// 연습문제
+
+// 1. 문자열 길이를 출력하는 함수
+int StrLen(const char* str)
+{
+	int count = 0;
+	for (int i = 0; str[i] != '\0'; i++) {
+		count++;
+	}
+	return count;
+}
+
+// 2. 문자열 복사 함수
+void StrCpy(char* dest, char* src)
+{
+	for (int i = 0; i < sizeof(src); i++)
+	{
+		dest[i] = src[i];
+	}
+}
+
+// 3. 문자열 덧붙이기
+void StrCat(char* dest, char* src)
+{
+	int destIndex = StrLen(dest);
+	int srcIndex = StrLen(src);
+	for (int i = 0; i < srcIndex; i++)
+	{
+		dest[i + destIndex] = src[i];
+	}
+	dest[destIndex + srcIndex] = '\0';
+}
+
+// 4. 문자열 비교(같냐 다르냐)
+int StrCmp(char* a, char* b)
+{
+	int index = 0;
+	while (a[index] != '\0' && b[index] != '\0')
+	{
+		if (a[index] < b[index]) return -1;
+		else if (a[index] > b[index]) return 1;
+		index++;
+	}
+	if (a[index] < b[index]) return -1;
+	else if (a[index] > b[index]) return 1;
+	else return 0;
+}
+
+// 5. 문자열 뒤집기
+void ReverseString(char* a)
+{
+	int len = StrLen(a);
+	for (int i = 0, j = len - 1; i < j; i++, j--)
+	{
+		char temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+}
+
+int main()
+{
+	const int BUF_SIZE = 100;
+	char a[BUF_SIZE] = "abc";
+	char b[BUF_SIZE] = "def";
+
+	cout << sizeof(a) << "\n"; // 전체 크기를 보여줌
+	int len = StrLen(a); // 실제 크기를 보여줌
+	cout << len << "\n";
+
+	StrCpy(b, a);
+	for (int i = 0; i < StrLen(b); i++)
+	{
+		cout << b[i];
+	}
+	cout << "\n";
+
+	StrCat(a, b);
+	for (int i = 0; i < StrLen(a); i++)
+	{
+		cout << a[i];
+	}
+	cout << "\n";
+
+	cout << StrCmp(a, b) << "\n";
+
+	ReverseString(a);
+	for (int i = 0; i < StrLen(a); i++)
+	{
+		cout << a[i];
+	}
+}
+```
+
