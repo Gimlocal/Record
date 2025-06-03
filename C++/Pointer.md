@@ -982,3 +982,28 @@ int main()
 	PrintBoard();
 }
 ```
+
+### 파일 분할 관리
+```cpp
+#include <iostream>
+using namespace std;
+#include "Test1.h"
+
+// 파일 분할 관리
+
+// .h 파일과 .cpp 파일을 따로 만들어서 구현부를 분리가능
+// 이를 통해 복잡한 코드를 분리해서 간단하게 관리 가능
+
+// 여러번 include해도 함수는 문제없음
+// 다만 struct는 여러번 include하면 문제가 발생함
+// 이를 막아주는게 #pragma once
+//#ifndef TEST_1H
+//#define TEST_1H
+//#endif // !TEST_1H 이 방법을 사용해도 됨.
+
+// 헤더파일은 최대한 간단하게 
+int main()
+{
+	Test1();
+}
+```
