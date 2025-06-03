@@ -915,3 +915,70 @@ int main()
 }
 ```
 
+### 연습문제(달팽이)
+```cpp
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+// 연습문제
+
+const int MAX = 100;
+int board[MAX][MAX] = {};
+int N;
+
+void PrintBoard()
+{
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			cout << setfill('0') << setw(2) << board[i][j] << " ";
+		}
+		cout << "\n";
+	}
+}
+
+pair<int, int> Direction(pair<int, int> add)
+{
+	if (add == make_pair(0, 1)) return make_pair(1, 0);
+	else if (add == make_pair(1, 0)) return make_pair(0, -1);
+	else if (add == make_pair(0, -1)) return make_pair(-1, 0);
+	else if (add == make_pair(-1, 0)) return make_pair(0, 1);
+}
+
+// int di[] = {0, 1, 0, -1};
+// int dj[] = {1, 0, -1, 0}; 와 같이 지정해두고 바꿔도됨.
+// 방향도 enum으로 하면 좀 더 편할듯.
+
+void SetBoard()
+{
+	bool check[MAX][MAX] = {};
+	int i = 0, j = 0, num = 1;
+	pair<int, int> add = { 0 ,1 };
+
+	while (!check[i][j])
+	{
+		check[i][j] = true;
+		board[i][j] = num++;
+
+		int ni = i + add.first;
+		int nj = j + add.second;
+
+		if (ni < 0 || ni >= N || nj < 0 || nj >= N || check[ni][nj])
+		{
+			add = Direction(add);
+		}
+
+		i += add.first;
+		j += add.second;
+	}
+}
+
+int main()
+{
+	cin >> N;
+	SetBoard();
+	PrintBoard();
+}
+```
