@@ -70,3 +70,119 @@ int main()
 }
 ```
 
+### 생성자와 소멸자
+```cpp
+#include <iostream>
+using namespace std;
+
+// 생성자와 소멸자(constructor & Destructor)
+
+// 클래스에 소속된 함수들을 멤버 함수라고 함
+// 이 중에서 굉장히 특별한 함수 2종이 있는데,
+// 바로 시작과 끝을 알리는 함수들
+// 시작 : 생성자, 끝 : 소멸자
+
+// 암시적(implicit) 생성자
+// 생성자를 명시적으로 만들지 않으면, 아무 인자도 받지 않는 기본 생성자가 컴퍼일러에 의해 자동으로 만들어짐.
+// 그러나 우리가 명시적으로 아무 생성자 하나를 만들면, 자동으로 만들어지던 기본 생성자는 더 이상 만들어지지 않음.
+// 그렇게 때문에 인자가 있는 생성자만 만들어두면, Knight(); 를 못함.
+
+class Knight	// cpp에서 struct와 class와 거의 차이가 없음
+{
+public:
+	// 1. 기본 생성자 (인자가 없음)
+	Knight() // 객체가 생성되자마자 실행
+	{
+		cout << "기본 생성자 호출" << "\n";
+		hp = 100;
+		attack = 10;
+		posX = 0;
+		posY = 0;
+	}
+
+	// 2. 복사 생성자 (자기 자신의 클래스 참조 타입을 인자로 받음)
+	// 말 그대로 이미 있는 객체를 복사해서 사용함. 일반적으로 똑같이 만듬
+	// 사실 이 부분은 안 만들어도 기본적으로 암시적으로 생성됨.
+	// Knight k2(k1)
+	// Knight k3 = k1 기본적으로 가능
+	// 하지만 Knight k4; k4 = k1; 이 코드는 기본 생성자를 이용해 생성 후 복사를 함.
+	Knight(const Knight& knight)
+	{
+		this->hp = knight.hp;
+		this->attack = knight.attack;
+		this->posX = knight.posX;
+		this->posY = knight.posY;
+	}
+
+	// 3. 기타 생성자
+	// 이 중에서 인자를 1개만 받는 기타 생성자를 타입 변환 생성자라고 부르기도 함.
+	// ... 그래서 명시적으로만 사용가능하게 해야함. 이걸 위한 explicit
+	explicit Knight(int hp)
+	{
+		this->hp = hp;
+	}
+
+	// 소멸자
+	~Knight() // main함수가 끝나고 실행
+	{
+		cout << "소멸자 호출" << "\n";
+	}
+
+	// 멤버 함수 선언
+	void Move(int x, int y);
+	void Attack();
+	void Die()
+	{
+		// this는 객체 자신을 가리킴 (Knight)
+		this->hp = 0;
+		cout << "Die" << "\n";
+	}
+public:
+	// 멤버 변수
+	int hp;
+	int attack;
+	int posX;
+	int posY;
+};
+
+void Knight::Move(int x, int y)	// 정의를 안쪽에 바로 해도 됨
+{
+	posX = x;
+	posY = y;
+	cout << "Move" << "\n";
+}
+
+void Knight::Attack()
+{
+	cout << "Attack" << "\n";
+}
+
+
+
+int main()
+{
+	Knight k1;	// Instantiate(설계도를 이용해서 객체를 생성)
+	k1.hp = 100;
+	k1.attack = 10;
+	k1.posX = 0;
+	k1.posY = 0;
+
+	k1.Move(2, 2);
+	k1.Attack();
+	k1.Die();
+
+	Knight k2(k1);
+
+	// 암시적 형 변환 -> 컴파일러가 알아서 바꿔줌
+	int num = 1;
+	float f = num; // 암시적 형 변환
+	float f1 = (float)num; // 명시적 형 변환
+
+	Knight k5;
+	//k5 = 1; // 이건 무슨 의미? -> 타입 변환 생성자가 있기 때문에 정수를 이용해서 초기화 가능.
+	// 이걸 이용해서 함수 매개변수에 Knight 대신에 정수를 넣어서 호출할 수도 있음. 혼돈 가능
+	// 명시적 표시를 해주면 k5 = 1같은 방법은 이제 안됨.
+	k5 = (Knight)1; // 이건 가능함. 명시적이니까
+}
+```
+
