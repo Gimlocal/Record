@@ -279,3 +279,100 @@ int main()
 }
 ```
 
+### 은닉성
+```cpp
+#include <iostream>
+using namespace std;
+
+// 은닉성
+
+// 객체지향
+// - 상속성
+// - 은닉성 = 캡슐화
+// - 다형성
+
+// 은닉성 (Data Hiding) = 캡슐화(Encapsulation)
+// 몰라도 되는 것은 숨기겠다.
+// 왜 숨기냐?
+// 1. 위험하고 건드리면 안되는 경우
+// 2. 다른 경로로 접근하길 원하는 경우
+
+// ex. 자동차
+// - 핸들
+// - 페달
+// - 엔진
+// - 문
+// - 전기선
+
+// 일반 구매자 입장에서 사용하는 것 : 핸들, 페달, 문
+// 몰라도 됨(오히려 건드리면 안됨) : 엔진, 각종 전기선
+
+// public, protected, private : (멤버)접근 지정자
+// public : 모두가 사용 가능
+// protected : 상속받은 친구들까지 사용가능
+// private : 정의한 클래스 내에서만 사용가능
+
+// 상속 접근 지정자 : 자식한테 어떻게 상속을 해줄 지 정해줌
+// - public : 공개적 상속 - 그대로 상속을 다 해줌(private 빼고)
+// - protected : 보호받는 상속 - public을 private로 바꿔줌
+// - private : 개인적인 상속 - public, protected를 private로 바꿈
+
+class Car
+{
+public:
+	// 일반 사용자가 사용
+	void MoveHandle() {}
+	void PushPedal() {}
+	void OpenDoor() {}
+protected:
+	// 일반 사용자가 사용x
+	void DisassembleCar() {}
+	void RunEngine() {}
+	void ConnectCircuit() {}
+public:
+	
+};
+
+class SuperCar : public Car // 상속 접근 지정자
+{
+public:
+	void PushRemoteController()
+	{
+		RunEngine(); // private는 안됨. 그래서 protected로
+	}
+};
+
+
+// 캡슐화 : 연관된 데이터와 함수를 논리적으로 묶은 것.
+class Berserker
+{
+public:
+	int GetHp() { return hp; }
+	int SetHp(int hp)
+	{
+		this->hp = hp;
+		if (hp <= 50) SetBerserkerMode();
+	}
+private:
+	// 사양 : 체력 50이하로 떨어지면 강해짐
+	void SetBerserkerMode()
+	{
+		cout << "Stronger" << "\n";
+	}
+private:
+	// 이 hp를 건드리면 오류가 발생할 수 있음
+	// 그래서 private로
+	int hp = 100;
+};
+
+int main()
+{
+	SuperCar sCar;
+	sCar.PushRemoteController();
+
+	Berserker b;
+	b.SetHp(20); // 자동으로 버서커모드 까지 실행
+	return 0;
+}
+```
+
