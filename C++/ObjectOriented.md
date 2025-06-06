@@ -186,3 +186,96 @@ int main()
 }
 ```
 
+### 상속성
+```cpp
+#include <iostream>
+using namespace std;
+
+// 상속성
+
+// 객체지향
+// - 상속성
+// - 은닉성
+// - 다형성
+
+// 상속(Inheritance)
+// 새 직업을 만드는데 기본적으로 멤버들이 똑같음
+// 그러면 struct를 만들어서(변수들을) 한번에 넣어주는건 어떨까
+// 하지만 이 방법은 함수들을 묶을 수는 없음.
+
+// 그렇기 때문에 공통적인 부분들을 묶어서 가져올 수 있는게 상속.
+// 이후 그 클래스에서만 필요한 것들을 추가해주면 됨.
+
+// 생성자(N)/소멸자(1)
+// 상속을 받으면 어떻게 되나? -> 둘 다 실행됨. 기존 생/소와 상속받은 생/소 둘다
+
+// 상속의 상속도 가능. 계층구조를 잘 짤 수 있음
+// GameObject
+// - Creature
+// -- Player, Monster, Npc, Pet
+// - Projectile
+// -- Arrow, Fireball
+// - Env
+
+
+class Player
+{
+public:
+	Player() { cout << "Player 생성자" << "\n"; }
+	Player(int hp)
+	{
+		this->hp = hp;
+		cout << "Player hp 생성자" << "\n";
+	}
+	~Player() { cout << "Player 소멸자" << "\n"; }
+	void Move() { cout << "Player Move" << "\n"; }
+	void Attack() { cout << "Player Attack" << "\n"; }
+	void Die() { cout << "Player Die" << "\n"; }
+public:
+	int hp;
+	int attack;
+	int defence;
+};
+
+// 상속받은 클래스의 함수를 재정의할 수도 있음.
+// 재정의후, 부모의 함수를 사용하고 싶으면 부모::함수 호출로 가능. 하지만 이 방법은 잘 안씀
+// 자식의 생성자가 호출되기 전 부모의 생성자가 먼저 실행됨. 선처리 영역이 존재함.
+// 소멸자는 그 반대로 호출된 후, 후처리 영역이 존재.
+
+class Knight : public Player
+{
+public:
+	Knight() { cout << "Knight 생성자" << "\n"; }
+	Knight(int stamina) : Player(100) // 이와같이 부모의 선처리 영역을 정해줄 수도 있음.
+	{
+		this->stamina = stamina;
+		cout << "Knight stamina 생성자" << "\n";
+	}
+	~Knight() { cout << "Knight 소멸자" << "\n"; }
+	void Move() { cout << "Knight Move" << "\n"; }
+public:
+	int stamina;
+};
+
+class Mage : public Player
+{
+public:
+	int mp;
+};
+
+int main()
+{
+	Knight k(50);
+	k.hp = 100;	// 상속받은 모든 멤버들을 사용 가능
+	k.attack = 10;
+	k.defence = 5;
+	
+	k.Player::Move();
+	k.Move();
+	k.Attack();
+	k.Die();
+
+	return 0;
+}
+```
+
