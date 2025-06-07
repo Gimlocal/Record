@@ -376,3 +376,118 @@ int main()
 }
 ```
 
+### 다형성
+```cpp
+#include <iostream>
+using namespace std;
+
+// 다형성
+
+// 객체지향
+// - 상속성
+// - 은닉성 = 캡슐화
+// - 다형성
+
+// 다형성(Polymorphism = 겉은 같은데, 기능은 다르게 동작한다.)
+// - 오버로딩(Overloading) = 함수 중복 정의
+// - 오버라이딩(Overriding) = 재정의
+
+// 바인딩(Binding) - 묶는다
+// 컴파일 과정에서 cpp 코드를 기계코드로 해석할 때 어떤 함수를 어떻게 매핑해줄지 결정하는 것
+// - 정적 바인딩(Static Binding) : 컴파일 시점에 결정
+// - 동적 바인딩(Dynamic Binding) : 실행 시점에 결정
+
+// 일반 함수는 정적 바인딩 사용
+// 동적 바인딩을 하고싶다면? -> 가상 함수 (virtual function)
+
+// 그런데 실제 객체가 어떤 타입인지 어떻게 알고 알아서 가상함수를 호출해준걸까?
+//  - 가상 함수 테이블 (vftavble)
+//  .vftable [] 4바이트(32) 8바이트(64)
+// [VMove] [VDie] 
+// 가상 함수를 만들고 메모리를 까보면, Knight의 주소에 가상함수 테이블이 있음
+// 이 가상 함수를 찾아주는것은(vftable 설정) 생성자가 해줌.
+// Player의 생성자가 먼저 호출돼서 가상 함수 테이블을 설정하고
+// 이후 Knight의 생성자가 호출돼서 가상 함수 테이블을 다시 설정해 덮어버림.
+// 이 때문에 Knight의 가상 함수들이 호출이 됨.
+
+// 순수 가상 함수 : 구현은 없고 인터페이스만 전달하는 용도로 사용
+// 추상 클래스 : 순수 가상 함수가 1개 이상 포함되면 추상 클래스로 간주
+// - 직접적으로 객체를 만들 수 없게 됨
+
+
+class Player
+{
+public:
+	Player()
+	{
+		hp = 100;
+	}
+
+	void Move() { cout << "Move Player" << "\n"; } 
+	//void Move(int a) { cout << "Move Player (int)" << "\n"; } // 오버로딩
+	virtual void VMove() { cout << "VMove Player" << "\n"; }
+	virtual void VDie() { cout << "VDie Player" << "\n"; }
+
+	// 순수 가상 함수
+	virtual void VAttack() = 0;
+public:
+	int hp;
+};
+
+class Knight : public Player
+{
+public:
+	Knight()
+	{
+		stamina = 100;
+	}
+
+	void Move() { cout << "Move Knight" << "\n"; } // 오버라이딩
+	// 가상함수는 재정의를 하더라도 가상 함수임.
+	// 그래서 부모에 virtual이 붙어있기 때문에 자식은 안 붙여도 됨.
+	void VMove() { cout << "VMove Knight" << "\n"; }
+	void VDie() { cout << "VDie Knight" << "\n"; }
+	
+	virtual void VAttack()
+	{
+		cout << "VAttack Knight" << "\n";
+	}
+public:
+	int stamina;
+};
+
+class Mage : public Player
+{
+	int mp;
+};
+
+
+// [ [ Player ] ]
+// [   Knight   ]
+void MovePlayer(Player* player) // 정적 바인딩으로 인해 무조건 Player Move 실행
+{
+	player->VMove();
+	player->VDie();
+}
+
+void MoveKnight(Knight* knight)
+{
+	knight->Move();
+}
+
+
+int main()
+{
+	// Player p; // 추상 클래스라서 인스턴스 생성이 안됨
+	//MovePlayer(&p); // 플레이어는 플레이어임
+	//MoveKnight(&p); // 플레이어는 기사? 아님
+
+	Knight k;
+	//MoveKnight(&k); // 기사는 기사임
+	// 일반 함수 Move가 정적 바인딩으로 묶여있기 때문에 Knight를 변수로 넣어줘서
+	// 실행시켰다 한들 Player 클래스의 Move를 실행
+	MovePlayer(&k); // 기사는 플레이어인가? 맞음
+
+}
+```
+
