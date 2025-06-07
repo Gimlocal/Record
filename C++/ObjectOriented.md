@@ -491,3 +491,83 @@ int main()
 }
 ```
 
+### 초기화 리스트
+```cpp
+#include <iostream>
+using namespace std;
+
+// 초기화 리스트
+
+// 멤버 변수 초기화? 다양한 문법이 존재
+
+// 초기화를 왜 해야할까?
+// - 초기화 되지않은 쓰레기 값 때문에 로직이 얽히고 꼬일 수 있음.
+// - 버그 예방
+// - 포인터 등 주소값이 연루되어 있을 경우
+
+// 초기화 방법
+// - 생성자 내에서 초기화
+// - 초기화 리스트
+// - C++11 문법 (변수를 선언하며 바로 초기화)
+
+// 초기화 리스트
+// - 상속 관계에서 원하는 부모 생성자 호출할 때 필요하다
+// - 생성자 내에서 초기화 vs 초기화 리스트
+// -- 일반 변수는 별 차이 없음
+// -- 멤버 타입이 클래스인 경우 차이가 난다
+// -- 정의함과 동시에 초기화가 필요한 경우(참조 타입, const 타입)
+
+class Inventory
+{
+public:
+	Inventory() { cout << "Inventory()" << "\n"; }
+	Inventory(int size) { cout << "Inventory(int size)" << "\n"; }
+	~Inventory() { cout << "~Inventory()" << "\n"; }
+public:
+	int size = 10;
+};
+
+class Player
+{
+public:
+	Player() { cout << "Player()" << "\n"; }
+	~Player() { cout << "~Player()" << "\n"; }
+};
+
+// Is-A (Knight Is-A Player?) 기사는 플레이어다 -> 상속관계
+// Has-A (Knight Has-A Inventory?) 기사는 인벤토리를 가진다 -> 포함관계
+
+class Knight : public Player
+{
+public:
+	Knight() : Player(), hp(50), inventory(20), hpRef(hp), hpConst(100) // 초기화 리스트 방법
+	{ 
+		cout << "Knight()" << "\n";
+		hp = 100; 
+	}
+	~Knight() { cout << "~Knight()" << "\n"; }
+public:
+	int hp; // 쓰레기 값
+	Inventory inventory; // 이렇게 멤버 변수에 클래스가 있으면 선처리 영역에서 간접적으로 Inventory 생성자를 실행해줌
+	// 생성자의 실행 순서는 Player -> Inventory -> Knight 순으로 됨
+	// 하지만 Inventory의 다른 생성자를 호출하고 싶으면?
+	// Knight의 생성자에서 Inventory의 다른 생성자를 호출하면 Inventory의 생성자가 2번 호출됨. (기본 생성자, 내부에서 호출된 생성자)
+	// 호출 순서는 Inventory(기본 생성자 -> 다른 생성자 -> 기본 소멸자 -> 다른 생성자의 소멸자) : 새로운 Inventory가 만들어져 기존의 Inventory를 없앤느낌
+	// 그래서 Knight의 선처리 영역에서 다른 생성자를 호출해줘야함
+	// 이를 초기화 리스트를 사용해서 생성자를 호출함.
+
+	int& hpRef;
+	const int hpConst;
+	// 위 두개의 변수는 정의한 순간에 값을 가져야함.
+	// 생성자 내부에서 바꾸는게 불가능. 즉 선처리 영역에서 값을 넣어줘야함 (초기화 리스트)
+	// 물론 C++11 문법의 정의와 동시에 값을 넣는 방법도 됨.
+};
+
+int main()
+{
+	Knight k;
+
+	cout << k.hp << "\n";
+}
+```
+
