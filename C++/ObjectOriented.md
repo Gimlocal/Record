@@ -571,3 +571,135 @@ int main()
 }
 ```
 
+### 연산자 오버로딩
+```cpp
+#include <iostream>
+using namespace std;
+
+// 연산자 오버로딩(Operator Overloading)
+
+// 연산자 vs 함수
+// 연산자는 피연산자의 개수/타입이 고정되어있음.
+
+// 말 그대로 연산에 사용되는 기호들을 오버로딩 하는 것
+// 일단 연산자 함수를 정의해야 함.
+// 함수도 멤버함수, 전역함수가 존재하는것처럼 연산자 함수도 두 가지 방식이 있음.
+
+// - 멤버 연산자 함수 version
+// -- a op b 형태로 왼쪽을 기준으로 실행됨 (a가 클래스여야 가능. a를 기준 피연산자라고 함.)
+// -- 한계) a가 클래스가 아니면 안됨. 즉 a + 1은 되지만 1 + a는 안됨.
+
+// - 전역 연산자 함수 version
+// -- a op b 형태라면 a, b모두를 연산자 함수의 피연산자로 만들어준다.
+
+// 그럼 무엇이 더 좋나? -> 왕도는 없음. 둘 중 하나가 필요한 경우도 있음
+// - 대표적으로 대입 연산자 (a = b)는 전역 연산자 함수로는 불가능
+
+// 복사 대입 연산자 
+// 자기 자신의 참조 타입을 인자로 받는 것.
+// 특별히 별개로 있는 이유는 말 그대로 객체가 복사되길 원하는 특징 때문
+
+// 기타
+// - 모든 연산자를 다 오버로딩 할 수 있는 것은 아님(:: . .* 이런건 안됨)
+// - 모든 연산자가 다 2개의 항을 갖지는 않음. 단항 연산자도 있음
+// - 증감 연산자++
+// -- 전위형 (++a) operator++()
+// -- 후위형 (a++) operator++(int)
+
+class Position
+{
+public:
+
+	// 함수 : 리턴타입 이름(매개변수)
+	Position operator+(const Position& pos1)
+	{
+		Position pos;
+		pos.x = x + pos1.x;
+		pos.y = y + pos1.y;
+		return pos;
+	}
+
+	Position operator+(int arg)
+	{
+		Position pos;
+		pos.x = x + arg;
+		pos.y = y + arg;
+		return pos;
+	}
+
+	bool operator==(const Position& pos)
+	{
+		if (x == pos.x && y == pos.y) return true;
+		return false;
+	}
+
+	Position& operator=(int arg) // 보통 연산자들은 자기자신을 반환하도록 함.
+	{
+		x = arg;
+		y = arg;
+		return *this;
+	}
+
+	Position& operator=(const Position& arg) // 복사 대입 연산자
+	{
+		x = arg.x;
+		y = arg.y;
+		return *this;
+	}
+
+	Position& operator++()
+	{
+		x++; y++;
+		return *this;
+	}
+
+	Position operator++(int)
+	{
+		Position ret = *this;
+		x++; y++;
+		return ret;
+	}
+public:
+	int x = 0;
+	int y = 0;
+};
+
+Position operator+(int a, const Position& b)
+{
+	Position pos;
+	pos.x = b.x + a;
+	pos.y = b.y + a;
+
+	return pos;
+}
+
+//void operator=(const Position& a, int b) // 대입 연산자는 코드의 흐름이 위험해질 수 있어서 멤버 변수로만 가능하게 막아둠.
+//{
+//	
+//}
+
+int main()
+{
+	Position pos;
+
+	pos.x = 0;
+	pos.y = 0;
+
+	Position pos2;
+	pos2.x = 1;
+	pos2.y = 1;
+
+	Position pos3 = pos + pos2; // 이러한 연산을 하는 연산자가 없음
+	Position pos4 = 1 + pos3;
+
+	bool isSame = (pos3 == pos4);
+
+	Position pos5;
+	pos3 = pos5 = 5;
+	pos3++; ++pos3;
+
+	pos5 = pos3++; // = 연산자와 ++연산자의 타입이 같아야함.
+	// 하지만 const Position& = Position 복사값 이렇게 const를 넣으면 복사값도 들어가짐.
+}
+```
+
