@@ -703,3 +703,80 @@ int main()
 }
 ```
 
+### 객체 지향 마무리
+```cpp
+#include <iostream>
+using namespace std;
+
+// 객체지향 마무리
+
+// 1. struct vs class
+// C++ 내에서는 struct나 class나 큰 차이가 없다.
+// 차이가 있다면, 접근 지정자의 유무에 따른 차이점
+// 접근 지정자가 없으면 struct는 public, class는 private
+// 왜 이럴까?
+// C++은 C언어에서 파생되어 발전했기 때문에, 호환성을 지키기 위함.
+// struct는 일반적으로 그냥 구조체 (데이터 묶음)를 표현하는 용도
+// class는 객체 지향 프로그래밍의 특징을 나타내는 용도로 보통 씀
+
+// 2. static 변수, static 함수 (static = 정적 = 고정된)
+
+class Marine
+{
+public:
+	void TakeDamage(int damage) // 한 개체에게만 실행 가능
+	{
+		hp -= damage;
+	}
+	static void SetAttack() // 모든 Marine에게 적용 가능
+	{
+		// hp = 100; 그래서 이런 한 개체의 hp를 건드는 것은 불가능 (hp는 한 객체에 종속적이니까)
+		attack = 11;
+	}
+public:
+	int hp; // 얘는 실시간으로 바뀔 수 있지만(종속적)
+	static int attack; // 얘는 항상 고정 혹은 다 같이 올라감(클래스 자체와 연관됨, 메모리에 한개만 생김)
+};
+
+// static 변수는 어떤 메모리?
+// 초기화 하면 .data 안 하면 .bss
+int Marine::attack = 0; // 외부 선언하면 누구나 다 접근할 수 있게됨.
+
+class Player
+{
+public:
+	int id;
+};
+
+int GenerateId()
+{
+	// 생명주기 : 프로그램 시작/종료 (메모리에 항상 올라가 있음)
+	// 가시범위 : 함수 내부
+
+	// 정적 지역 객체
+	static int s_id = 1;
+	return s_id++;
+}
+
+int main()
+{
+	Marine m1;
+	m1.hp = 40;
+
+	Marine m2;
+	m2.hp = 40;
+
+	Marine::attack = 10; // 이렇게 할 수 있음
+
+	// 공격력을 올려야 하면? -> 모든 마린의 공격력을 하나하나 올려야 하나?
+	// 즉 모든 마린의 공격력을 똑같이 설정하고 싶음 -> static 문법
+
+	static int id = 10; // 함수 내부에 만들어도 스택이 아니라 데이터 영역에 들어감
+
+	cout << GenerateId() << "\n";
+	cout << GenerateId() << "\n";
+	cout << GenerateId() << "\n";
+	cout << GenerateId() << "\n";
+	cout << GenerateId() << "\n";
+}
+```
