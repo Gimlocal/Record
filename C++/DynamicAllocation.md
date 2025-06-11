@@ -286,3 +286,85 @@ int main()
 }
 ```
 
+### 타입 변환 (포인터)
+```cpp
+#include <iostream>
+using namespace std;
+
+// 타입 변환 (포인터)
+
+class Item
+{
+public:
+	Item()
+	{
+		cout << "Item()" << "\n";
+	}
+
+	Item(const Item& item)
+	{
+		cout << "Item(const item&)" << "\n";
+	}
+
+	~Item()
+	{
+		cout << "~Item()" << "\n";
+	}
+public:
+	int itemType;
+	int itemDbId;
+
+	char dummy[4096] = {}; // 이런저런 정보들로 인해 비대해진 정보 배열
+};
+
+void TestItem(Item item)
+{
+
+}
+
+void TestItemPtr(Item* item)
+{
+
+}
+
+int main()
+{
+	// 복습
+	{
+		// Stack 메모리에 올라감 [ type(4) dbid(4) dummy(4096) ]
+		Item item; // 이 친구는 소멸자를 호출함
+
+		// Stack [ 주소(4~8) ] -> Heap [ type(4) dbid(4) dummy(4096) ]
+		Item* item2 = new Item(); // 소멸자를 호출 안함
+
+		TestItem(item);
+		TestItem(*item2); // 이렇게 복사 생성자를 하면 사이즈가 큰 놈이 마구 생성되기 때문에 조심해야함.
+		
+		TestItemPtr(&item);
+		TestItemPtr(item2);
+
+
+		delete item2; // new / delete 안하면 메모리 누수 일어남 (Memory Leak) -> 가용 메모리가 점점 줄어듬
+	}
+
+	// 배열
+	{
+		cout << "---------------------------------\n";
+
+		Item item3[100] = {}; // 진짜 아이템이 100개 있는 것 (100개)
+
+		cout << "---------------------------------\n";
+
+		Item* item4[100] = {}; // 아이템을 가리키는 바구니가 100개 (아이템이 없을 수 있음)
+
+		for (int i = 0; i < 100; i++)
+			item4[i] = new Item(); // 아이템 넣어주기
+
+		for (int i = 0; i < 100; i++)
+			delete item4[i];
+
+		cout << "---------------------------------\n";
+	}
+}
+```
+
