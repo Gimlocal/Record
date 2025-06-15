@@ -293,6 +293,11 @@ using namespace std;
 
 // 타입 변환 (포인터)
 
+class Knight
+{
+	int hp = 0;
+};
+
 class Item
 {
 public:
@@ -301,12 +306,17 @@ public:
 		cout << "Item()" << "\n";
 	}
 
+	Item(int itemType) : itemType(itemType)
+	{
+		cout << "Item(int itemType)" << "\n";
+	}
+
 	Item(const Item& item)
 	{
 		cout << "Item(const item&)" << "\n";
 	}
 
-	~Item()
+	virtual ~Item()
 	{
 		cout << "~Item()" << "\n";
 	}
@@ -315,6 +325,37 @@ public:
 	int itemDbId;
 
 	char dummy[4096] = {}; // 이런저런 정보들로 인해 비대해진 정보 배열
+};
+
+enum ItemType
+{
+	WEAPON = 1,
+	ARMOR = 2,
+};
+
+class Weapon : public Item
+{
+public:
+	Weapon() : Item(WEAPON)
+	{
+		cout << "Weapon()\n"; 
+		damage = rand() % 100;
+	}
+	~Weapon() { cout << "~Weapon()\n"; }
+public:
+	int damage = 1;
+};
+
+class Armor : public Item
+{
+public:
+	Armor() : Item(ARMOR)
+	{ 
+		cout << "Armor()\n"; 
+	}
+	~Armor() { cout << "~Armor()\n"; }
+public:
+	int defence = 1;
 };
 
 void TestItem(Item item)
@@ -339,7 +380,7 @@ int main()
 
 		TestItem(item);
 		TestItem(*item2); // 이렇게 복사 생성자를 하면 사이즈가 큰 놈이 마구 생성되기 때문에 조심해야함.
-		
+
 		TestItemPtr(&item);
 		TestItemPtr(item2);
 
@@ -365,6 +406,111 @@ int main()
 
 		cout << "---------------------------------\n";
 	}
+
+
+	// 연관성이 없는 클래스 사이의 포인터 변환 테스트
+	{
+		// Stack [ 주소 ] -> Heap [ hp(4) ]
+		// 4바이트만 차지하고 있음
+		Knight* knight = new Knight;
+		// Stack [ 주소 ]
+		// Item의 크기는 엄청큰데 knight로 item을 만들었기 때문에 첫번째 변수인 itemType (4바이트)는 문제없이 변환가능하지만
+		// 그 다음부터는 문제가 발생함. 문제가 일어나는 지도 모르고 메모리가 오염됨
+		Item* item = (Item*)knight; // 암시적으로는 안되지만 명시적으로는 안됨
+		//item->itemType = 2;
+		//item->itemDbId = 1; 메모리 오염 가능
+
+		delete knight; // 이 부분이서 컴파일러가 잡아주긴 함
+		// 타입변환을 잘 해야함 
+	}
+
+	// 자식 -> 부모 변환 테스트
+	{
+		Weapon* weapon = new Weapon();
+
+		Item* item = weapon; // 무기라면 무조건 아이템이기 때문에 안전해서 암시적으로도 가능
+
+		delete weapon;
+	}
+
+	// 부모 -> 자식 변환 테스트
+	{
+		Item* item = new Item();
+
+		Weapon* weapon = (Weapon*)item; // 아이템은 무기라는 보장이 없음
+		// 즉 메모리가 작은거에서 큰거로 가는것이기 때문에 그냥은 막힘
+		// 물론 명시적으로는 가능함. 하지만 잘못된 메모리를 건들 수 있음
+
+		delete item;
+	}
+
+	// 명시적으로 타입 변환할 때는 항상 조심해야 한다.
+	// 그러면 암시적으로 될 때는 안전한가?
+	// -> 평생 명시적으로 타입 변환은 안 하면 되는거 아닌가?
+	
+	Item* inventory[20] = {};
+	srand((unsigned int)time(nullptr));
+	for (int i = 0; i < 20; i++)
+	{
+		int randValue = rand() % 2; // 0-1
+		switch (randValue)
+		{
+		case 0:
+			inventory[i] = new Weapon;
+			break;
+		case 1:
+			inventory[i] = new Armor();
+			break;
+		}
+	}
+
+	for (int i = 0; i < 20; i++)
+	{
+		Item* item = inventory[i];
+		if (item == nullptr)
+			continue;
+		if (item->itemType == WEAPON)
+		{
+			Weapon* weapon = (Weapon*)item; // 원래 weapon이었기 때문에 이런 변환이 괜찮긴함
+			cout << "Weapon Damage : " << weapon->damage << "\n";
+		}
+	}
+
+	// 결국 타입 변환 시에는 항상 조심해야함.
+
+	// *******매우 중요********
+	for (int i = 0; i < 20; i++)
+	{
+		Item* item = inventory[i];
+		if (item == nullptr)
+			continue;
+
+		// delete item; // 이렇게 하면 어떻게 되나
+		// item의 소멸자만 호출이됨.
+		// 하지만 inventory에는 Weapon과 Armor이 있기 때문에 이것들의 소멸자가 호출되어야함
+		// 그렇기 때문에 아래와 같이 잘 delete해주는게 올바름
+		//if (item->itemType == WEAPON)
+		//{
+		//	Weapon* weapon = (Weapon*)item;
+		//	delete weapon;
+		//}
+		//else if (item->itemType == ARMOR)
+		//{
+		//	Armor* armor = (Armor*)item;
+		//	delete armor;
+		//}
+
+		// 그런데 왜 각각의 소멸자가 알아서 잘 호출되지 않나?
+		// 그냥 부른 변수가 Item이기 때문에. 이걸 위해서 이전에 virtual 함수를 써서 동적으로 변경하기도 했음
+		// 소멸자도 똑같이 적용하게됨. 그렇기 때문에 최상위 클래스의 소멸자에는 virtual을 붙이는 편임
+		// 그래서 이제는 그냥 item을 delete해도됨
+		delete item;
+	}
+
+	// 결론
+	// - 포인터 vs 일반 타입 : 차이를 이해해야함
+	// - 포인터 사이의 타입 변환(캐스팅)을 할 때는 매우 조심해야 한다.
+	// - 부모자식 관계에서 부모 클래스의 소멸자에는 까먹지 말고 virtual을 붙이자! (중요)
 }
 ```
 
