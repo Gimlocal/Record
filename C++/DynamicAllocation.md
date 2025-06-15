@@ -514,3 +514,120 @@ int main()
 }
 ```
 
+### 얕은 복사 vs 깊은 복사
+```cpp
+#include <iostream>
+using namespace std;
+
+// 얕은 복사 vs 깊은 복사
+
+class Pet
+{
+public:
+	Pet()
+	{
+		cout << "Pet()\n";
+	}
+	~Pet()
+	{
+		cout << "~Pet()\n";
+	}
+	Pet(const Pet& pet)
+	{
+		cout << "Pet(const Pet&)\n";
+	}
+};
+
+class Knight
+{
+public:
+	Knight()
+	{
+		pet = new Pet();
+	}
+	Knight(const Knight& knight)
+	{
+		hp = knight.hp;
+		//pet = knight.pet; // 이 형식은 얕은 복사
+		pet = new Pet(*knight.pet); // 이렇게 깊은 복사로 별개의 pet을 만들어줘야함 (깊은 복사)
+	}
+	Knight& operator=(const Knight& knight) 
+	{
+		hp = knight.hp;
+		pet = new Pet(*knight.pet); // 마찬가지로 깊은 복사
+		return *this;
+	}
+	~Knight()
+	{
+		delete pet;
+	}
+public:
+	int hp = 100;
+	Pet* pet;
+};
+
+int main()
+{
+	Pet* pet = new Pet();
+	Knight knight; // 기본 생성자
+	knight.hp = 200;
+	knight.pet = pet; // 이렇게 하면 knight를 복사했을 때 모두 같은 Pet을 공유하게 됨
+
+
+	Knight k2 = knight; // 복사 생성자
+	Knight k3(knight); 
+	Knight k4; // 기본 생성자
+	k4 = knight; // 이후 복사 대입 연산자
+
+	// 복사 생성자, 복사 대입 연산자
+	// 둘 다 안 만들어주면 컴파일러가 암시적으로 만들어줌
+
+	// 중간 결론 -> 컴파일러가 잘 만들어준다? 굳이 뭘 해야하나?
+
+
+	// ---얕은 복사(Shallow Copy)---
+	// 멤버 데이터를 비트열 단위로 똑같이 복사 (메모리 영역 값을 그대로 복사)
+	// Stack : Knight1 [ hp, 0x1000(pet) ] -> Heap 0x1000 Pet [ ] 
+	// Stack : Knight2 [ hp, 0x1000(pet) ] -> Heap 0x1000 Pet [ ] 
+	// Pet이 동일한 객체를 가리키게 됨.
+	
+	// 하지만 Knight의 생성자에 Pet을 만들고, 소멸자에 delete하는 코드를 추가하면 프로그램이 망가짐
+	// Knight2~4가 소멸이 되면서 pet을 소멸시키는데, 모두 같은 pet을 가리키고 있으니까 같은 pet을 4번 소멸하는 오류가 발생하기 때문
+
+	// 결국 문제는 얕은 복사를 했다는 것.
+	// 우리가 원하는건 깊은 복사임
+	
+
+	// ---깊은 복사(Deep Copy)---
+	// 멤버 데이터가 참조(주소) 값이라면, 데이터를 새로 만들어준다. (원본 객체가 참조하는 대상까지 새로 만들어서 복사)
+	// 포인터는 주소값 바구니 -> 새로운 객체를 생성 -> 상이한 객체를 가리키는 상태가 됨.
+	// Stack : Knight1 [ hp, 0x1000(pet) ] -> Heap 0x1000 Pet [ ] 
+	// Stack : Knight2 [ hp, 0x2000(pet) ] -> Heap 0x2000 Pet [ ] 
+	// Stack : Knight3 [ hp, 0x3000(pet) ] -> Heap 0x3000 Pet [ ] 
+	// 위와같이 해주는 것
+
+	// 실험
+	// - 암시적 복사 생성자 Steps
+	// -- 1. 부모 클래스의 복사 생성자 호출
+	// -- 2. 멤버 클래스의 복사 생성자 호출
+	// -- 3. 멤버가 기본 타입일 경우 메모리 복사 (얕은 복사)
+	// - 명시적 복사 생성자 Steps
+	// -- 1. 부모 클래스의 기본 생성자 호출
+	// -- 2. 멤버 클래스의 기본 생성자 호출
+	// -- 이렇게 때문에 부모나 멤버 클래스의 복사 생성자는 따로 초기화 리스트 방법으로 해줘야함
+
+	// - 암시적 복사 대입 연산자 Steps
+	// -- 1. 부모 클래스의 복사 대입 연산자 호출
+	// -- 2. 멤버 클래스의 복사 대입 연산자 호출
+	// -- 3. 멤버가 기본 타입일 경우 메모리 복사 (얕은 복사)
+	// - 명시적 복사 대입 연산자 Steps
+	// -- 알아서 해주는거 없음
+	// -- 이 부분도 연산자 오버로딩 시 함수 내에 pet이나 Player의 복사 대입 연산자에 대한 코드의 추가가 필요함
+
+	// 왜 이렇게 복잡하게 되어있을까?
+	// 객체를 복사한다는 것은 두 객체의 값들을 일치시키려는 것
+	// 따라서 기본적으로 얕은 복사 방식으로 동작
+	// 명시적 복사가 들어가는 순간 모든 책임은 프로그래머가 안음
+}
+```
+
