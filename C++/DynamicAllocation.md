@@ -631,3 +631,83 @@ int main()
 }
 ```
 
+### 캐스팅 4가지
+```cpp
+#include <iostream>
+using namespace std;
+
+// 캐스팅 4가지
+
+// 1. static_cast
+// 2. dynamic_cast
+// 3. const_cast
+// 4. reinterpret_cast
+
+class Player
+{
+public:
+	virtual ~Player() {}
+};
+
+class Knight : public Player
+{
+
+};
+
+class Archer : public Player
+{
+
+};
+
+class Dog
+{
+
+};
+
+void PrintName(char* str)
+{
+	cout << str << "\n";
+}
+
+
+int main()
+{
+	// static_cast : 타입 원칙에 비춰볼 때 상식적인 캐스팅만 허용
+	// 1. int <-> float 
+	// 2. Player* -> Knight* (다운캐스팅) << 단 안정성은 보장 못함
+
+	int hp = 100;
+	int maxHp = 200;
+	float ratio = static_cast<float>(hp) / maxHp; // 0.5가 아닌 0이 나옴. 그래서 캐스팅
+
+	Player* p = new Archer();
+	Knight* k = static_cast<Knight*>(p); // 위험한 코드임. Player를 Archer로 만들었으면? 메모리가 잘못될 수 있음
+
+
+	// dynamic_cast : 상속 관계에서의 안전한 형변환
+	// RTTI (RunTIme Type Information)
+	// 다형성을 활용하는 방식
+	// virtual 함수를 하나라도 만들면, 객체의 메모리에 가상 함수 테이블 주소가 기입된다.
+	// 만약 잘못된 타입으로 캐스팅을 했으면, nullptr을 반환
+	Knight* k2 = dynamic_cast<Knight*>(p); // 현재 p를 Archer로 만들었으므로, Knight로 변환이 안됨. 그래서 nullptr로 반환
+
+	// 맞는 타입으로 캐스팅을 했는지 확인을 하는데 유용하다.
+	// 하지만 이런 과정때문에 static_cast보다는 살짝 느리다
+
+
+	// const_cast : const를 붙이거나 떼거나 할 때 사용
+	PrintName(const_cast<char*>("asd")); // "asd"는 const 변수이기 때문에 매개변수로 못 들어감. 이때 const_cast를 붙임
+
+
+	// reinterpret_cast
+	// 가장 위험하고 강력한 형태의 캐스팅
+	// : 포인터랑 전혀 관계없는 다른 타입 변환 등
+
+	__int64 address = reinterpret_cast<__int64>(k2);
+
+	Dog* dog = reinterpret_cast<Dog*>(k2);
+
+	void* ptr = malloc(1000);
+	Dog* d2 = reinterpret_cast<Dog*>(ptr);
+}
+```
