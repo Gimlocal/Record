@@ -162,3 +162,100 @@ int main()
 }
 ```
 
+### 함수 객체
+```cpp
+#include <iostream>
+using namespace std;
+
+// 함수 객체
+
+void HelloWorld()
+{
+	cout << "HelloWorld\n";
+}
+
+void HelloNumber(int number)
+{
+	cout << "Hello Number " << number << "\n";
+}
+
+class Knight
+{
+public:
+	void AddHp(int addHp)
+	{
+		hp += addHp;
+	}
+private:
+	int hp = 100;
+};
+
+class Functor
+{
+public:
+	void operator()()
+	{
+		cout << "Functor Test\n";
+		cout << val << "\n";
+	}
+
+	bool operator()(int num)
+	{
+		cout << "Functor Test\n";
+		val += num;
+		cout << val << "\n";
+		return true;
+	}
+private:
+	int val = 0;
+};
+
+class MoveTask
+{
+public:
+	void operator()()
+	{
+		cout << "Player Move\n";
+	}
+public:
+	int playerId;
+	int posX;
+	int posY;
+};
+
+int main()
+{
+	// 함수 객체 (Functor) : 함수처럼 동작하는 객체
+	
+
+	// 함수 포인터 선언
+	// 동작을 넘겨줄 때도 유용
+	void (*pfunc)(void);
+	pfunc = &HelloWorld;
+
+	(*pfunc)();
+
+
+	// 함수 포인터의 단점
+	// 동일한 시그니쳐를 들고있어야만 사용가능(매개변수, 타입)
+	//pfunc = &HelloNumber;
+
+
+	// 함수처럼 동작하는 객체
+	// () 연산자 오버로딩
+	Functor functor;
+	functor();
+	bool ret = functor(3);
+
+	// mmo에서 함수 객체를 사용하는 예시
+	// 클라이언트 <-> 서버
+	// 서버 : 클라이언트가 보내준 네트워크 패킷을 받아서 처리
+	// ex. 클라가 좌표이동시켜줘 (5, 0)로
+	MoveTask task;
+	task.playerId = 100;
+	task.posX = 5;
+	task.posY = 0;
+	// 나중에 여유 될 때 일감 실행
+	task();
+}
+```
