@@ -1,4 +1,4 @@
-### 함수 포인터
+### 함수 포인터1
 ```cpp
 #include <iostream>
 using namespace std;
@@ -85,3 +85,80 @@ int main()
 	return 0;
 }
 ```
+
+### 함수 포인터 2
+```cpp
+#include <iostream>
+using namespace std;
+
+// 함수 포인터
+
+// typedef 왼쪽 오른값 -> 오른쪽 (커스텀 타입 정의)
+typedef int NUMBER;
+
+// 정확히는 왼쪽/오른쪽 기준이 아니라.
+// [선언 문법]에서 typedef를 앞에다 붙이는 느낌
+
+int number7;
+typedef int number;
+
+typedef int FUNC();
+
+typedef int (*PFUNC)(int, int); // 일반 함수 포인터
+
+class Knight
+{
+public:
+	static void HelloKnight()
+	{
+
+	}
+
+	int GetHp(int, int)
+	{
+		cout << "GetHp()\n";
+		return hp;
+	}
+public:
+	int hp = 100;
+};
+
+typedef int(Knight::*PMEMFUNC)(int, int); // 멤버 함수 포인터
+
+int Test(int , int)
+{
+	cout << "Test\n";
+	return 0;
+}
+
+
+
+int main()
+{
+	PFUNC fn1;
+	fn1 = &Test;
+
+	typedef int(FUNC_TYPE)(int, int);
+	FUNC_TYPE* fn = &Test;
+	fn(1, 1);
+
+	// 위 문법으로 만들면 전역 함수 / 정적 함수 만 담을 수 있음. (규약이 동일한 함수들)
+	//fn = &Knight::GetHp; 이건 안됨
+
+	Test(1, 2);
+	
+	PMEMFUNC mfn;
+	mfn = &Knight::GetHp; // 멤버 함수는 &를 붙여줘야함.
+
+	Knight k1;
+	(k1.*mfn)(1, 1);
+
+	Knight* k2 = new Knight();
+	(k2->*mfn)(1, 1);
+
+	delete k2;
+
+	return 0;
+}
+```
+
