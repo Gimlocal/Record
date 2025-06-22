@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-// 템플릿 기초
+// 함수 템플릿
 
 //void Print(int a)
 //{
