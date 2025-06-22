@@ -145,3 +145,79 @@ int main()
 }
 ```
 
+### 콜백 함수
+```cpp
+#include <iostream>
+using namespace std;
+
+// 콜백 (Callback)
+
+class Item
+{
+public:
+
+public:
+	int itmeId = 0;
+	int rarity = 0;
+	int ownerId;
+};
+
+class FindByOwnerId
+{
+public:
+	bool operator()(const Item* item)
+	{
+		return (item->ownerId == ownerId);
+	}
+public:
+	int ownerId;
+};
+
+class FindByRarity
+{
+public:
+	bool operator()(const Item* item)
+	{
+		return (item->rarity == rarity);
+	}
+public:
+	int rarity;
+};
+
+template<typename T>
+Item* FindItem(Item items[], int itemCount, T selector)
+{
+	for (int i = 0; i < itemCount; i++)
+	{
+		Item* item = &items[i];
+		if (selector(item))
+			return item;
+	}
+	return nullptr;
+}
+
+int main()
+{
+	// 함수 포인터 + 함수 객체 + 템플릿
+	// 콜백 : 다시 호출하다
+
+	// 게임을 만들 때 이런 콜백의 개념이 자주 등장한다.
+	// ex. MoveTask 등
+
+	// 어떤 상황이 일어나면 -> 이 기능을 호출해줘.
+	// ex. 어떤 UI 스킬 버튼을 누르면 -> 스킬을 쓰는 함수를 호출
+
+	Item items[10];
+	items[3].ownerId = 100;
+	items[8].rarity = 1;
+
+	FindByOwnerId func1;
+	func1.ownerId = 100;
+
+	FindByRarity func2;
+	func2.rarity = 1;
+
+	Item* item1 = FindItem(items, 10, func1);
+	Item* item2 = FindItem(items, 10, func2);
+}
+```
