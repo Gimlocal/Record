@@ -1,6 +1,7 @@
-STL : Standard Template Library
+ STL : Standard Template Library    
+ 프로그래밍할 때 필요한 자료구조/알고리즘을 템플릿으로 제공하는 라이브러리    
 
-### 벡터(Vector)
+### 벡터(vector) : 기초
 ```cpp
 #include <iostream>
 #include <vector>
@@ -10,18 +11,6 @@ using namespace std;
 
 int main()
 {
-	// STL (Standard Template Library)
-	// 프로그래밍할 때 필요한 자료구조/알고리즘을
-	// 템플릿으로 제공하는 라이브러리
-
-	// 컨테이너 (Container) : 데이터를 저장하는 객체 (자료구조 : Data Structure)
-
-	// vector (동적 배열)
-	// - vector의 동작 운리 (size/capacity)
-	// - 중간 삽입 / 삭제
-	// - 처음 / 끝 삽입 / 삭제
-	// - 임의 접근
-
 	// 배열
 	//const int MAX_SIZE = 10;
 	//int arr[MAX_SIZE] = {}; // 배열을 만드는순간 크기가 고정됨. 유동적으로 변경 x
@@ -73,6 +62,63 @@ int main()
 
 	vector<int> v2(1000, 0); // 정의할 때 size와 초기값들을 지정해줄 수 있음.
 	vector<int> v3 = v2; // 복사도 가능함.
+
+
+	return 0;
+}
+```
+
+### 벡터(vector) : 반복자(iterator)
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// vector
+
+int main()
+{
+	// 반복자(iterator) : 포인터와 유사한 개념. 컨테이너의 원소(데이터)를 가리키고, 다음/이전 원소로 이동 가능
+	vector<int> v(10);
+	for (vector<int>::size_type i = 0; i < v.size(); i++)
+		v[i] = i;
+
+	vector<int>::iterator it;
+	int* ptr;
+	
+	it = v.begin();	// 이런식으로 넣어줌
+	ptr = &v[0];
+
+	cout << (*it) << "\n";
+	cout << (*ptr) << "\n";
+
+	ptr++; // 진짜 1이 아니라 타입에 따라 달라짐
+	// iterator도 마찬가지
+	it++; // 현재 데이터의 다음 데이터를 가리킴
+
+	vector<int>::iterator itBegin = v.begin(); // 이건 첫번째 원소를 가리킴
+	vector<int>::iterator itEnd = v.end(); // 하지만 이건 마지막 원소가 아닌 그 다음에있는 쓰레기값을 가리킴. 그래서 보통 끝을 판별할 때 사용함
+
+	// iterator을 이용한 for문
+	// ++it 와 it++의 차이 -> f12를 타고가서 보면 it++할때는 자신을 복사해서 ++하고 그걸 반환함. 메모리를 살짝 줄일 수 있음.
+	for (vector<int>::iterator it = v.begin(); it != v.end(); ++it)
+	{
+		cout << *it << "\n";
+	}
+
+	// int* ptrBegin = &v[0]; // v.begin._Ptr;
+	// int* ptrEnd = ptrBegin + 10; // v.end._Ptr;
+	// for (int* ptr = ptrBegin;ptr != ptrEnd;++ptr) 
+	// 포인터로도 만들 수 있음.
+
+	// 그래서 iterator를 왜 쓰는가?
+	// iterator는 vector뿐 아니라 다른 컨테이너에도 공통적으로 있는 개념.
+	// 다른 자료구조에도 적용시켜서 통일성있게 가능함.
+	// readonly인 iterator (const_iterator)도 있음
+	
+	// 역방향 반복자도 있음
+	vector<int>::reverse_iterator rit = v.rbegin();
+	// v.rend()
 
 
 	return 0;
