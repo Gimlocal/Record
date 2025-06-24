@@ -124,3 +124,56 @@ int main()
 	return 0;
 }
 ```
+
+### 벡터(vector) : 데이터 추가, 삭제, 접근
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+	vector<int> v(10);
+	v.reserve(1000);
+	for (int i = 0; i < 10; i++)
+		v[i] = i;
+
+	int* ptrBegin = &v[0];
+
+	// 1. 중간 삽입 / 삭제
+	// 2. 처음 / 끝 삽입 / 삭제
+	// 3. 임의 접근
+
+	// vector = 동적 배열 = 동적으로 커지는 배열
+	// 원소가 하나의 메모리 블록에 연속하게 저장된다.
+
+	// 삽입하려고 하면?
+	// 삽입하려는 위치 뒤쪽으로 한 칸 다 밀어야됨.
+	// 삭제또한 마찬가지 삭제 위치 뒤쪽 데이터를 한칸씩 다 당겨야함.
+
+	// 1, 2번 중 그나마 끝에 삽입/삭제 하는 것만 깔끔함.
+	// 그렇기 때문에 push_back, pop_back 함수를 제공함.
+	// 
+	// 그럼에도 특정 위치의 데이터를 변경하려면?
+	vector<int>::iterator it1 = v.insert(v.begin() + 2, 5); // 3번째 위치에 5를 넣는다.
+	vector<int>::iterator it2 = v.erase(v.begin() + 2); // 3번째 위치의 값 삭제
+	vector<int>::iterator it3 = v.erase(v.begin() + 2, v.begin() + 4); // 특정 범위 삭제
+
+	// 벡터를 순회하면서 특정 값을 전부 삭제하고 싶다면?
+	for (vector<int>::iterator it = v.begin(); it != v.end();)
+	{
+		int data = *it;
+		if (data == 3)
+			//v.erase(it); // 이렇게 하면 it의 정보들이 다 날아감. 그리고 다음 과정인 ++it에서 오류가 남.
+			it = v.erase(it); // 그래서 그 정보들을 다시 it에 넣어줘야함.
+		// 하지만 이렇게 하면 erase하면서 앞으로 땡겨져온 데이터 하나를 체크안하고 넘어감.
+		// 그래서 ++it을 위에서 해주면 안되고 따로 조건문에 넣어줘야함
+		else ++it;
+	}
+
+	// 임의 접근
+	// i번째 데이터 -> v[i]로 접근함
+
+	
+
+```
