@@ -177,3 +177,95 @@ int main()
 	
 
 ```
+
+### 리스트(List)
+```cpp
+#include <iostream>
+#include <list>
+using namespace std;
+
+// List
+
+// vector : 동적 배열
+// [      ] 자리가 부족하면 capacity늘림 1.5배로 그리고 데이터 이전
+
+
+// list : 연결 리스트
+// 단일 / 이중 / 원형
+
+// [1] [2] [3] [4] [5] 값 저장은 비슷함.
+// 하지만 이 데이터들이 연속된 공간에 저장되는건 아님.
+// 즉 다음 데이터를 가리키는 포인터 형식의 데이터가 있고 이 데이터를 통해서 다음 값으로 넘어감
+
+class Node // 이런 느낌의 데이터가 저장됨. 값이 data고 다음 값을 가리키는 포인터가 next임
+{
+public:
+	Node* next; // 이 부분에 Node로 만들면 정의가 안됨. 포인터(주소값)이라서 괜찮
+	Node* prev;
+	int data;
+};
+// 그리고 list는 이 Node들의 모임.
+
+// 이때 단방향으로만 연결되어있으면 단일 연결 리스트
+// 양방향으로 연결되면 이중 연결 리스트. -> 이게 list 형태
+// 처음과 끝이 이어져있으면 원형 리스트.
+
+
+// [1] <-> [2] <-> [3] <-> [4] <-> [5] 여기서 3자리에 100을 추가하려면?
+// 2의 next를 100으로, 100의 next를 3으로 지정하면 됨. 간단 (prev도 마찬가지)
+// 그래서 처음/끝 삽입/삭제또한 마찬가지로 간단하게 next,prev를 이용해서 사용가능
+
+// 하지만 임의접근은 좀 애매함.
+// 4번째 요소를 찾으려면?
+// count를 하나씩 하면서 next를 돌려야함.
+
+int main()
+{
+	// list (연결 리스트)
+	// - list의 동작 원리
+	// - 중간 삽입/삭제 (good)
+	// - 처음/끝 삽입/삭제 (good)
+	// - 임의 접근 (bad)
+
+	list<int> l;
+	for (int i = 0; i < 100; i++)
+		l.push_back(i);
+	//l.push_front(10); // 벡터와 다르게 앞에도 추가 가능.
+	int size = l.size();
+	int first = l.front();
+	int last = l.back();
+
+	// l[1] 벡터와는 다르게 인덱스를 이용해서 접근 안됨.
+
+	list<int>::iterator itBegin = l.begin(); // 이터레이터 사용법은 동일
+	list<int>::iterator itEnd = l.end();
+
+	int* ptrBegin = &(l.front());
+	int* ptrEnd = &(l.back());
+
+	for (list<int>::iterator it = l.begin(); it != l.end(); ++it)
+		cout << *it << "\n";
+
+	//l.insert(itBegin, 100); // itBegin위치에 삽입
+
+	//l.erase(l.begin());
+
+	//l.pop_front();
+
+	//l.remove(10); // 모든 10 삭제
+
+
+	// 임의 접근이 안되는데 중간 삽입/삭제가 빠르다?
+	// 중간에 값에 접근부터 해야되는데?
+
+	// 50번 인덱스에 있는 데이터를 삭제
+	list<int>::iterator it = l.begin();
+	for (int i = 0; i < 50; i++)
+		++it;
+	l.erase(it); // 이렇게 하면 결국 똑같지 않나
+	// 맞음 그렇기 때문에 특정 인덱스의 데이터를 찾아서 삭제 -> 빠른건 아님.
+	// erase하는거 자체가 빠른거임.
+	// 중간 삽입/삭제를 빠르게 하는건 push_back을 할 때 insert를 이용해서 특정 인덱스의 요소를 iterator로 기억해두면 빠르게 가능함.
+}
+```
+
