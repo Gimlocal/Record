@@ -440,3 +440,52 @@ int main()
 }
 ```
 
+### 디큐(deque)
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+#include <deque>
+
+// deque
+
+int main()
+{
+	// 시퀀스 컨테이너 (Sequence Container)
+	// 데이터가 삽입 순서대로 나열되는 형태
+	// vector list deque
+
+	// vector : 동적 배열
+	// [        ]
+	// list : 이중 연결 리스트
+	// [ ] <-> [ ] <-> [ ]
+	// deque : double-ended queue 데크
+	// [    ]
+	// [    ]
+
+
+	// vector와 마찬가지로 배열 기반으로 동작
+	// 다만 메모리 할당 정책이 다르다
+	// 블록 단위로 메모리가 떨어져 있음.
+	// 데이터가 꽉 차면 새로운 공간을 만들고 그곳에 추가로 채움.
+	// 즉 처음있던 공간은 그대로 두고 새로운 공간을 추가로 더 만드는 느낌
+
+
+	vector<int> v(3, 1);
+	deque<int> dq(3, 1);
+
+	v.push_back(2);
+	v.push_back(2);
+
+	dq.push_back(2);
+	dq.push_back(2);
+
+	dq.push_front(3);
+	dq.push_front(3);
+
+	// deque의 동작 원리
+	// 중간 삽입/삭제 (vector와 동일하게 느림. 앞으로 땡기는 작업 필요. 물론 앞이나 뒤 중 적은 방향으로 땡기긴 하지만 그래도 느림)
+	// 처음/끝 삽입/삭제 (분리된 공간이 있기 때문에 good)
+	// 임의 접근 (가능)
+}
+```
