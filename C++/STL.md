@@ -178,7 +178,7 @@ int main()
 
 ```
 
-### 리스트(List)
+### 리스트(List) : 기초초
 ```cpp
 #include <iostream>
 #include <list>
@@ -266,6 +266,177 @@ int main()
 	// 맞음 그렇기 때문에 특정 인덱스의 데이터를 찾아서 삭제 -> 빠른건 아님.
 	// erase하는거 자체가 빠른거임.
 	// 중간 삽입/삭제를 빠르게 하는건 push_back을 할 때 insert를 이용해서 특정 인덱스의 요소를 iterator로 기억해두면 빠르게 가능함.
+}
+```
+
+### 리스트(List) : 구현
+```cpp
+#include <iostream>
+#include <list>
+using namespace std;
+
+// list
+
+template<typename T>
+class Node
+{
+public:
+	Node() : next(nullptr), prev(nullptr), data(T()) { }
+	Node(const T& value) : next(nullptr), prev(nullptr), data(value) { }
+public:
+	Node*	next;
+	Node*	prev;
+	T		data;
+};
+
+template<typename T>
+class Iterator
+{
+public:
+	Iterator() : node(nullptr) { }
+	Iterator(Node<T>* node) : node(node) { }
+
+	Iterator& operator++() //++it
+	{
+		node = node->next;
+		return *this;
+	}
+	Iterator operator++(int) // it++
+	{
+		Iterator<T> temp = *this;
+		node = node->next;
+		return temp;
+	}
+	Iterator& operator--() //--it
+	{
+		node = node->prev;
+		return *this;
+	}
+	Iterator operator--(int) // it--
+	{
+		Iterator<T> temp = *this;
+		node = node->prev;
+		return temp;
+	}
+
+	T& operator*()
+	{
+		return node->data;
+	}
+
+	bool operator==(const Iterator& right)
+	{
+		return node == right.node;
+	}
+
+	bool operator!=(const Iterator& right)
+	{
+		return node != right.node;
+	}
+public:
+	Node<T>* node;
+};
+
+template<typename T>
+class List
+{
+public:
+	List() : _size(0)
+	{
+		header = new Node<T>();
+		header->next = header;
+		header->prev = header;
+	}
+
+	~List()
+	{
+		while (_size > 0)
+			pop_back();
+
+		delete header;
+	}
+
+	void push_back(const T& value)
+	{
+		AddNode(header, value);
+	}
+
+	void pop_back()
+	{
+		RemoveNode(header->prev);
+	}
+
+	Node<T>* AddNode(Node<T>* before, const T& value)
+	{
+		Node<T>* node = new Node<T>(value);
+		
+		Node<T>* prevNode = before->prev;
+		prevNode->next = node;
+		node->prev = prevNode;
+		node->next = before;
+		before->prev = node; // before와 prevNode 사이에 node 끼워넣기
+
+		_size++;
+
+		return node;
+	}
+
+	Node<T>* RemoveNode(Node<T>* node)
+	{
+		Node<T>* prevNode = node->prev;
+		Node<T>* nextNode = node->next;
+		
+		prevNode->next = nextNode;
+		nextNode->prev = prevNode;
+
+		delete node;
+		_size--;
+		
+		return nextNode;
+	}
+
+	int size() { return _size; }
+
+public:
+	typedef Iterator<T> iterator;
+	iterator begin() { return iterator(header->next); }
+	iterator end() { return iterator(header); }
+	iterator insert(iterator it, const T& value)
+	{
+		Node<T>* node = AddNode(it.node, value);
+		return iterator(node);
+	}
+	iterator erase(iterator it)
+	{
+		Node<T>* node = RemoveNode(it.node);
+		return iterator(node);
+	}
+
+public:
+	Node<T>* header;
+	int _size;
+};
+
+
+int main()
+{
+	List<int> l;
+	List<int>::iterator eraseIt;
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (i == 5)
+			eraseIt = l.insert(l.end(), i);
+		else
+			l.push_back(i);
+	}
+
+	l.pop_back();
+
+	l.erase(eraseIt);
+
+	for (List<int>::iterator it = l.begin(); it != l.end(); ++it)
+		cout << *it << "\n";
 }
 ```
 
