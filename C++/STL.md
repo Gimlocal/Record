@@ -178,7 +178,7 @@ int main()
 
 ```
 
-### 리스트(List) : 기초초
+### 리스트(List) : 기초
 ```cpp
 #include <iostream>
 #include <list>
