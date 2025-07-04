@@ -489,3 +489,76 @@ int main()
 	// 임의 접근 (가능)
 }
 ```
+
+### 맵(map)
+```cpp
+#include <iostream>
+using namespace std;
+#include <map>
+
+// map
+
+int main()
+{
+	// vector에서는 특정 값을 찾기위해서는 무조건 순회를 해야함. 비효율적임
+	// 즉 원하는 조건에 해당하는 데이터를 빠르게 찾기 힘들다.
+
+	// 그래서 나온게 연관 컨테이너
+
+	// map : 균형 이진 트리 (AVL)
+	// - 노드 기반
+
+	class Node
+	{
+	public:
+		Node* left;
+		Node* right;
+		int key;
+		// Player* value;
+
+	};
+
+	srand(static_cast<unsigned int>(time(nullptr)));
+	map<int, int> m;
+	for (int i = 0; i < 100000; i++)
+	{
+		m.insert(pair<int, int>(i, i * 100));
+	}
+
+	for (int i = 0; i < 50000; i++)
+	{
+		int ran = rand() % 50000;
+		m.erase(ran);
+	}
+
+	map<int,int>::iterator it = m.find(10000);
+	if (it != m.end()) cout << "찾음\n";
+	else cout << "못찾음\n";
+
+	// erase를 똑같이 두 번 하면 두 번째는 무시됨.
+	// insert를 똑같은 key에 다른 value로 두 번 하면 마찬가지로 두 번째는 무시됨
+
+	// map 순회
+	for (map<int, int>::iterator it = m.begin(); it != m.end(); ++it)
+	{
+		int key = (*it).first;
+		int val = (*it).second;
+		cout << key << "  " << val << " \n";
+	}
+
+	// 없으면 추가, 있으면 수정
+	map<int, int>::iterator it = m.find(10000);
+	if (it != m.end()) it->second = 200;
+	else m.insert({ 10000, 200 });
+
+	// 더 쉬운버젼
+	m[10000] = 200; // key가 10000인 놈이 있으면 val을 200으로 만들고, 없으면 새로 만들어서 200을 넣음
+
+	m.clear();
+
+	m[10]; // 아무것도 없을 때 값이 있는지 확인하려는 순간 데이터가 들어감.
+
+	// 결론 : 특정 데이터를 찾는 부분에 있어서는 개빠름.
+}
+```
+
