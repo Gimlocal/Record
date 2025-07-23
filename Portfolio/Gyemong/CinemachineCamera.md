@@ -33,9 +33,9 @@ Virtual Camera를 조작하려는데 왜 Main Camera도 설정을 해줘야하�
 
 이제 가상 카메라를 조작해봅시다.    
 위에서 말했듯이 하이라키에서 가상 카메라 한개를 만들어봅시다.    
-카메라를 생성하면 아래와 같은 이미지처럼 나올겁니다.    
+카메라를 생성하면 아래와 같은 이미지처럼 나올겁니다.      
 
-<img src="https://github.com/user-attachments/assets/b3174e1f-ae67-4448-9c9f-28a7a29821fb" width="800">    
+![image](https://github.com/user-attachments/assets/b3174e1f-ae67-4448-9c9f-28a7a29821fb)
 
 Main Camera옆에 빨간 카메라 표시가 보이는데, 가상 카메라와 잘 연결됐다는 표시입니다.    
 그렇기 때문에 이제 가상 카메라에서 카메라 설정을 바꾸면 그게 Main Camera에서도 적용이 된다는 뜻입니다.    
