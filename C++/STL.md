@@ -562,3 +562,77 @@ int main()
 }
 ```
 
+### 셋(set), 멀티맵(multimap), 멀티셋(multiset)
+```cpp
+#include <iostream>
+#include <vector>
+#include <set>
+#include <map>
+using namespace std;
+
+// set, multimap, multiset
+
+int main()
+{
+	// map : key - value로 이루어짐.
+
+	// set : key 하나만 사용(key == value 느낌)
+	set<int> s;
+
+	// 넣고, 빼고, 찾고, 순회
+	s.insert(5);
+	s.insert(15);
+	s.insert(6);
+	s.insert(12);
+	s.insert(9);
+
+	s.erase(6);
+	s.erase(12);
+
+	set<int>::iterator findIt = s.find(15);
+	if (findIt == s.end())
+	{
+		cout << "No\n";
+	}
+	else cout << "Yes\n";
+
+	for (set<int>::iterator it = s.begin(); it != s.end(); ++it)
+	{
+		cout << *it << "\n";
+	}
+
+	// multi가 붙으면 중복을 허용한다는 뜻.
+	
+	// multimap
+	multimap<int, int> mm;
+	mm.insert(make_pair(3, 19));
+	mm.insert(make_pair(3, 42));
+	mm.insert(make_pair(3, 191));
+	mm.insert(make_pair(1, 49));
+	mm.insert(make_pair(1, 4));
+
+	// mm[1] 이거 안됨. 여러개가 있을 수 있어서
+	mm.erase(1); // key == 1인 모든 value 삭제 반환값이 int (삭제 개수)
+
+	mm.find(1); // 들어온 순서대로 찾아서 가장 먼저 걸린 놈 삭제 (1개 삭제)
+	mm.equal_range(1); // key가 1인 값들을 사이에 두는 iterator 2개인 pair로 반환함
+
+
+	// multiset
+	multiset<int> ms;
+	ms.insert(100);
+	ms.insert(100);
+	ms.insert(100);
+	ms.insert(2);
+	ms.insert(2);
+
+	multiset<int>::iterator findIt = ms.find(100);
+
+	ms.equal_range(2);
+	// multimap과 동일하게 사용
+	// equal_range로 pair로 된 iterator을 받기 귀찮으면
+	ms.lower_bound(100); // 100이 시작하는 iterator
+	ms.upper_bound(100); // 마지막 100 다음 iterator
+	// 두개를 이용해서 iterator 순회로 사용해도 됨
+}
+```
