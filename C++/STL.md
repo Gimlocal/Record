@@ -712,3 +712,125 @@ int main()
 }
 ```
 
+### 알고리즘
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// 알고리즘
+
+int main()
+{
+	// 자료구조 (데이터를 저장하는 구조)
+	// 알고리즘 (데이터를 어떻게 사용할 것인가)
+
+	// find
+	// find_if
+	// count
+	// count_if
+	// all_of
+	// any_of
+	// none_of
+	// for_each
+	// remove
+	// remove_if
+
+	srand(static_cast<unsigned int>(time(nullptr)));
+	vector<int> v;
+
+	for (int i = 0; i < 100; i++)
+	{
+		int num = rand() % 100;
+		v.push_back(num);
+	}
+
+	// 1. number라는 숫자가 벡터에 있는지 확인
+	{
+		int number = 50;
+		bool found = false;
+
+		vector<int>::iterator it = find(v.begin(), v.end(), number);
+		// 보통 iterator을 자료구조에서 쓰니까 공용으로 사용가능
+		found = it == v.end() ? false : true;
+		string a = found ? "Yes" : "No";
+		cout << a << "\n";
+	}
+
+	// 2. 11로 나뉘는 숫자가 벡터안에 있는지 체크하는 기능
+	{
+		bool found = false;
+		
+		struct CanDivideBy11 // 함수 객체로 넣어주기
+		{
+			bool operator()(int n)
+			{
+				return (n % 11) == 0;
+			}
+		};
+		vector<int>::iterator it = find_if(v.begin(), v.end(), CanDivideBy11());
+		found = it == v.end() ? false : true;
+		string a = found ? "Yes" : "No";
+		cout << a << "\n";
+	}
+
+	// 3. 홀수인 숫자의 개수는?
+	{
+		struct IsOdd
+		{
+			bool operator()(int n)
+			{
+				return (n % 2) == 1;
+			}
+		};
+		int count = count_if(v.begin(), v.end(), IsOdd());
+
+		all_of(v.begin(), v.end(), IsOdd()); // 모든 수가 홀수인지
+		any_of(v.begin(), v.end(), IsOdd()); // 하나라도 홀수인지
+		none_of(v.begin(), v.end(), IsOdd()); // 홀수가 하나도 없는지
+		// 위 3개는 반환값이 bool
+
+		cout << count << "\n";
+	}
+
+	// 4. 벡터에 들어가 있는 모든 숫자들에 3을 곱하기
+	{
+		struct Mul3
+		{
+			void operator() (int& n)
+			{
+				n *= 3;
+			}
+		};
+		for_each(v.begin(), v.end(), Mul3());
+	}
+
+	// 5. 홀수인 데이터를 일괄 삭제
+	{
+		struct IsOdd
+		{
+			bool operator()(int n)
+			{
+				return (n % 2) == 1;
+			}
+		};
+		remove(v.begin(), v.end(), 4);
+		remove_if(v.begin(), v.end(), IsOdd());
+		// 로직은 필요한 데이터들만 남기는 느낌
+
+		// 1 4 3 5 8 2 로 시작한다고 가정하면 (IsOdd 버전)
+		// 1이 홀수이므로 이 뒤에서부터 시작해서 IsOdd에 안 걸리는 숫자를 찾음
+		// 바로 뒤에 4가 걸림. 그러면 이 4를 1자리에 이동시킴
+		// 4 4 3 5 8 2
+		// 동일하게 뒤로 한칸 씩 가면서 짝수들을 그 다음자리에 넣어줌
+		// 최종적으로 4 8 2 5 8 2 라는 배열로 바뀜
+		// 그리고 마지막에 불필요한 데이터의 위치를 뱉어줌 4 8 2까지가 필요하고 5부터 불필요함.
+		// 5의 iterator를 뱉음
+		// 이후에 사용자가 반환받은 iterator을 가지고 erase를 통해 뒷부분을 지워줘야 완벽해짐.
+
+		v.erase(remove_if(v.begin(), v.end(), IsOdd()), v.end());
+		// 그래서 이렇게 세트로 많이 씀
+	}
+}
+```
