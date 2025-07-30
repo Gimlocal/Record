@@ -636,3 +636,79 @@ int main()
 	// 두개를 이용해서 iterator 순회로 사용해도 됨
 }
 ```
+
+### 연습문제
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// 연습문제
+
+int main()
+{
+	srand(static_cast<unsigned int>(time(nullptr)));
+	vector<int> v;
+
+	for (int i = 0; i < 100; i++)
+	{
+		int num = rand() % 100;
+		v.push_back(num);
+	}
+
+	// 1. number라는 숫자가 벡터에 있는지 확인
+	{
+		int number = 50;
+		bool found = false;
+
+		for (int i = 0; i < v.size(); i++)
+		{
+			if (v[i] == number)
+			{
+				found = true;
+				break;
+			}
+		}
+		string a = found ? "Yes" : "No";
+		cout << a << "\n";
+	}
+
+	// 2. 11로 나뉘는 숫자가 벡터안에 있는지 체크하는 기능
+	{
+		bool found = false;
+		for (int i = 0; i < v.size(); i++)
+		{
+			if (v[i] % 11 == 0)
+			{
+				found = true;
+				break;
+			}
+		}
+		string a = found ? "Yes" : "No";
+		cout << a << "\n";
+	}
+
+	// 3. 홀수인 숫자의 개수는?
+	{
+		int count = 0;
+		for (int i = 0; i < v.size(); i++)
+		{
+			if (v[i] % 2 == 1) count++;
+		}
+		cout << count << "\n";
+	}
+
+	// 4. 벡터에 들어가 있는 모든 숫자들에 3을 곱하기
+	{
+		for (int i = 0; i < v.size(); i++)
+		{
+			v[i] *= 3;
+			cout << v[i] << " ";
+		}
+	}
+
+	// 이런 구조들은 vector일때만 잘 적용이 됨.
+	// 만약 자료구조를 list로 작성했다면? -> index를 통한 임의접근이 안됨. 망함
+}
+```
+
