@@ -7,7 +7,7 @@ Modern C++ : C++11 이후의 C++
 #include <map>
 using namespace std;
 
-// auto (Modern C++ (C++11 이후))
+// auto
 
 class Knight
 {
