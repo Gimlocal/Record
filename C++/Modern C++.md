@@ -76,3 +76,63 @@ int main()
 	// 가독성을 위해 일반적으로는 타입을 적어주는게 좋음.
 }
 ```
+
+### 중괄호 초기화
+```cpp
+#include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
+
+// 중괄호 초기화
+
+class Knight
+{
+public:
+	Knight() 
+	{
+
+	}
+	Knight(initializer_list<int> list)
+	{
+		cout << "Knight Initializer list\n";
+	}
+};
+
+int main()
+{
+	int a = 1;
+	int b{ 3 }; // 이렇게 초기화
+
+	Knight k1;
+	Knight k2{ k1 };
+
+	vector<int> v(10, 2);
+
+	int arr[] = { 1, 2, 3 };
+
+	// 각 타입마다 초기화 방법이 조금씩 다른게 걸려서 이 방법이 생김
+	// vector등 container와 잘 어울린다.
+	vector<int> v2{ 1,2,3 };
+
+	// 축소 변환 방지(검수가 깐깐해짐)
+	int c = 5;
+	double d{ c }; // 축소 변환이 필요함
+
+	// bonus
+	Knight k3{ }; // 기본 생성자로 생성
+	Knight k4{ 1,2 }; // Initialize list 생성자와, 인자 2개인 생성자가 있으면?
+	// Initialize list가 최상위로 제일 먼저 호출됨
+	// 이런 경우 잘 생각하고 만들어야 함
+
+
+
+	// 괄호 초기화 ()를 기본으로 간다.
+	// - 전통적인 C++
+	// - vector 등 특이한 케이스에 대해서만 { } 사용
+
+	// 중괄호 초기화 { }를 기본으로 간다.
+	// - 초기화 문법의 일치화
+	// - 축소 변환 방지
+}
+```
