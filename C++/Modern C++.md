@@ -230,3 +230,45 @@ int main()
 }
 ```
 
+### using
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// using 
+
+typedef vector<int>::iterator VecIt;
+typedef __int64 id;
+// 이렇게 typedef로 사용했었음
+
+using id2 = int; // 사용법은 이와 같음
+
+// 뭐가 다른가?
+
+// 1. 직관성이 뛰어남.
+typedef void (*Func)(); // 이와같은 함수 포인터는 딱 봤을 때 잘 안 와닿음
+using Func2 = void(*)(); // 딱 봐도 함수 포인터임.
+
+// 2. 템플릿
+// template<typename T>
+// typedef list<T> List;
+// typedef는 템플릿을 이용못함
+template<typename T>
+using List = list<T>;
+
+// 그럼 using이 없었을 때는 템플릿을 어떻게 썼나
+// 간접적으로 사용했음.
+template<typename T>
+struct List2
+{
+	typedef list<T> L;
+};
+
+int main()
+{
+	id playerId = 0;
+	List<int> L;
+	List2<int>::L L2;
+}
+```
