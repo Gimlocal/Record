@@ -136,3 +136,97 @@ int main()
 	// - 축소 변환 방지
 }
 ```
+
+### nullptr
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// nullptr (널 포인터)
+
+class Knight
+{
+public:
+	void Test()
+	{
+
+	}
+};
+
+Knight* FindKnight()
+{
+
+	return nullptr;
+}
+
+void Test(int a)
+{
+	cout << "Test(int)\n";
+}
+
+void Test(void* ptr)
+{
+	cout << "Test(*)\n";
+}
+
+// nullptr 구현
+const
+class
+{
+public:
+	// 어떤 타입의 포인터와도 치환 가능
+	template<typename T>
+	operator T* () const
+	{
+		return 0;
+	}
+
+	// 어떤 타입의 멤버 포인터와도 치환 가능
+	template<typename C, typename T>
+	operator T C::* () const
+	{
+		return 0;
+	}
+private:
+	void operator&() const; // 주소값 &을 막음.
+} _NullPtr;
+
+// const NullPtr _NullPtr; 
+// 이렇게 변수를 만들수도 있지만 클래스 바로뒤에 붙여서 생성가능
+// 또 클래스 이름도 빼도 됨. const도 넣어줄 수 있음
+
+int main()
+{
+	// 0 NULL
+	int* ptr = 0; 
+	int* ptr2 = NULL; // 옛날 느낌
+	// 0 이든 NULL이든 주소값을 0으로 하는건 같지만 프로그래머들한테 가동성을 위해 NULL을 사용했음
+
+	Test(0);
+	Test(NULL);
+	// 둘다 int형 버전인 Test가 호출됨
+	// 즉 포인터를 활용하는게 아니라 int형 값을 이용한다는 것.
+
+	// 이런 문제때문에 nullptr이 생김
+	// nullptr은 오동작, 가독성 측면에서 뛰어남
+
+	Test(nullptr); // 두 번째 버전의 Test가 호출됨.
+	Test(_NullPtr);
+
+	auto k = FindKnight();
+	if (k == nullptr); // 이처럼 변수가 포인터라는것도 바로 알 수 있음.
+	if (k == _NullPtr);
+
+	void(Knight:: * memFunc)();
+	memFunc = &Knight::Test;
+
+	if (memFunc == _NullPtr)
+	{
+
+	}
+
+	auto a = nullptr; // 타입을 살펴보면 일반적인 타입이 아님 (nullptr_t) 객체임
+}
+```
+
