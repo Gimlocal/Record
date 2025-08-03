@@ -319,3 +319,49 @@ int main()
 }
 ```
 
+### delete (삭제된 함수)
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// delete (삭제된 함수)
+
+class Knight
+{
+public:
+
+//private:
+//	// 정의되지 않은 비공개 함수
+//	void operator=(const Knight& k) {} // 즉 이렇게 함수를 만들면 누군가는 꺼내 쓸 수 있음.
+//	// 그래서 구현부 없이 그냥 함수만 정의하면 되긴함.
+//	// 하지만 Admin에서 복사 생성자를 써놓아도 아무런 문제가 안 생김.
+//	friend class Admin; // 이렇게 private이지만 열어줄 수도 있음
+public:
+	void operator=(const Knight& k) = delete; // delete를 사용한 삭제 함수
+	// 보통 public으로 하는게 관례
+private:
+	int hp = 100;
+};
+
+class Admin
+{
+public:
+	void CopyKnight(const Knight& k)
+	{
+		Knight k1;
+		k1 = k;
+		// delete를 사용한 삭제함수라서 사용안해도 오류가 발생
+	}
+};
+
+int main()
+{
+	Knight k1;
+	Knight k2;
+
+	k1 = k2; // 복사 연산자를 못 쓰게 막고 싶다면?
+	Admin a;
+	a.CopyKnight(k1);
+}
+```
