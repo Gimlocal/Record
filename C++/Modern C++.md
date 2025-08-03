@@ -272,3 +272,50 @@ int main()
 	List2<int>::L L2;
 }
 ```
+
+### enum class
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// enum class
+
+// 기존 enum (기본적으로 int형)
+// unscoped enum (범위가 없는)
+// 그렇기 때문에 보통 PT와 같이 붙여서 변수 이름을 만들어줌
+enum PlayerType : char // 타입을 지정가능
+{
+	Knight, // 기본값 0부터 시작
+	Archer, 
+	Mage,
+};
+
+enum MonsterType
+{
+	Knight, // 동일한 이름을 사용하지 못함
+};
+
+// 이렇게 하면 범위가 이 enum class 안에서 한정됨
+enum class ObjectType
+{
+	Player,
+	Monster,
+	Projectile,
+};
+
+int main()
+{
+	// enum class (scoped enum)
+	// 1. 이름공간 관리 (scoped)
+	// 2. 암묵적인 변환 금지
+
+	int choice; cin >> choice;
+
+	if (choice == static_cast<int>(ObjectType::Player)); // Player는 진짜 ObjectType 타입이기때문에 암묵적인 변환 안됨
+
+	unsigned int bitFlag;
+	bitFlag = (1 << static_cast<int>(ObjectType::Player));
+}
+```
+
