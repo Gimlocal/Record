@@ -408,3 +408,110 @@ int main()
 	p->Attack();
 }
 ```
+
+### 오른값(rvalue) 참조, std::move
+```cpp
+#include <iostream>
+using namespace std;
+
+// 오른값(rvalue) 참조와 std::move
+
+class Pet
+{
+
+};
+
+class Knight
+{
+public:
+	Knight()
+	{
+		cout << "Kinght()\n";
+	}
+
+	// 복사 생성자
+	Knight(const Knight& knight)
+	{
+		cout << "const Knight&\n";
+	}
+
+	// 이동 생성자
+	Knight(Knight&& knight)
+	{
+
+	}
+
+	~Knight()
+	{
+		if (pet) delete pet;
+	}
+
+	void operator=(const Knight& knight)
+	{
+		cout << "operator=(const Knight&)\n";
+		hp = knight.hp;
+		if (knight.pet)
+			pet = new Pet(*knight.pet); // 깊은 복사
+	}
+
+	// 이동 대입 연산자
+	void operator=(Knight&& knight)
+	{
+		cout << "operator=(Knight&&)\n";
+
+		// 얕은 복사로 해도 없어질 객체(오른값 참조)니까 괜찮음.
+		hp = knight.hp;
+		pet = knight.pet;
+
+		knight.pet = nullptr;
+	}
+
+public:
+	int hp = 100;
+	Pet* pet = nullptr;
+};
+
+void Copy(Knight knight) {  }
+void LValueRef(Knight knight) {  }
+void ConstLValueRef(const Knight knight) {}
+void RValueRef(Knight&& knight) { } // 오른값 참조. 이동 대상
+
+int main()
+{
+	// 왼값(lvalue) vs 오른값(rvalue)
+	// - lvalue : 단일식을 넘어서 계속 지속되는 개체
+	// - rvalue : lvalue가 아닌 나머지 값들 (임시 값, 열거형, 람다, i++ 등)
+
+	int a = 3;
+
+	Knight k1;
+	Copy(k1);  // 불필요한 복사가 일어나고, 원본값에 접근 x
+	LValueRef(k1); // 복사 x, 원본 이용 가능
+	ConstLValueRef(Knight()); // Knight()는 임시값이기 때문에(rvalue) const가 아니면 안 받아줌
+	// 3번째 버전으로 임시값을 매개변수에 넣으면, const가 아닌 멤버 함수나 변수에 접근안됨
+	// 즉 readonly용으로만 사용한다는 뜻
+
+	// 하지만 C++11 이후에 오른값 참조를 받을 수 있는 방법이 생김
+	//RValueRef(k1); // 일반적으로 왼값을 넣을 수 없음. 오른값만 가능
+	RValueRef(Knight());
+	
+	// 오른값 참조를 썼다고 무조건 임시 객체만 넘겨준다는건 아님.
+	RValueRef(static_cast<Knight&&>(k1)); // 이렇게도 가능
+
+	Knight k2;
+	k2.pet = new Pet();
+	k2.hp = 1000;
+
+	Knight k3;
+	k3 = static_cast<Knight&&>(k2); // 이 코드는 k2가 이후에 사라질 임시 객체가 된다는 뜻임
+	// 그렇기 때문에 복사가 아니라 이동이라는 개념임. 안의 내용물을 그대로 이동시키는 느낌.
+
+	// 보통 casting을 통해 이동시키지 않고, std::move를 이용함
+	k3 = std::move(k2); // 오른값 참조로 캐스팅
+	// std::move의 본래 이름 후보 중 하나가 rvalue_cast
+
+	std::unique_ptr<Knight> uptr = std::make_unique<Knight>();
+	//std::unique_ptr<Knight> uptr2 = uptr; // 이건 안됨.
+	std::unique_ptr<Knight> uptr2 = std::move(uptr); // 이렇게도 사용 가능
+}
+```
