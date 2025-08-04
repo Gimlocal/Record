@@ -365,3 +365,46 @@ int main()
 	a.CopyKnight(k1);
 }
 ```
+
+### overrider, final
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// override, final
+
+class Player
+{
+public:
+	virtual void Attack()
+	{
+		cout << "Player\n";
+	}
+};
+
+class Knight : public Player
+{
+public:
+	// override(재정의)
+	virtual void Attack() final // player에 virtual이 있으면 굳이 여기에 virtual 안붙여도 되긴함.
+	{
+		cout << "Knight\n";
+	}
+	// 하지만 Player 클래스를 보고 virtual이 있는지 확인하기 전까진 뭐가 가상 함수인지 모름
+	// 즉 어떤 최상위 클래스에서 virtual이 시작되었는지 모름.
+	// 또 자식의 virtual 함수에 const같이 다른 기호 하나가 붙으면 아예 다른 함수로 돼서 부모의 함수가 호출됨.
+	// 이런 상황에서 override를 사용함. 가독성도 좋아짐.
+	// 즉 override를 쓰면 부모에 같은 이름의 virtual 함수가 있다는걸 알려줌.
+
+	// final은 override와 비슷하지만 더 이상 자식에게 override하지 않겠다는 뜻임.
+	// 즉 자기가 마지막으로 virtual로 override를 하겠다는 뜻임
+};
+
+int main()
+{
+	Player* p = new Knight();
+
+	p->Attack();
+}
+```
