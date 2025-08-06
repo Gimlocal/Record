@@ -515,3 +515,83 @@ int main()
 	std::unique_ptr<Knight> uptr2 = std::move(uptr); // 이렇게도 사용 가능
 }
 ```
+
+### 전달 참조 (forwarding reference)
+```cpp
+#include <iostream>
+using namespace std;
+
+// 전달 참조 (forwarding reference)
+
+class Knight
+{
+public:
+	Knight()
+	{
+		cout << "기본 생성자\n";
+	}
+	Knight(const Knight&)
+	{
+		cout << "복사 생성자\n";
+	}
+	Knight(Knight&&) 
+	{
+		cout << "이동 생성자\n";
+	}
+};
+
+void Copy(Knight k) { }
+
+void RValueRef(Knight&& k) // 오른값 참조
+{
+
+}
+
+template<typename T>
+void ForwardingRef(T&& param)
+{
+	Copy(std::forward<T>(param));
+}
+
+int main()
+{
+	// 보편 참조 (universal reference)
+	// 전달 참조 (forwarding reference) C++17
+
+	// &&   &를 두 번 -> 오른값 참조
+
+	Knight k1;
+	RValueRef(std::move(k1)); // 오른값 참조
+	ForwardingRef(std::move(k1));
+	ForwardingRef(k1); // 경우에 따라 왼값, 오른값으로 바뀜
+
+	auto&& k2 = k1; // 오른값 참조겠지? 근데 말이안됨. 왼값임. 오른값은 이렇게 지정 안됨
+	auto&& k3 = std::move(k1); // 근데 이건 오른값임
+
+	// 이런 현상을 전달 참조라고 하고, 형식 연역 (type deduction)이 일어날 때 일어남
+	// 템플릿, auto와 관련됨
+
+	// 전달 참조는 왼값을 넣으면 왼값 참조, 오른값을 넣으면 오른값 참조로 됨.
+
+
+
+	Knight& k4 = k1; // 왼값 참조
+	Knight&& k5 = std::move(k1); // 오른값 참조
+
+	// 오른값 : 왼값이 아니다 = 단일식에서 벗어나면 사용 못함
+	// 오른값 참조 : 오른값만 참조할 수 있는 참조 타입
+	// 하지만 k5는 오른값 참조이지, 오른값이 아니다. 계속 사용할 수 있기 때문
+	RValueRef(std::move(k5)); // 그렇기 때문에 이렇게 오른값 형태로 만들어줘야함.
+
+	ForwardingRef(std::move(k1)); // 이동 생성자가 아닌 복사 생성자가 나옴.
+	// 오른값 참조로 매개변수가 들어갔지만, 그 매개변수는 또 함수안에서 쓰이는 왼값이므로 Copy에 넣어줄 변수에 move를 또 해줘야함
+
+	// 하지만 전달참조는 왼값 참조로도 사용가능한데?
+	// 그렇기 때문에 왼값 참조 일때는 그냥 변수로 넘겨주고, 오른값 참조 일때는 move를 붙인 변수로 넘겨줘야함.
+
+	// forward 이게 그 역할을 해줌.
+	// 그래서 아래와 같이 인자가 왼값, 오른값으로 달라도 알아서 잘 처리해줌
+	ForwardingRef(k1);
+	ForwardingRef(std::move(k1));
+}
+```
