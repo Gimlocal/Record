@@ -595,3 +595,124 @@ int main()
 	ForwardingRef(std::move(k1));
 }
 ```
+
+### 람다(lambda)
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// 람다 (lambda)
+
+// 함수 객체를 빠르게 만드는 문법
+
+enum class ItemType
+{
+	None,
+	Armor,
+	Weapon,
+	Jeweiry,
+	Consumable,
+};
+
+enum class Rarity
+{
+	Common,
+	Rare,
+	Unique,
+};
+
+class Item
+{
+public:
+	Item() { }
+	Item(int id, Rarity rarity, ItemType type)
+		:id(id), rarity(rarity), type(type)
+	{
+
+	}
+
+public:
+	int id = 0;
+	Rarity rarity = Rarity::Common;
+	ItemType type = ItemType::None;
+};
+
+int main()
+{
+	vector<Item> v;
+	v.push_back(Item(1, Rarity::Common, ItemType::Weapon));
+	v.push_back(Item(2, Rarity::Rare, ItemType::Armor));
+	v.push_back(Item(3, Rarity::Unique, ItemType::Jeweiry));
+	v.push_back(Item(4, Rarity::Common, ItemType::Consumable));
+
+	// 람다 자체로 C++11에 새로운 기능이 들어간 것은 아니다.
+	{
+		struct IsUniqueItem
+		{
+			bool operator()(Item& item)
+			{
+				return item.rarity == Rarity::Unique;
+			}
+		};
+
+		auto findIt = std::find_if(v.begin(), v.end(), IsUniqueItem());
+		if (findIt != v.end()) cout << "Unique Item : " << findIt->id << "\n";
+		else cout << "No Unique Item!\n";
+		// 기존 함수 객체를 이용한 find 기능
+	}
+
+	{
+		// 람다 표현식
+		auto findIt = std::find_if(v.begin(), v.end(), [](Item& item) {return item.rarity == Rarity::Unique; });
+		if (findIt != v.end()) cout << "Unique Item : " << findIt->id << "\n";
+		else cout << "No Unique Item!\n";
+	}
+
+	{
+		// 직접 반환값을 지정해줄 수 있음
+		// 아래와 같이 만들어진 람다 객체를 클로저(closure)라고 함.
+		// 클로저 : 람다에 의해 만들어진 실행시점 객체
+		auto lambda = [](Item& item) -> int {return item.rarity == Rarity::Unique; };
+	}
+
+	{
+		// 데이터를 더 추가한 버전
+		// [ ] 이 부분을 캡처(capture) : 함수 객체 내부에 변수를 저장하는 개념과 유사
+		// 기본 캡처 모드 : 복사 방식(=), 참조 방식(&)
+		// 가져올 변수마다 모드를 지정해서 사용 가능 : 값 방식(name), 참조방식(&name)
+		// , 를 이용해 자유롭게 응용 가능
+		// 보통 각 변수를 지정해주는것을 지향함.
+		int itemId = 4;
+		auto FindByItemIdLambda = [&](Item& item) { return item.id == itemId; };
+		auto findIt = std::find_if(v.begin(), v.end(), FindByItemIdLambda);
+		if (findIt != v.end()) cout << "Unique Item : " << findIt->id << "\n";
+		else cout << "No Unique Item!\n";
+	}
+
+	{
+		class Knight
+		{
+		public:
+			auto ResetHp()
+			{
+				// 위험한 방법, this가 소멸되면?
+				auto f = [this]() // 이렇게 =,& 이아니라 this를 넣음으로써 경각심을 줄 수 있음
+				{
+					hp = 200;
+				};
+
+				return f;
+			}
+		public:
+			int hp = 100;
+
+		};
+
+		Knight* k = new Knight();
+		auto job = k->ResetHp();
+		delete k;
+		job(); // 메모리 오염 가능
+	}
+}
+```
