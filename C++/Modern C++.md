@@ -716,3 +716,183 @@ int main()
 	}
 }
 ```
+
+### 스마트 포인터
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// 스마트 포인터
+
+class Knight
+{
+public:
+	Knight()
+	{
+		cout << "Knight 생성\n";
+	}
+	~Knight()
+	{
+		cout << "Knight 소멸\n";
+	}
+	void Attack()
+	{
+		if (target.expired() == false)
+		{
+			shared_ptr<Knight> sptr = target.lock();
+			sptr->hp -= damage;
+			cout << "Target HP : " << sptr->hp << "\n";
+		}
+		/*if (target)
+		{
+			target->hp -= damage;
+			cout << "Target HP : " << target->hp << "\n";
+		}*/
+	}
+public:
+	int hp = 100;
+	int damage = 10;
+	weak_ptr<Knight> target;
+	//shared_ptr<Knight> target;
+};
+
+class RefCountBlock
+{
+public:
+	int refCount = 1;
+};
+
+template<typename T>
+class SharedPtr
+{
+public:
+	SharedPtr() {}
+	SharedPtr(T* ptr) : ptr(ptr)
+	{
+		if (ptr != nullptr)
+		{
+			block = new RefCountBlock();
+			cout << "RefCount : " << block->refCount << "\n";
+		}
+	}
+
+	SharedPtr(const SharedPtr& sptr) : ptr(sptr.ptr), block(sptr.block)
+	{
+		if (ptr != nullptr)
+		{
+			block->refCount++;
+			cout << "RefCount : " << block->refCount << "\n";
+		}
+	}
+
+	void operator=(const SharedPtr& sptr)
+	{
+		ptr = sptr.ptr;
+		block = sptr.block;
+		if (ptr != nullptr)
+		{
+			block->refCount++;
+			cout << "RefCount : " << block->refCount << "\n";
+		}
+	}
+
+	~SharedPtr()
+	{
+		if (ptr != nullptr)
+		{
+			block->refCount--;
+			cout << "RefCount : " << block->refCount << "\n";
+
+			if (block->refCount == 0)
+			{
+				delete ptr;
+				delete block;
+				cout << "Delete Data\n";
+			}
+		}
+	}
+public:
+	T* ptr = nullptr;
+	RefCountBlock* block = nullptr;
+};
+
+int main()
+{
+	{
+		Knight* k1 = new Knight();
+		Knight* k2 = new Knight();
+
+		k1->target = k2;
+		delete k2; // 이렇게 삭제했다 하더라고 target의 포인터는 남아있음
+		// 이런 상황을 대비하기 위해 스마트 포인터를 사용함.
+
+		k1->Attack();
+	}
+
+	// 스마트 포인터 : 포인터를 알맞는 정책에 따라 관리하는 객체 (포인터를 래핑해서 사용)
+	// shared_ptr(대표), weak_ptr, unique_ptr
+
+	{
+		SharedPtr<Knight> k2;
+		{
+			SharedPtr<Knight> k1(new Knight());
+			k2 = k1;
+		}
+	}
+	// 위와 같은 상황에서 코드 흐름이 중괄호를 넘어가는 순간 k1이 소멸자를 통해 삭제되지만,
+	// k2 = k1 에 의해 count가 2가 되었으므로, delete가 되지않는다.
+	// 즉 k2가 k1의 정보들을 통해 유지되고 있으므로 k2의 존재때문에 k1이 삭제되지 않는다는 느낌.
+	// 또 코드가 완전히 끝나고
+	// k2가 소멸될 때 k1의 값들이 소멸됨
+
+
+	// 이게 shared_ptr로 만들어져 있음
+	{
+		shared_ptr<Knight> k1 = make_shared<Knight>();
+		{
+			shared_ptr<Knight> k2 = make_shared<Knight>();
+			k1->target = k2;
+		}
+
+		k1->Attack();
+	}
+
+	// 하지만 단점이 있음. 이렇게 서로 target으로 지정하면?
+	// 서로 RefCount가 2가 됨.
+	// 서로가 서로를 주시하고 있기 때문에 프로그램이 끝나도 절대 소멸하지 않음.
+	{
+		shared_ptr<Knight> k1 = make_shared<Knight>();
+		shared_ptr<Knight> k2 = make_shared<Knight>();
+		k1->target = k2;
+		k2->target = k1;
+
+		k1->Attack();
+
+		k1->target = nullptr;
+		k2->target = nullptr; // 그렇기 때문에 마지막에 이렇게 끊어줘야함.
+	}
+
+	// 또 다른 방법은 weak_ptr이 있음
+	// RefCount와 더불어 WeakCount도 있음.
+	// 메모리를 해제했는지 체크하는 용도
+	{
+		shared_ptr<Knight> k1 = make_shared<Knight>();
+		{
+			shared_ptr<Knight> k2 = make_shared<Knight>();
+			k1->target = k2;
+			k2->target = k1;
+		}
+
+		k1->Attack();
+	}
+
+	// unique_ptr
+	// 일반적인 복사는 안되고 이동만 됨. 오른값 이동 std::move로
+	{
+		unique_ptr<Knight> uptr = make_unique<Knight>();
+		//unique_ptr<Knight> uptr2 = uptr;
+		unique_ptr<Knight> uptr2 = std::move(uptr);
+	}
+}
+```
