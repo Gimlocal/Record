@@ -30,8 +30,14 @@
   
 머리부터 말단 몸통까지 각자의 앞/뒤에 있는 몸통(머리와 마지막 몸통은 각각을 끌어주는 Tip과 이전/이후 몸통으로 설정)으로 Source로 두어 설정해주었습니다.    
 
-<img src="https://github.com/user-attachments/assets/d431069a-0d56-47b1-aac1-75d1aadd3cbb" />
+<img src="https://github.com/user-attachments/assets/d431069a-0d56-47b1-aac1-75d1aadd3cbb" />    
 
-사진과 같이 Body1의 경우 양옆의 Head와 Body2를 Source로 두어 그 두개의 오브젝트의 움직임을 각각 50%만큼 영향을 받도록 설정했습니다.    
+위의 사진과 같이 Body1의 경우 양옆의 Head와 Body2를 Source로 두어 그 두개의 오브젝트의 움직임을 각각 50%만큼 영향을 받도록 설정했습니다.    
+
+중간에 있는 MoveBody같은 경우는 아래 사진과 같이 샌드웜의 휘어진 몸을 보여주기 위해서 중간중간 잡아 끌어주는 몸체를 2개 넣어줬습니다.    
+<img src="https://github.com/user-attachments/assets/9c42380d-d89f-4570-95b6-a4925ee561e8" />    
+
+
+
   
 
