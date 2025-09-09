@@ -209,7 +209,8 @@ HideOrShow함수는 말 그대로 샌드웜이 땅에 숨거나 땅에서 튀어
 이는 컴포넌트 특성상 머리가 움직이고 이후의 몸통이 따라오는 형식이기 때문에 머리를 움직이게되면 몸 뒤에서부터 땅으로 파고드는 느낌이 안 나기 때문입니다.    
 또 땅에서 튀어나오는 코드에서는 나오기 전에 플레이어 방향쪽으로 몸체의 방향을 돌려주는(FacePlayer) 과정을 한번 거쳤습니다.    
 
-https://github.com/user-attachments/assets/1c0c7359-0e94-4e15-a67d-490dd6fe7045    
+https://github.com/user-attachments/assets/29e85a6c-a414-48e5-b874-5bbd067b71b1    
+
 
 <br>
 다음은 비고정된 상태로 Damped Transform을 사용한 부분입니다.    
