@@ -35,12 +35,5 @@
 
 위의 사진과 같이 Multi-Parent Constraint와 Damped Trasform을 둘 다 적용시켜놓고, 가중치를 이용해서 둘 중 하나를 골라서 사용하는 방식으로 했습니다.    
 고정된 상태는 Mulit-Parent Constraint, 비고정된 상태는 Damped Transform을 이용해서 구현했습니다.    
-초기 상태는 고정된 상태라 Damped Transform의 가중치(Weight)를 0, Multi-Parent Constraint의 가중치를 1로 설정해줬습니다.
-
-중간에 있는 MoveBody같은 경우는 아래 사진과 같이 샌드웜의 휘어진 몸을 보여주기 위해서 중간중간 잡아 끌어주는 몸체를 2개 넣어줬습니다.    
-<img src="https://github.com/user-attachments/assets/9c42380d-d89f-4570-95b6-a4925ee561e8" />    
-
-
-
-  
+초기 상태는 고정된 상태라 Damped Transform의 가중치(Weight)를 0, Multi-Parent Constraint의 가중치를 1로 설정해줬습니다.    
 
