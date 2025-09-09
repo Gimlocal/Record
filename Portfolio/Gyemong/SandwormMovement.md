@@ -285,6 +285,6 @@ private void SetRigState(bool damped)
 ```
 BodyAttackMove함수는 땅에 숨어있는 상태에서 시작해 인자로 받은 위치까지 샌드웜이 튀어나와 돌진하는 함수입니다.    
 위에서와 마찬가지로 튀어나오기 전 플레이어 방향으로 바라보게 만들어줍니다.    
-Damped transform으로 전환하는 것은 아래의 SetRigState함수를 이용해 단순히 가중치를 바꿔주는 것으로 구현했습니다.    
+Damped transform으로 전환하는 것은 SetRigState함수를 이용해 단순히 가중치를 바꿔주는 것으로 구현했습니다.    
 
 https://github.com/user-attachments/assets/abe7b8ab-bcd5-4c79-be05-2e8bdc1d3462    
