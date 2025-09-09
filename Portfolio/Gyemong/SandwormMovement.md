@@ -211,7 +211,6 @@ HideOrShow함수는 말 그대로 샌드웜이 땅에 숨거나 땅에서 튀어
 
 https://github.com/user-attachments/assets/29e85a6c-a414-48e5-b874-5bbd067b71b1    
 
-https://github.com/user-attachments/assets/39eb499f-9d44-4820-8aec-53215c439b25    
 
 
 <br>
