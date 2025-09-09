@@ -34,21 +34,14 @@
 고정된 상태는 Mulit-Parent Constraint, 비고정된 상태는 Damped Transform을 이용해서 구현했습니다.    
 초기 상태는 고정된 상태라 Damped Transform의 가중치(Weight)를 0, Multi-Parent Constraint의 가중치를 1로 설정해줬습니다.    
 
-<br><br>
-
-https://github.com/user-attachments/assets/0b3fdfe5-2455-4158-9f2c-1915d39ff82c    
-
-위 영상이 고정된 상태인 샌드웜이고, 아래 영상이 비고정된 상태(돌진)인 샌드웜 입니다.    
-
-https://github.com/user-attachments/assets/abe7b8ab-bcd5-4c79-be05-2e8bdc1d3462    
-
+<br>
 <br>    
 
 ----     
 
 <br>    
 
-아래는 이 움직임들을 구현하기 위한 코드와 설명입니다.    
+아래는 움직임들을 구현하기 위한 코드와 설명입니다.    
 
 순서대로 패턴 모션, 머리 공격(근접 공격), 숨거나 나오는 함수의 코드입니다.    
 이는 고정된 상태에서 사용하는 패턴으로 Multi-Parent Constraint를 사용했습니다.    
@@ -291,3 +284,5 @@ private void SetRigState(bool damped)
 BodyAttackMove함수는 땅에 숨어있는 상태에서 시작해 인자로 받은 위치까지 샌드웜이 튀어나와 돌진하는 함수입니다.    
 위에서와 마찬가지로 튀어나오기 전 플레이어 방향으로 바라보게 만들어줍니다.    
 Damped transform으로 전환하는 것은 아래의 SetRigState함수를 이용해 단순히 가중치를 바꿔주는 것으로 구현했습니다.    
+
+https://github.com/user-attachments/assets/abe7b8ab-bcd5-4c79-be05-2e8bdc1d3462    
