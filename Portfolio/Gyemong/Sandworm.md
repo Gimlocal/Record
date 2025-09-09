@@ -37,3 +37,9 @@
 고정된 상태는 Mulit-Parent Constraint, 비고정된 상태는 Damped Transform을 이용해서 구현했습니다.    
 초기 상태는 고정된 상태라 Damped Transform의 가중치(Weight)를 0, Multi-Parent Constraint의 가중치를 1로 설정해줬습니다.    
 
+https://github.com/user-attachments/assets/0b3fdfe5-2455-4158-9f2c-1915d39ff82c    
+
+https://github.com/user-attachments/assets/abe7b8ab-bcd5-4c79-be05-2e8bdc1d3462    
+
+
+
